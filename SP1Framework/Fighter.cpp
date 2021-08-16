@@ -2,6 +2,7 @@
 
 Fighter::Fighter()
 {
+	//Stat init
 	this->SetHealth(40);
 	this->SetMana(20);
 	this->SetStrength(16);
@@ -16,42 +17,26 @@ Fighter::~Fighter()
 {
 }
 
-//functions
-void Fighter::SkillList(int SkillIndex, Class* Target)
+//skills
+void Fighter::Cleave(int SkillIndex, Class* Target1, Class* Target2, Class* Target3, Class* Target4)
 {
+	//mana cost 4
+	this->SetMana(this->GetMana() - 4);
 
-	//enum Skill
-	//{
-	//	Cleave,
-	//	Smash
-	//};
-
-	//switch (SkillIndex)
-	//{
-	//case Cleave:
-	//	//mana cost 4
-	//	this->SetMana(GetMana() - 4);
-
-	//	//deal damage to all Classes in party
-	//	for (int i = 0; i < 4; i++)
-	//	{ 
-	//		Target = Party->GetPartyClass(i);
-	//		if (Target != nullptr)
-	//		{
-	//			Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 0.6 + Target->GetDefence() * 0.5));
-	//		}
-	//	}
-	//	break;
-
-	//case Smash:
-	//	//mana cost 3
-	//	this->SetMana(GetMana() - 3);
-
-	//	//deal amplified damage to a target
-	//	Target = Party->GetPartyClass(PartyIndex);
-	//	if (Target != nullptr)
-	//	{
-	//		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.3 + Target->GetDefence() * 0.5));
-	//	}
-	//}
+	if (Target1 != nullptr)
+	{
+		Target1->SetHealth(Target1->GetHealth() - (this->GetStrength() * 0.8 + Target1->GetDefence() * 0.5));
+	}
+	else if (Target2 != nullptr)
+	{
+		Target2->SetHealth(Target2->GetHealth() - (this->GetStrength() * 0.8 + Target2->GetDefence() * 0.5));
+	}
+	else if (Target3 != nullptr)
+	{
+		Target3->SetHealth(Target3->GetHealth() - (this->GetStrength() * 0.8 + Target3->GetDefence() * 0.5));
+	}
+	else if (Target4 != nullptr)
+	{
+		Target4->SetHealth(Target4->GetHealth() - (this->GetStrength() * 0.8 + Target4->GetDefence() * 0.5));
+	}
 }

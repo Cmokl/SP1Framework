@@ -3,12 +3,11 @@
 class Fighter : public Class
 {
 private:
-
 public:
 	Fighter();
 	~Fighter();
 
-	//functions
-	void SkillList(int SkillIndex, Class* Target);
+	//skills
+	void Cleave(int SkillIndex, Class* Target1, Class* Target2, Class* Target3, Class* Target4);
 };
 
