@@ -15,7 +15,7 @@ private:
 
 public:
 	Class();
-	~Class();
+	virtual ~Class();
 
 	//getter/setters
 	int GetHealth();

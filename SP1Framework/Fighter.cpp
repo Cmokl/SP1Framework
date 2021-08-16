@@ -15,3 +15,27 @@ Fighter::Fighter()
 Fighter::~Fighter()
 {
 }
+
+//functions
+void Fighter::SkillList(int SkillIndex, Party* Party, int PartyIndex)
+{
+	Class* Target;
+
+	enum Skill
+	{
+		Cleave
+	};
+
+	switch (SkillIndex)
+	{
+	case Cleave:
+		for (int i = 0; i < 4; i++)
+		{ 
+			Target = Party->GetPartyClass(i);
+			if (Target != nullptr)
+			{
+				Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 0.6 + Target->GetDefence() * 0.5));
+			}
+		}
+	}
+}
