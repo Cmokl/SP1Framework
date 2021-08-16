@@ -29,6 +29,10 @@ void Fighter::SkillList(int SkillIndex, Party* Party, int PartyIndex)
 	switch (SkillIndex)
 	{
 	case Cleave:
+		//mana cost 4
+		this->SetMana(GetMana() - 4);
+
+		//deal damage to all Classes in party
 		for (int i = 0; i < 4; i++)
 		{ 
 			Target = Party->GetPartyClass(i);
