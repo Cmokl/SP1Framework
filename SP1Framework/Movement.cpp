@@ -57,22 +57,39 @@ void movement(string move)
 
 }
 
+void Movement::set_letter(char l)
+{
+}
+
+char Movement::get_letter()
+{
+    return 0;
+}
+
+void Movement::movement(char move)
+{
+}
+
+void Movement::movement(string move)
+{
+}
+
 int Movement::get_x()
 {
-    return s.get_x();
+    return get_x();
 }
 
 void Movement::set_x(int x)
 {
-    s.set_x(x);
+    set_x(x);
 }
 
 int Movement::get_y()
 {
-    return s.get_y();
+    return get_y();
 }
 
 void Movement::set_y(int y)
 {
-    s.set_y(y);
+    set_y(y);
 }

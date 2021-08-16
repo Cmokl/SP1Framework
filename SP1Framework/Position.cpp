@@ -2,12 +2,12 @@
 
 int Position::setx()
 {
-	return 0;
+	return player_x;
 }
 
 int Position::sety()
 {
-	return 0;
+	return player_y;
 }
 
 void Position::getx(int current_x)
