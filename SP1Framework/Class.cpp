@@ -99,5 +99,5 @@ void Class::SetResistance(int Value)
 //functions
 void Class::Attack(Class* Target)
 {
-	/*Target->SetHealth(Target->GetHealth() - this->GetStrength())*/
+	Target->SetHealth(Target->GetHealth() - this->GetStrength() * 0.5);
 }
