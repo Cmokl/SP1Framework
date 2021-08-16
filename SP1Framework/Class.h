@@ -12,7 +12,6 @@ private:
 	int Resistance;
 
 
-
 public:
 	Class();
 	~Class();
