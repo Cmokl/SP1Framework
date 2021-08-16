@@ -9,10 +9,10 @@ void Map::Add(int H, int V, char p)
 
 void Map::Draw()
 {
-    int A = 49;
-    for (int i = 0; i < 21; i++)
+    int A = 45;
+    for (int i = 0; i < 25; i++)
     {
-        for (int l = 0; l < 21; l++)
+        for (int l = 0; l < 25; l++)
         {
             box[i][l] = ' ';
             if (l > 0 && i == 0)
@@ -28,6 +28,7 @@ void Map::Draw()
             }
             if (i > 0 && l == 0)
             {
+                A = 124;
                 box[i][l] = (A);
                 /*A++;
                 if (A > 57)
@@ -35,7 +36,7 @@ void Map::Draw()
                     A = 48;
 
                 }*/
-                A = '|';
+                A = ' ';
 
             }
         }
@@ -45,9 +46,9 @@ void Map::Draw()
 
 void Map::ShoMap()
 {
-    for (int i = 0; i < 21; i++)
+    for (int i = 0; i < 25; i++)
     {
-        for (int l = 0; l < 21; l++)
+        for (int l = 0; l < 25; l++)
         {
             cout << box[i][l];
         }

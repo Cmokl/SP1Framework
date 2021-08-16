@@ -11,10 +11,9 @@ private:
 	int Defence;
 	int Resistance;
 
-
 public:
 	Class();
-	~Class();
+	virtual ~Class();
 
 	//getter/setters
 	int GetHealth();
@@ -35,8 +34,8 @@ public:
 	void SetResistance(int Value);
 
 	//functions
-	void Attack(Class* Target);
+	void Attack(Class* Target); //Party index determines the target
 	void Defend();
-	void SkillList(int SkillIndex);
+	void SkillList(int SkillIndex, Class* Target);
 };
 

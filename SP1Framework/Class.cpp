@@ -108,8 +108,6 @@ void Class::Defend()
 	this->SetResistance(this->GetResistance() * 1.5);
 }
 
-void Class::SkillList(int SkillIndex)
+void Class::SkillList(int SkillIndex, Class* Target)
 {
 }
-
-
