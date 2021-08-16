@@ -1,10 +1,10 @@
 #include "Cleric.h"
 Cleric::Cleric()
 {
-	this->SetHealth(30);
+	this->SetHealth(28);
 	this->SetMana(40);
-	this->SetStrength(9);
-	this->SetIntelligence(14);
+	this->SetStrength(8);
+	this->SetIntelligence(13);
 	this->SetFaith(16);
 	this->SetSpeed(10);
 	this->SetDefence(10);
