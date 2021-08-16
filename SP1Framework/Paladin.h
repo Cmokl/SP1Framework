@@ -3,6 +3,7 @@
 class Paladin :
     public Class
 {
+public:
     Paladin();
     ~Paladin();
 };

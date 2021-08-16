@@ -3,6 +3,7 @@
 class Cleric :
     public Class
 {
+public:
     Cleric();
     ~Cleric();
 

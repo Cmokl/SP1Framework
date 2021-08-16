@@ -1,10 +1,10 @@
 #pragma once
 #include "Class.h"
-class Rogue :
+class Medusa :
     public Class
 {
 public:
-    Rogue();
-    ~Rogue();
+    Medusa();
+    ~Medusa();
 };
 
