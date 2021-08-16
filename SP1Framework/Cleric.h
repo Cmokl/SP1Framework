@@ -6,7 +6,5 @@ class Cleric :
     Cleric();
     ~Cleric();
 
-    //functions
-    void SkillList(int SkillIndex, Party* Party, int PartyIndex);
 };
 

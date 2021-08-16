@@ -19,7 +19,6 @@ Fighter::~Fighter()
 //functions
 void Fighter::SkillList(int SkillIndex, Class* Target)
 {
-	Class* Target;
 
 	//enum Skill
 	//{
