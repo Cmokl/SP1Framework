@@ -11,7 +11,8 @@ private:
 	int Speed;
 	int Defence;
 	int Resistance;
-
+	int Player_x;
+	int Player_y;
 
 public:
 	Class();
@@ -39,5 +40,10 @@ public:
 	void Attack(Party* Party , int PartyIndex); //Party index determines the target
 	void Defend();
 	void SkillList(int SkillIndex, Party* Party , int PartyIndex);
+
+	void SetX(int current_x);
+	void SetY(int current_y);
+	int GetX();
+	int GetY();
 };
 
