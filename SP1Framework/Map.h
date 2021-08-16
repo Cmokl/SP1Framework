@@ -6,7 +6,7 @@ using namespace std;
 class Map
 {
 public:
-    char box[21][21];
+    char box[25][25];
     void Add(int H, int V, char p);
 
     void Draw();
