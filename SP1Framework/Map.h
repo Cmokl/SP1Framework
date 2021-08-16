@@ -2,3 +2,7 @@
 class Map
 {
 };
+
+class Map
+{
+};
