@@ -97,8 +97,9 @@ void Class::SetResistance(int Value)
 }
 
 //functions
-void Class::Attack(Class* Target)
+void Class::Attack(Party* Party, int PartyIndex)
 {
+	Class* Target = Party->GetPartyClass(PartyIndex);
 	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5));
 }
 
@@ -108,7 +109,7 @@ void Class::Defend()
 	this->SetResistance(this->GetResistance() * 1.5);
 }
 
-void Class::SkillList(int SkillIndex)
+void Class::SkillList(int SkillIndex, Party* Party, int PartyIndex)
 {
 }
 
