@@ -1,4 +1,7 @@
 #include "Movement.h"
+#include <string>
+#include <iostream>
+#include "Position.h"
 
 void movement(string move)
 {
