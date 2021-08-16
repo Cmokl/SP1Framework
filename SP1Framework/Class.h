@@ -37,5 +37,6 @@ public:
 	//functions
 	void Attack(Class* Target);
 	void Defend();
+	void SkillList(int SkillIndex);
 };
 
