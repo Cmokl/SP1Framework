@@ -13,10 +13,7 @@ public:
 
 
     void ShoMap();
-    Map()
-    {
-
-    }
+    
 
 
 private:

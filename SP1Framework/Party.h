@@ -14,3 +14,4 @@ public:
 	Class* GetPartyClass(int PartyIndex);
 };
 
+
