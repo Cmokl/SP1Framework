@@ -13,3 +13,8 @@ Cleric::Cleric()
 Cleric::~Cleric()
 {
 }
+
+void Cleric::SkillList(int SkillIndex, Party* Party, int PartyIndex)
+{
+
+}

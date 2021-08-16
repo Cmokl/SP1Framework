@@ -1,5 +1,4 @@
 #pragma once
-#include"Party.h"
 class Class
 {
 private:
@@ -11,7 +10,6 @@ private:
 	int Speed;
 	int Defence;
 	int Resistance;
-
 
 public:
 	Class();
@@ -36,8 +34,8 @@ public:
 	void SetResistance(int Value);
 
 	//functions
-	void Attack(Party* Party , int PartyIndex); //Party index determines the target
+	void Attack(Class* Target); //Party index determines the target
 	void Defend();
-	void SkillList(int SkillIndex, Party* Party , int PartyIndex);
+	void SkillList(int SkillIndex, Class* Target);
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Class.h"
-class Fighter : private Class
+class Fighter : public Class
 {
 private:
 
@@ -9,6 +9,6 @@ public:
 	~Fighter();
 
 	//functions
-	void SkillList(int SkillIndex, Party* Party, int PartyIndex);
+	void SkillList(int SkillIndex, Class* Target);
 };
 
