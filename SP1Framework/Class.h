@@ -1,7 +1,7 @@
 #pragma once
 class Class
 {
-public:
+private:
 	int Health;
 	int Mana;
 	int Strength;
@@ -13,7 +13,7 @@ public:
 
 
 
-private:
+public:
 	Class();
 	~Class();
 
