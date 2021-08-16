@@ -10,8 +10,6 @@ private:
 	int Speed;
 	int Defence;
 	int Resistance;
-	int Player_x;
-	int Player_y;
 
 public:
 	Class();

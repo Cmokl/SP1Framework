@@ -111,24 +111,3 @@ void Class::Defend()
 void Class::SkillList(int SkillIndex, Class* Target)
 {
 }
-
-void Class::SetX(int current_x)
-{
-	Player_x = current_x;
-}
-
-void Class::SetY(int current_y)
-{
-	Player_y = current_y;
-}
-
-int Class::GetX()
-{
-	return Player_x;
-}
-
-int Class::GetY()
-{
-	return Player_y;
-}
-
