@@ -14,7 +14,7 @@ void Map::Draw()
     {
         for (int l = 0; l < 21; l++)
         {
-            box[i][l] = ' ';
+            box[i][l] = '-';
             if (l > 0 && i == 0)
             {
                 box[i][l] = (A);
