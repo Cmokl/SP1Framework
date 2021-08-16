@@ -23,7 +23,8 @@ void Fighter::SkillList(int SkillIndex, Party* Party, int PartyIndex)
 
 	enum Skill
 	{
-		Cleave
+		Cleave,
+		Smash
 	};
 
 	switch (SkillIndex)
@@ -40,6 +41,18 @@ void Fighter::SkillList(int SkillIndex, Party* Party, int PartyIndex)
 			{
 				Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 0.6 + Target->GetDefence() * 0.5));
 			}
+		}
+		break;
+
+	case Smash:
+		//mana cost 3
+		this->SetMana(GetMana() - 3);
+
+		//deal amplified damage to a target
+		Target = Party->GetPartyClass(PartyIndex);
+		if (Target != nullptr)
+		{
+			Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.3 + Target->GetDefence() * 0.5));
 		}
 	}
 }

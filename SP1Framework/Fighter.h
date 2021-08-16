@@ -1,6 +1,6 @@
 #pragma once
 #include "Class.h"
-class Fighter : private Class
+class Fighter : public Class
 {
 private:
 
