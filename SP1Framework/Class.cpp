@@ -19,9 +19,9 @@ Class::~Class()
 void Class::SetHealth(void)
 {
 }
-
-void Class::GetHealth(void)
+int Class::GetHealth(void)
 {
+	return Health;
 }
 
 void Class::SetMana(void)
@@ -30,7 +30,7 @@ void Class::SetMana(void)
 
 int Class::GetMana(void)
 {
-	return 0;
+	return Mana;
 }
 
 void Class::SetStrength(void)
@@ -39,7 +39,7 @@ void Class::SetStrength(void)
 
 int Class::GetStrength(void)
 {
-	return 0;
+	return Strength;
 }
 
 void Class::SetIntelligence(void)
@@ -48,7 +48,7 @@ void Class::SetIntelligence(void)
 
 int Class::GetIntelligence(void)
 {
-	return 0;
+	return Intelligence;
 }
 
 void Class::SetFaith(void)
@@ -57,7 +57,7 @@ void Class::SetFaith(void)
 
 int Class::GetFaith(void)
 {
-	return 0;
+	return Faith;
 }
 
 void Class::SetSpeed(void)
@@ -66,7 +66,7 @@ void Class::SetSpeed(void)
 
 int Class::GetSpeed(void)
 {
-	return 0;
+	return Speed;
 }
 
 void Class::SetDefence(void)
@@ -75,7 +75,7 @@ void Class::SetDefence(void)
 
 int Class::GetDefence(void)
 {
-	return 0;
+	return Defence;
 }
 
 void Class::SetResistance(void)
@@ -84,5 +84,5 @@ void Class::SetResistance(void)
 
 int Class::GetResistance(void)
 {
-	return 0;
+	return Resistance;
 }
