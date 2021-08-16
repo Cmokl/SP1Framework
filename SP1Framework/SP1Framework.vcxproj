@@ -85,7 +85,12 @@
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Wizard.cpp" />
+=======
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Movement.cpp" />
+>>>>>>> ddf7f02b68c1c58fd91cda46e161fd81f63bafe9
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class.h" />
@@ -94,7 +99,12 @@
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
+<<<<<<< HEAD
     <ClInclude Include="Wizard.h" />
+=======
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Movement.h" />
+>>>>>>> ddf7f02b68c1c58fd91cda46e161fd81f63bafe9
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
