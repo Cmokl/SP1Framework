@@ -3,6 +3,7 @@
 class Rogue :
     public Class
 {
+public:
     Rogue();
     ~Rogue();
 };

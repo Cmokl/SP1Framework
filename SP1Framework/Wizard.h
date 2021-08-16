@@ -4,6 +4,7 @@
 class Wizard :
     public Class
 {
+public:
     Wizard();
     ~Wizard();
 };
