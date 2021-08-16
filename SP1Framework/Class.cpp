@@ -16,73 +16,73 @@ Class::~Class()
 {
 }
 
-void Class::SetHealth(void)
+void Class::GetHealth(void)
 {
 }
-int Class::GetHealth(void)
+int Class::SetHealth(void)
 {
 	return Health;
 }
 
-void Class::SetMana(void)
+void Class::GetMana(void)
 {
 }
 
-int Class::GetMana(void)
+int Class::SetMana(void)
 {
 	return Mana;
 }
 
-void Class::SetStrength(void)
+void Class::GetStrength(void)
 {
 }
 
-int Class::GetStrength(void)
+int Class::SetStrength(void)
 {
 	return Strength;
 }
 
-void Class::SetIntelligence(void)
+void Class::GetIntelligence(void)
 {
 }
 
-int Class::GetIntelligence(void)
+int Class::SetIntelligence(void)
 {
 	return Intelligence;
 }
 
-void Class::SetFaith(void)
+void Class::GetFaith(void)
 {
 }
 
-int Class::GetFaith(void)
+int Class::SetFaith(void)
 {
 	return Faith;
 }
 
-void Class::SetSpeed(void)
+void Class::GetSpeed(void)
 {
 }
 
-int Class::GetSpeed(void)
+int Class::SetSpeed(void)
 {
 	return Speed;
 }
 
-void Class::SetDefence(void)
+void Class::GetDefence(void)
 {
 }
 
-int Class::GetDefence(void)
+int Class::SetDefence(void)
 {
 	return Defence;
 }
 
-void Class::SetResistance(void)
+void Class::GetResistance(void)
 {
 }
 
-int Class::GetResistance(void)
+int Class::SetResistance(void)
 {
 	return Resistance;
 }
