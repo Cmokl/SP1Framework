@@ -17,21 +17,24 @@ public:
 	~Class();
 
 	//getter/setters
-	void GetHealth();
-	int SetHealth(int Value);
-	void GetMana(void);
-	int SetMana(int Value);
-	void GetStrength(void);
-	int SetStrength(int Value);
-	void GetIntelligence(void);
-	int SetIntelligence(int Value);
-	void GetFaith(void);
-	int SetFaith(int Value);
-	void GetSpeed(void);
-	int SetSpeed(int Value);
-	void GetDefence(void);
-	int SetDefence(int Value);
-	void GetResistance(void);
-	int SetResistance(int Value);
+	int GetHealth();
+	void SetHealth(int Value);
+	int GetMana(void);
+	void SetMana(int Value);
+	int GetStrength(void);
+	void SetStrength(int Value);
+	int GetIntelligence(void);
+	void SetIntelligence(int Value);
+	int GetFaith(void);
+	void SetFaith(int Value);
+	int GetSpeed(void);
+	void SetSpeed(int Value);
+	int GetDefence(void);
+	void SetDefence(int Value);
+	int GetResistance(void);
+	void SetResistance(int Value);
+
+	//functions
+	void Attack(Class* Target);
 };
 

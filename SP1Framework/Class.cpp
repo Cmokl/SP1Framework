@@ -16,73 +16,88 @@ Class::~Class()
 {
 }
 
-void Class::GetHealth(void)
-{
-}
-int Class::SetHealth(int Value)
+//setter/getters
+int Class::GetHealth(void)
 {
 	return Health;
 }
-
-void Class::GetMana(void)
+void Class::SetHealth(int Value)
 {
+	Health = Value;
 }
 
-int Class::SetMana(int Value)
+int Class::GetMana(void)
 {
 	return Mana;
 }
 
-void Class::GetStrength(void)
+void Class::SetMana(int Value)
 {
+	Mana = Value;
 }
 
-int Class::SetStrength(int Value)
+int Class::GetStrength(void)
 {
 	return Strength;
 }
 
-void Class::GetIntelligence(void)
+void Class::SetStrength(int Value)
 {
+	Strength = Value;
 }
 
-int Class::SetIntelligence(int Value)
+int Class::GetIntelligence(void)
 {
 	return Intelligence;
 }
 
-void Class::GetFaith(void)
+void Class::SetIntelligence(int Value)
 {
+	Intelligence = Value;
 }
 
-int Class::SetFaith(int Value)
+int Class::GetFaith(void)
 {
 	return Faith;
 }
 
-void Class::GetSpeed(void)
+void Class::SetFaith(int Value)
 {
+	Faith = Value;
 }
 
-int Class::SetSpeed(int Value)
+int Class::GetSpeed(void)
 {
 	return Speed;
 }
 
-void Class::GetDefence(void)
+void Class::SetSpeed(int Value)
 {
+	Speed = Value;
 }
 
-int Class::SetDefence(int Value)
+int Class::GetDefence(void)
 {
 	return Defence;
 }
 
-void Class::GetResistance(void)
+void Class::SetDefence(int Value)
 {
+	Defence = Value;
 }
 
-int Class::SetResistance(int Value)
+int Class::GetResistance(void)
 {
 	return Resistance;
+}
+
+void Class::SetResistance(int Value)
+{
+	Resistance = Value;
+}
+
+//functions
+void Class::Attack(Class* Target)
+{
+	/*Target->SetHealth(Target->GetHealth() - this->GetStrength())*/
 }
