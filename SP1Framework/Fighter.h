@@ -5,7 +5,6 @@
 class Fighter : public Class
 {
 private:
-	int OriginalStrength;
 public:
 	Fighter();
 	~Fighter();

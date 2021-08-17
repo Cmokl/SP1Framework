@@ -56,5 +56,5 @@ void Fighter::BattleCry(void)
 
 void Fighter::BattleCryRevert()
 {
-	this->SetStrength(OriginalStrength);
+	this->SetStrength(this->GetStrength() *(100/110));
 }
