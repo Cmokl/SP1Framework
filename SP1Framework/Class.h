@@ -36,7 +36,7 @@ public:
 	void SetMaxHealth(int Value);
 
 	//functions
-	void Attack(Class* Target); //Party index determines the target
+	void Attack(Class* Target); //parameter determines the target
 	void Defend();
 	void SkillList(int SkillIndex, Class* Target1, Class* Target2, Class* Target3, Class* Target4);
 };
