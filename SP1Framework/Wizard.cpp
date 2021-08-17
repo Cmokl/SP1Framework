@@ -12,6 +12,7 @@ Wizard::Wizard()
 	this->SetResistance(12);
 
 	IsMirror = false;
+	CastCount = 0;
 }
 Wizard::~Wizard()
 {
@@ -46,16 +47,24 @@ void Wizard::MagicMissile(Party* Target)
 
 void Wizard::PyroBlast(Class* Target)
 {
-	//mana cost 4
-	this->SetMana(GetMana() - 3);
-
-	//effect
-	Target->SetHealth(Target->GetHealth() - (this->GetIntelligence() * 2.1 + ((this->GetIntelligence() * 2.1) * (Target->GetResistance() * 0.05))));
-
-	if (IsMirror == true)
+	CastCount++;
+	if (CastCount == 0)
 	{
+		//mana cost 4
+		this->SetMana(GetMana() - 3);
+	}
+
+	if (CastCount == 2)
+	{
+		//effect
 		Target->SetHealth(Target->GetHealth() - (this->GetIntelligence() * 2.1 + ((this->GetIntelligence() * 2.1) * (Target->GetResistance() * 0.05))));
-		IsMirror = false;
+
+		if (IsMirror == true)
+		{
+			Target->SetHealth(Target->GetHealth() - (this->GetIntelligence() * 2.1 + ((this->GetIntelligence() * 2.1) * (Target->GetResistance() * 0.05))));
+			IsMirror = false;
+		}
+		CastCount = 0;
 	}
 }
 
