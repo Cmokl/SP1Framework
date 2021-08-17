@@ -18,8 +18,17 @@ Rogue::~Rogue()
 {
 }
 
+//getter
+bool Rogue::GetIsStealth(void)
+{
+	return IsStealth;
+}
+
+//attack
 void Rogue::Attack(Class* Target)
 {
+	Class* RogueIndex;
+
 	if (IsStealth == false)
 	{
 		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5));
@@ -32,11 +41,14 @@ void Rogue::Attack(Class* Target)
 }
 
 //skills
-void Rogue::Stealth(void)
+void Rogue::Stealth(Party* Target)
 {
+	Class* RogueIndex;
+
 	//mana cost 2
 	this->SetMana(GetMana() - 2);
 
+	//effect
 	IsStealth = true;
 }
 
@@ -62,6 +74,7 @@ void Rogue::Lacerate(Class* Target)
 		//effect
 		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.2 + Target->GetDefence() * 0.5));
 		Target->SetIsBleed(true);
+	}
 }
 
 
