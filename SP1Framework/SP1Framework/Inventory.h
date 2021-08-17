@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-class Inventory :
+class Inventory
 {
 	std::string InventoryItems[10];
 	int gold;
@@ -12,4 +12,4 @@ public:
 	int GetGold();
 	void AddItem(std::string ItemName);
 	void DiscardItem(std::string ItemName);
-}
+};
