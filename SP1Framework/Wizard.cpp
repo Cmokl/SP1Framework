@@ -2,6 +2,7 @@
 Wizard::Wizard()
 {
 	this->SetHealth(25);
+	this->SetMaxHealth(25);
 	this->SetMana(40);
 	this->SetStrength(8);
 	this->SetIntelligence(16);
