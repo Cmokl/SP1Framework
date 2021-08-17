@@ -11,8 +11,6 @@ Fighter::Fighter()
 	this->SetSpeed(13);
 	this->SetDefence(12);
 	this->SetResistance(10);
-
-	OriginalStrength = this->GetStrength();
 }
 
 Fighter::~Fighter()
