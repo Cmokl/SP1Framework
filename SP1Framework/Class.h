@@ -18,6 +18,7 @@ private:
 	bool IsBurn;
 	bool IsPoison;
 	bool IsImmune;
+	bool IsSilenced;
 public:
 	Class();
 	virtual ~Class();
@@ -51,6 +52,8 @@ public:
 	void SetIsPoison(bool Boolean);
 	bool GetIsImmune(void);
 	void SetIsImmune(bool Boolean);
+	bool GetIsSilenced(void);
+	void SetIsSilenced(bool Boolean);
 
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target

@@ -142,6 +142,16 @@ void Class::SetIsImmune(bool Boolean)
 	IsImmune = Boolean;
 }
 
+bool Class::GetIsSilenced(void)
+{
+	return IsSilenced;
+}
+
+void Class::SetIsSilenced(bool Boolean)
+{
+	IsSilenced = Boolean;
+}
+
 //functions
 void Class::Attack(Class* Target)
 {
