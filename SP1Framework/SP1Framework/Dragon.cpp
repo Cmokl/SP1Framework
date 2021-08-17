@@ -19,7 +19,7 @@ Dragon::~Dragon()
 void Dragon::FireBreath(Class* target)
 {
 	target->SetHealth(target->GetHealth - 10 + 10 * (0.1 * (target->GetDefence / 10)));
-	target->SetIsBurn();
+	target->SetIsBurn(true);
 	//to add the player burning for 3 turns
 }
 void Dragon::TalonTear(Class* target)
