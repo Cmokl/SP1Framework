@@ -312,7 +312,10 @@ void renderSplashScreen()  // renders the splash screen
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 9;
     g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    c.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x10); // Main page
 }
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void renderGame()
 {
