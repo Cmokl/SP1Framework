@@ -2,7 +2,7 @@
 Cleric::Cleric()
 {
 	this->SetHealth(28);
-	this->setMaxHealth(28);
+	this->SetMaxHealth(28);
 	this->SetMana(40);
 	this->SetStrength(8);
 	this->SetIntelligence(13);
@@ -17,10 +17,14 @@ Cleric::~Cleric()
 void Cleric::HolyRestoration(Class* target)
 {
 	target->SetHealth(target->GetHealth() + (GetFaith()/2)); 
+	if (target-> GetHealth() > target->GetMaxHealth())
+	{
+		target->SetMaxHealth(target->GetMaxHealth());
+	}
 }
 void Cleric::Resurrection(Class* target)
 {
-	target->setMaxHealth(getMaxHealth() * 0.1);
+	target->SetMaxHealth(GetMaxHealth() * 0.1);
 }
 void Cleric::Protection(Class* target1, Class* target2, Class* target3, Class* target4)
 {

@@ -32,8 +32,8 @@ public:
 	void SetDefence(int Value);
 	int GetResistance(void);
 	void SetResistance(int Value);
-	int getMaxHealth();
-	void setMaxHealth(int Value);
+	int GetMaxHealth();
+	void SetMaxHealth(int Value);
 
 	//functions
 	void Attack(Class* Target); //Party index determines the target
