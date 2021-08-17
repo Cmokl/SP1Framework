@@ -15,3 +15,11 @@ Skeleton::Skeleton()
 Skeleton::~Skeleton()
 {
 }
+void Pierce(Class* target)
+{
+	target->SetHealth(target->GetHealth-6+6*(0.1*(target->GetDefence/10)))
+}
+void Reassemble()
+{
+	this->SetHealth(GetHealth() + 4);
+}
