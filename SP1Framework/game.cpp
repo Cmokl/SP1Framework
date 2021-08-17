@@ -230,7 +230,7 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 3.0) // wait for 3 seconds to switch to game mode, else do nothing
+    if (g_dElapsedTime > 1.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
         g_eGameState = S_GAME;
 }
 
@@ -343,6 +343,7 @@ void renderGame()
 }
 
 void renderMap()
+//---------------------------------------------------------------------------------------------------------------------------------------------
 {
     // Set up sample colours, and output shadings
     const WORD colors[] = {
@@ -350,15 +351,58 @@ void renderMap()
         0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
     };
 
+
     COORD c;
     for (int i = 0; i < 12; ++i)
     {
-        c.X = 5 * i;
-        c.Y = i + 1;
-        colour(colors[i]);
-        g_Console.writeToBuffer(c, " °±²Û", colors[i]);
+        if (c.X = 5 * i, c.Y = i + 1)
+        {
+            colour(colors[i]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[i]);   // colour combi
+        }
+        if (c.X = 38, c.Y = 20)
+        {
+            colour(colors[0xC3]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xC3]);   // fountain
+        }
+        if (c.X = 41, c.Y = 3)
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+        if (c.X = 46, c.Y = 3)
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+        if (c.X = 36, c.Y = 3)
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+        if (c.X = 41, c.Y = 4)                                       // Area
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+        if (c.X = 46, c.Y = 4)
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+        if (c.X = 36, c.Y = 4)
+        {
+            colour(colors[0xE5]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xE5]);
+        }
+       
     }
+
+    
+
+    
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------
 
 void renderCharacter()
 {
