@@ -281,7 +281,12 @@ void processUserInput()
 
 void Battle()
 {
+    int TurnCount = 0;
 
+    while (true)
+    {
+
+    }
 }
 
 //--------------------------------------------------------------
