@@ -5,7 +5,7 @@ Inventory::Inventory()
 	gold = 5;
 	for (int i = 0; i < 10; i++)
 	{
-		InventoryItems[i] = "NULL";
+		InventoryItems[i] = " ";
 	}
 }
 Inventory::~Inventory()
@@ -24,7 +24,7 @@ void Inventory::AddItem(std::string ItemName)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		if (InventoryItems[i] == "NULL")
+		if (InventoryItems[i] == " ")
 		{
 			InventoryItems[i] = ItemName;
 			i = 10;
@@ -37,7 +37,7 @@ void Inventory::DiscardItem(std::string ItemName)
 	{
 		if (InventoryItems[i] == ItemName)
 		{
-			InventoryItems[i] = "NULL";
+			InventoryItems[i] = " ";
 			i = 10;
 		}
 	}
