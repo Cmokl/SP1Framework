@@ -12,4 +12,5 @@ public:
 
 	//Getter/setters
 	Class* GetPartyClass(int PartyIndex);
+	void SetPartyClass(int PartyIndex, Class* ptr);
 };
