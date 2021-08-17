@@ -2,6 +2,7 @@
 
 Class::Class()
 {
+	MaxHealth = 0;
 	Health = 0;
 	Mana = 0;
 	Strength = 0;
