@@ -13,5 +13,3 @@ public:
 	//Getter/setters
 	Class* GetPartyClass(int PartyIndex);
 };
-
-

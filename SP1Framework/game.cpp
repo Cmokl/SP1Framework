@@ -312,7 +312,10 @@ void renderSplashScreen()  // renders the splash screen
     c.Y += 1;
     c.X = g_Console.getConsoleSize().X / 2 - 9;
     g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
+    c.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x10); // Main page
 }
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void renderGame()
 {
@@ -380,13 +383,13 @@ void renderInputEvents()
         ss.str("");
         switch (i)
         {
-        case K_UP: key = "UP";
+        case K_UP: key = "W";
             break;
-        case K_DOWN: key = "DOWN";
+        case K_DOWN: key = "S";
             break;
-        case K_LEFT: key = "LEFT";
+        case K_LEFT: key = "A";
             break;
-        case K_RIGHT: key = "RIGHT";
+        case K_RIGHT: key = "D";
             break;
         case K_SPACE: key = "SPACE";
             break;
