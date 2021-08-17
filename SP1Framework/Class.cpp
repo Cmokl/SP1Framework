@@ -117,6 +117,30 @@ void Class::SetIsBleed(bool Boolean)
 {
 	IsBleed = Boolean;
 }
+bool Class::GetIsBurn(void)
+{
+	return IsBurn;
+}
+void Class::SetIsBurn(bool Boolean)
+{
+	IsBurn = Boolean;
+}
+bool Class::GetIsPoison(void)
+{
+	return IsPoison;
+}
+void Class::SetIsPoison(bool Boolean)
+{
+	IsPoison = Boolean;
+}
+bool Class::GetIsImmune(void)
+{
+	return IsImmune;
+}
+void Class::SetIsImmune(bool Boolean)
+{
+	IsImmune = Boolean;
+}
 
 //functions
 void Class::Attack(Class* Target)
