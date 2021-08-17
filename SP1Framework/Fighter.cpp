@@ -11,6 +11,8 @@ Fighter::Fighter()
 	this->SetSpeed(13);
 	this->SetDefence(12);
 	this->SetResistance(10);
+
+	OriginalStrength = this->GetStrength();
 }
 
 Fighter::~Fighter()
@@ -18,26 +20,21 @@ Fighter::~Fighter()
 }
 
 //skills
-void Fighter::Cleave(Class* Target1, Class* Target2, Class* Target3, Class* Target4)
+void Fighter::Cleave(Party* Target)
 {
+	Class* Targeted;
+
 	//mana cost 4
 	this->SetMana(this->GetMana() - 4);
 
-	if (Target1 != nullptr)
+	for (int i = 0; i < 4; i++)
 	{
-		Target1->SetHealth(Target1->GetHealth() - (this->GetStrength() * 0.8 + ((this->GetStrength() * 0.8) * (Target1->GetDefence() * 0.05))));
-	}
-	else if (Target2 != nullptr)
-	{
-		Target2->SetHealth(Target2->GetHealth() - (this->GetStrength() * 0.8 + ((this->GetStrength() * 0.8) * (Target2->GetDefence() * 0.05))));
-	}
-	else if (Target3 != nullptr)
-	{
-		Target3->SetHealth(Target3->GetHealth() - (this->GetStrength() * 0.8 + ((this->GetStrength() * 0.8)*(Target3->GetDefence() * 0.05))));
-	}
-	else if (Target4 != nullptr)
-	{
-		Target4->SetHealth(Target4->GetHealth() - (this->GetStrength() * 0.8 + ((this->GetStrength() * 0.8) * (Target4->GetDefence() * 0.05))));
+		Targeted = Target->GetPartyClass(i);
+
+		if (Targeted != nullptr)
+		{
+			Targeted->SetHealth(Targeted->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.8) * (Targeted->GetDefence() * 0.05))));
+		}
 	}
 }
 
@@ -57,7 +54,7 @@ void Fighter::BattleCry(void)
 	this->SetStrength(this->GetStrength() * 1.1);
 }
 
-void Fighter::BattleCryRevert(int OriginalStrength)
+void Fighter::BattleCryRevert()
 {
 	this->SetStrength(OriginalStrength);
 }

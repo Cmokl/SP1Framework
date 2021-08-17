@@ -7,5 +7,6 @@ class Wizard :
 public:
     Wizard();
     ~Wizard();
+
 };
 
