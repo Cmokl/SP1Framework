@@ -11,6 +11,12 @@ Class::Class()
 	Speed = 0;
 	Defence = 0;
 	Resistance = 0;
+
+	IsBleed = false;
+	IsBurn = false;
+	IsPoison = false;
+	IsImmune = false;
+	IsSilenced = false;
 }
 
 Class::~Class()
