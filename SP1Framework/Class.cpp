@@ -107,3 +107,11 @@ void Class::Defend()
 	this->SetDefence(this->GetDefence() * 1.5);
 	this->SetResistance(this->GetResistance() * 1.5);
 }
+int Class::getMaxHealth()
+{
+	return Health;
+}
+void Class::setMaxHealth(int Value)
+{
+	setMaxHealth(Value);
+}

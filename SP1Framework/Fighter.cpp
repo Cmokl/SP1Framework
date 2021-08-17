@@ -4,6 +4,7 @@ Fighter::Fighter()
 {
 	//Stat init
 	this->SetHealth(40);
+	this->setMaxHealth(40);
 	this->SetMana(20);
 	this->SetStrength(16);
 	this->SetIntelligence(8);

@@ -10,7 +10,7 @@ private:
 	int Speed;
 	int Defence;
 	int Resistance;
-
+	int MaxHealth;
 public:
 	Class();
 	virtual ~Class();
@@ -32,6 +32,8 @@ public:
 	void SetDefence(int Value);
 	int GetResistance(void);
 	void SetResistance(int Value);
+	int getMaxHealth();
+	void setMaxHealth(int Value);
 
 	//functions
 	void Attack(Class* Target); //Party index determines the target
