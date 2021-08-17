@@ -2,6 +2,7 @@
 class Class
 {
 private:
+	//stats
 	int Health;
 	int Mana;
 	int Strength;
@@ -11,11 +12,14 @@ private:
 	int Defence;
 	int Resistance;
 	int MaxHealth;
+
+	//statuses
+	bool IsBleed;
 public:
 	Class();
 	virtual ~Class();
 
-	//getter/setters
+	//getter/setters(stats)
 	int GetHealth();
 	void SetHealth(int Value);
 	int GetMana(void);
@@ -35,9 +39,12 @@ public:
 	int GetMaxHealth();
 	void SetMaxHealth(int Value);
 
+	//setter/getters(statuses)
+	bool GetIsBleed(void);
+	void SetIsBleed(bool Boolean);
+
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();
-	void SkillList(int SkillIndex, Class* Target1, Class* Target2, Class* Target3, Class* Target4);
 };
 

@@ -17,7 +17,7 @@ Class::~Class()
 {
 }
 
-//setter/getters
+//setter/getters(stats)
 int Class::GetHealth(void)
 {
 	return Health;
@@ -105,6 +105,17 @@ int Class::GetMaxHealth()
 void Class::SetMaxHealth(int Value)
 {
 	MaxHealth = Value;
+}
+
+//setter/getters(statuses)
+bool Class::GetIsBleed(void)
+{
+	return IsBleed;
+}
+
+void Class::SetIsBleed(bool Boolean)
+{
+	IsBleed = Boolean;
 }
 
 //functions
