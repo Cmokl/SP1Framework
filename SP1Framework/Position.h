@@ -9,7 +9,7 @@ public:
 	int sety();
 	void getx(int current_x);
 	void gety(int current_y);
-	void movement(string move);
+	//void movement(string move);
 };
 
 

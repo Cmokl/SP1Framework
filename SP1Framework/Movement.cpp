@@ -19,7 +19,6 @@ void Movement::movement(char move)
 
 void Movement::movement(string move)
 {
-    Position P;
     if (move == "1")
     {
      
