@@ -74,5 +74,6 @@
     <ClInclude Include="Movement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    </ClInclude>
   </ItemGroup>
 </Project>

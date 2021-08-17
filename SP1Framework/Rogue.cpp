@@ -10,7 +10,10 @@ Rogue::Rogue()
 	this->SetSpeed(16);
 	this->SetDefence(12);
 	this->SetResistance(10);
+
+	IsStealth = false;
 }
 Rogue::~Rogue()
 {
 }
+
