@@ -11,6 +11,12 @@ Class::Class()
 	Speed = 0;
 	Defence = 0;
 	Resistance = 0;
+
+	IsBleed = false;
+	IsBurn = false;
+	IsPoison = false;
+	IsImmune = false;
+	IsSilenced = false;
 }
 
 Class::~Class()
@@ -140,6 +146,16 @@ bool Class::GetIsImmune(void)
 void Class::SetIsImmune(bool Boolean)
 {
 	IsImmune = Boolean;
+}
+
+bool Class::GetIsSilenced(void)
+{
+	return IsSilenced;
+}
+
+void Class::SetIsSilenced(bool Boolean)
+{
+	IsSilenced = Boolean;
 }
 
 //functions
