@@ -6,5 +6,10 @@ class Ghoul :
 public:
     Ghoul();
     ~Ghoul();
+
+    //skills
+    void Devour(Class* Target);
+    void Shapeshift(void);
+    void RevertShapeshift(void);
 };
 
