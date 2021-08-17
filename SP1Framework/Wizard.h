@@ -10,6 +10,9 @@ class Wizard :
 private:
     //if IsMirror is true casts spells twice
     bool IsMirror;
+
+    //int for cast timer
+    int CastCount;
 public:
     Wizard();
     ~Wizard();
