@@ -115,5 +115,5 @@ int Class::GetMaxHealth()
 }
 void Class::SetMaxHealth(int Value)
 {
-	setMaxHealth(Value);
+	MaxHealth = Value;
 }
