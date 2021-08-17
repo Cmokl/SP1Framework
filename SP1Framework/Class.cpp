@@ -11,7 +11,6 @@ Class::Class()
 	Speed = 0;
 	Defence = 0;
 	Resistance = 0;
-	MaxHealth = 0;
 }
 
 Class::~Class()
@@ -98,6 +97,16 @@ void Class::SetResistance(int Value)
 	Resistance = Value;
 }
 
+int Class::GetMaxHealth()
+{
+	return Health;
+}
+
+void Class::SetMaxHealth(int Value)
+{
+	MaxHealth = Value;
+}
+
 //functions
 void Class::Attack(Class* Target)
 {
@@ -108,12 +117,4 @@ void Class::Defend()
 {
 	this->SetDefence(this->GetDefence() * 1.5);
 	this->SetResistance(this->GetResistance() * 1.5);
-}
-int Class::GetMaxHealth()
-{
-	return Health;
-}
-void Class::SetMaxHealth(int Value)
-{
-	MaxHealth = Value;
 }
