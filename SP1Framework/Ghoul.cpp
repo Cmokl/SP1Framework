@@ -3,6 +3,7 @@
 Ghoul::Ghoul()
 {
 	this->SetHealth(35);
+	this->SetMaxHealth(35);
 	this->SetMana(20);
 	this->SetStrength(14);
 	this->SetIntelligence(14);

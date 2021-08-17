@@ -2,7 +2,8 @@
 
 Dragon::Dragon()
 {
-	this->SetHealth(50);
+	this->SetHealth(55);
+	this->SetMaxHealth(55);
 	this->SetMana(40);
 	this->SetStrength(16);
 	this->SetIntelligence(10);

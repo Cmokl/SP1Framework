@@ -2,6 +2,7 @@
 Paladin::Paladin()
 {
 	this->SetHealth(35);
+	this->SetMaxHealth(35);
 	this->SetMana(35);
 	this->SetStrength(13);
 	this->SetIntelligence(9);
