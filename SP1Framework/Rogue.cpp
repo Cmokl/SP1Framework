@@ -17,3 +17,14 @@ Rogue::~Rogue()
 {
 }
 
+void Rogue::Attack(Class* Target)
+{
+	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5));
+}
+
+void Rogue::Defend()
+{
+	this->SetDefence(this->GetDefence() * 1.5);
+	this->SetResistance(this->GetResistance() * 1.5);
+}
+

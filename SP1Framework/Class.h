@@ -36,8 +36,8 @@ public:
 	void setMaxHealth(int Value);
 
 	//functions
-	void Attack(Class* Target); //parameter determines the target
-	void Defend();
+	virtual void Attack(Class* Target); //parameter determines the target
+	virtual void Defend();
 	void SkillList(int SkillIndex, Class* Target1, Class* Target2, Class* Target3, Class* Target4);
 };
 
