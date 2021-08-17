@@ -30,7 +30,7 @@ void Wizard::MagicMissile(Party* Target)
 	for (int i = 0; i < 3; i++)
 	{
 		Targeted = Target->GetPartyClass(rand() % 3);
-		Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.9 + ((this->GetIntelligence() * 0.9) * (Targeted->GetResistance() * 0.05))));
+		Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
 	}
 
 	if (IsMirror == true)
@@ -39,7 +39,7 @@ void Wizard::MagicMissile(Party* Target)
 		for (int i = 0; i < 3; i++)
 		{
 			Targeted = Target->GetPartyClass(rand() % 3);
-			Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.9 + ((this->GetIntelligence() * 0.9) * (Targeted->GetResistance() * 0.05))));
+			Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
 		}
 		IsMirror = false;
 	}
