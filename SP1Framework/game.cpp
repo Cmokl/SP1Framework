@@ -3,6 +3,8 @@
 //
 #include "game.h"
 #include "Framework\console.h"
+#include "Party.h"
+#include "Class.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -43,6 +45,18 @@ void init( void )
     // remember to set your keyboard handler, so that your functions can be notified of input events
     g_Console.setKeyboardHandler(keyboardHandler);
     g_Console.setMouseHandler(mouseHandler);
+
+    //Initialize the Classes
+    Class* Class[8];
+    for (int i = 0; i < 8; i++)
+    {
+        Class[i] = nullptr;
+    }
+    //Initialize the parties for battles
+    // Class 0 - 3 are player classes
+    Party PlayerParty(Class[0], Class[1], Class[2], Class[3]);
+    // Class 4 - 7 are player classes
+    Party EnemyParty(Class[4], Class[5], Class[6], Class[7]);
 }
 
 //--------------------------------------------------------------
@@ -160,8 +174,8 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     // so we are tracking if a key is either pressed, or released
     if (key != K_COUNT)
     {
-        g_skKeyEvent[key].keyDown = !keyboardEvent.bKeyDown;
-        g_skKeyEvent[key].keyReleased = keyboardEvent.bKeyDown;
+        g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
+        g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
     }    
 }
 
@@ -231,22 +245,22 @@ void moveCharacter()
 {    
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > 0)
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > 0)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;       
     }
-    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > 0)
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > 0)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X--;        
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y++;        
     }
-    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
         g_sChar.m_cLocation.X++;        
@@ -263,6 +277,16 @@ void processUserInput()
     // quits the game if player hits the escape key
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
         g_bQuitGame = true;    
+}
+
+void Battle()
+{
+    int TurnCount = 0;
+
+    while (true)
+    {
+
+    }
 }
 
 //--------------------------------------------------------------

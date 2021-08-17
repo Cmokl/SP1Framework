@@ -161,11 +161,11 @@ void Class::SetIsSilenced(bool Boolean)
 //functions
 void Class::Attack(Class* Target)
 {
-	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5));
+	Target->SetHealth(static_cast<int>(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5)));
 }
 
 void Class::Defend()
 {
-	this->SetDefence(this->GetDefence() * 1.5);
-	this->SetResistance(this->GetResistance() * 1.5);
+	this->SetDefence(static_cast<int>(this->GetDefence() * 1.5));
+	this->SetResistance(static_cast<int>(this->GetResistance() * 1.5));
 }

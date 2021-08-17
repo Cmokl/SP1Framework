@@ -24,7 +24,7 @@ void Cleric::HolyRestoration(Class* target)
 }
 void Cleric::Resurrection(Class* target)
 {
-	target->SetMaxHealth(GetMaxHealth() * 0.1);
+	target->SetMaxHealth(static_cast<int>(GetMaxHealth() * 0.1));
 }
 void Cleric::Protection(Class* target1, Class* target2, Class* target3, Class* target4)
 {
