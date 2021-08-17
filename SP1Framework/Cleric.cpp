@@ -28,8 +28,8 @@ void Cleric::Resurrection(Class* target)
 }
 void Cleric::Protection(Class* target1, Class* target2, Class* target3, Class* target4)
 {
-	target1->SetIsImmune;
-	target2->SetIsImmune;
-	target3->SetIsImmune;
-	target4->SetIsImmune;
+	target1->SetIsImmune(true);
+	target2->SetIsImmune(true);
+	target3->SetIsImmune(true);
+	target4->SetIsImmune(true);
 }
