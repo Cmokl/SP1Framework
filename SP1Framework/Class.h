@@ -15,6 +15,9 @@ private:
 
 	//statuses
 	bool IsBleed;
+	bool IsBurn;
+	bool IsPoison;
+	bool IsImmune;
 public:
 	Class();
 	virtual ~Class();
@@ -39,9 +42,15 @@ public:
 	int GetMaxHealth();
 	void SetMaxHealth(int Value);
 
-	//setter/getters(statuses)
+	//setter/getters(statuses). Conditions : Bleeding, burning, poisoned and immune
 	bool GetIsBleed(void);
 	void SetIsBleed(bool Boolean);
+	bool GetIsBurn(void);
+	void SetIsBurn(bool Boolean);
+	bool GetIsPoison(void);
+	void SetIsPoison(bool Boolean);
+	bool GetIsImmune(void);
+	void SetIsImmune(bool Boolean);
 
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target
