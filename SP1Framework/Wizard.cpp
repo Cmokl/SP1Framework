@@ -14,4 +14,18 @@ Wizard::~Wizard()
 {
 }
 
+void Wizard::MagicMissile(Party* Target)
+{
+	Class* Targeted;
+	//mana cost 3
+	this->SetMana(GetMana() - 3);
+
+	srand(static_cast<unsigned int>(time(0)));
+	for (int i = 0; i < 3; i++)
+	{
+		Targeted = Target->GetPartyClass(rand() % 3);
+		Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.9 + ((this->GetIntelligence() * 0.9) * (Targeted->GetResistance() * 0.05))));
+	}
+}
+
 

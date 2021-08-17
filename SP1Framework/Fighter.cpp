@@ -33,7 +33,7 @@ void Fighter::Cleave(Party* Target)
 
 		if (Targeted != nullptr)
 		{
-			Targeted->SetHealth(Targeted->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.8) * (Targeted->GetDefence() * 0.05))));
+			Targeted->SetHealth(Targeted->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.7) * (Targeted->GetDefence() * 0.05))));
 		}
 	}
 }
@@ -43,7 +43,7 @@ void Fighter::Smash(Class* Target)
 	//mana cost 3
 	this->SetMana(this->GetMana() - 3);
 
-	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.4 + ((this->GetStrength() * 0.8) * (Target->GetDefence() * 0.05))));
+	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.4 + ((this->GetStrength() * 1.4) * (Target->GetDefence() * 0.05))));
 }
 
 void Fighter::BattleCry(void)
