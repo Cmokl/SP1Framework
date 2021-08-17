@@ -3,6 +3,8 @@
 //
 #include "game.h"
 #include "Framework\console.h"
+#include "Party.h"
+#include "Class.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -43,6 +45,18 @@ void init( void )
     // remember to set your keyboard handler, so that your functions can be notified of input events
     g_Console.setKeyboardHandler(keyboardHandler);
     g_Console.setMouseHandler(mouseHandler);
+
+    //Initialize the Classes
+    Class* Class[8];
+    for (int i = 0; i < 8; i++)
+    {
+        Class[i] = nullptr;
+    }
+    //Initialize the parties for battles
+    // Class 0 - 3 are player classes
+    Party PlayerParty(Class[0], Class[1], Class[2], Class[3]);
+    // Class 4 - 7 are player classes
+    Party EnemyParty(Class[4], Class[5], Class[6], Class[7]);
 }
 
 //--------------------------------------------------------------
@@ -263,6 +277,11 @@ void processUserInput()
     // quits the game if player hits the escape key
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
         g_bQuitGame = true;    
+}
+
+void Battle()
+{
+
 }
 
 //--------------------------------------------------------------
