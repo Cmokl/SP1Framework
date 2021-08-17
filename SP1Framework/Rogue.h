@@ -9,9 +9,11 @@ public:
     Rogue();
     ~Rogue();
 
-    void Attack(Class* Target); //Party index determines the target
-    void Defend();
+    //rogue overrides attack because his attacks get stronger if stealthed
+    void Attack(Class* Target);
 
     //skills
-
+    void Stealth(void);
+    void CheapShot(Class* Target);
+    void Lacerate(Class* Target);
 };
