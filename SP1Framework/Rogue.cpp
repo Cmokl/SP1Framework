@@ -2,8 +2,8 @@
 
 Rogue::Rogue()
 {
-	this->SetHealth(35);
-	this->SetMaxHealth(35);
+	this->SetHealth(25);
+	this->SetMaxHealth(25);
 	this->SetMana(30);
 	this->SetStrength(13);
 	this->SetIntelligence(9);

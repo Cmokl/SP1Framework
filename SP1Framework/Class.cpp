@@ -11,6 +11,12 @@ Class::Class()
 	Speed = 0;
 	Defence = 0;
 	Resistance = 0;
+
+	IsBleed = false;
+	IsBurn = false;
+	IsPoison = false;
+	IsImmune = false;
+	IsSilenced = false;
 }
 
 Class::~Class()
@@ -116,6 +122,40 @@ bool Class::GetIsBleed(void)
 void Class::SetIsBleed(bool Boolean)
 {
 	IsBleed = Boolean;
+}
+bool Class::GetIsBurn(void)
+{
+	return IsBurn;
+}
+void Class::SetIsBurn(bool Boolean)
+{
+	IsBurn = Boolean;
+}
+bool Class::GetIsPoison(void)
+{
+	return IsPoison;
+}
+void Class::SetIsPoison(bool Boolean)
+{
+	IsPoison = Boolean;
+}
+bool Class::GetIsImmune(void)
+{
+	return IsImmune;
+}
+void Class::SetIsImmune(bool Boolean)
+{
+	IsImmune = Boolean;
+}
+
+bool Class::GetIsSilenced(void)
+{
+	return IsSilenced;
+}
+
+void Class::SetIsSilenced(bool Boolean)
+{
+	IsSilenced = Boolean;
 }
 
 //functions
