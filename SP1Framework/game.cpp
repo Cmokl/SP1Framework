@@ -116,6 +116,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
+    case S_BATTLE: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
+        break;
     }
 }
 
@@ -142,6 +144,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case S_SPLASHSCREEN: // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+        break;
+    case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     }
 }
@@ -224,6 +228,8 @@ void update(double dt)
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
+        case S_BATTLE: Battle(); // handle gameplay mouse event
+            break;
     }
 }
 
@@ -242,28 +248,64 @@ void updateGame()       // gameplay logic
 }
 
 void moveCharacter()
-{    
+{  
     // Updating the location of the character based on the key release
     // providing a beep sound whenver we shift the character
     if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;       
+        g_sChar.m_cLocation.Y--;   
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        if ((rand() % 9) == 0)
+        {
+            g_eGameState = S_BATTLE;
+        }
     }
     if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > 0)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X--;        
+        g_sChar.m_cLocation.X--;    
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        if ((rand() % 4) == 0)
+        {
+            g_eGameState = S_BATTLE;
+        }
     }
     if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;        
+        g_sChar.m_cLocation.Y++;
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        if ((rand() % 4) == 0)
+        {
+            g_eGameState = S_BATTLE;
+        }
     }
     if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
     {
         //Beep(1440, 30);
-        g_sChar.m_cLocation.X++;        
+        g_sChar.m_cLocation.X++; 
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        if ((rand() % 4) == 0)
+        {
+            g_eGameState = S_BATTLE;
+        }
     }
     if (g_skKeyEvent[K_SPACE].keyReleased)
     {
@@ -281,11 +323,13 @@ void processUserInput()
 
 void Battle()
 {
-    int TurnCount = 0;
-
-    while (true)
+    if (g_dElapsedTime > 1.0)
     {
-
+        g_dElapsedTime = 0;
+    }
+    if (g_dElapsedTime > 0.5) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
+    {
+        g_eGameState = S_GAME;
     }
 }
 
@@ -306,6 +350,7 @@ void render()
         break;
     case S_GAME: renderGame();
         break;
+    case S_BATTLE: renderSplashScreen();    
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
