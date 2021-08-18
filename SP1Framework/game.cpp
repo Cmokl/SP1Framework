@@ -251,7 +251,7 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 1.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
+    if (g_dElapsedTime > 10.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
         g_eGameState = S_GAME;
 }
 
@@ -369,11 +369,11 @@ void render()
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: renderSplashScreen();
+    case S_MENUSCREEN: renderMenuScreen();
         break;
     case S_GAME: renderGame();
         break;
-    case S_BATTLE: renderSplashScreen();    
+    case S_BATTLE: renderMenuScreen();
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -392,20 +392,21 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-void renderSplashScreen()  // renders the splash screen
+void renderMenuScreen()  // renders the splash screen
 {
     COORD c = g_Console.getConsoleSize();
     c.Y /= 3;
     c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "A game in 3 seconds", 0x03);
+    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x09);
     c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(c, "Press <Space> to change character colour", 0x09);
+    c.X = g_Console.getConsoleSize().X / 2 - 5;
+    g_Console.writeToBuffer(c, "1. Start Game", 0x10);
     c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(c, "Press 'Esc' to quit", 0x09);
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x10); // Main page
+    c.X = g_Console.getConsoleSize().X / 2 - 5;
+    g_Console.writeToBuffer(c, "2. Load", 0x10);
+    c.Y += 1;
+    c.X = g_Console.getConsoleSize().X / 2 - 5;
+    g_Console.writeToBuffer(c, "3. Quit", 0x10); // Main page
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
