@@ -2,6 +2,7 @@
 class Class
 {
 private:
+	//stats
 	int Health;
 	int Mana;
 	int Strength;
@@ -10,12 +11,19 @@ private:
 	int Speed;
 	int Defence;
 	int Resistance;
+	int MaxHealth;
 
+	//statuses
+	bool IsBleed;
+	bool IsBurn;
+	bool IsPoison;
+	bool IsImmune;
+	bool IsSilenced;
 public:
 	Class();
 	virtual ~Class();
 
-	//getter/setters
+	//getter/setters(stats)
 	int GetHealth();
 	void SetHealth(int Value);
 	int GetMana(void);
@@ -32,10 +40,23 @@ public:
 	void SetDefence(int Value);
 	int GetResistance(void);
 	void SetResistance(int Value);
+	int GetMaxHealth();
+	void SetMaxHealth(int Value);
+
+	//setter/getters(statuses). Conditions : Bleeding, burning, poisoned and immune
+	bool GetIsBleed(void);
+	void SetIsBleed(bool Boolean);
+	bool GetIsBurn(void);
+	void SetIsBurn(bool Boolean);
+	bool GetIsPoison(void);
+	void SetIsPoison(bool Boolean);
+	bool GetIsImmune(void);
+	void SetIsImmune(bool Boolean);
+	bool GetIsSilenced(void);
+	void SetIsSilenced(bool Boolean);
 
 	//functions
-	void Attack(Class* Target); //Party index determines the target
-	void Defend();
-	void SkillList(int SkillIndex, Class* Target);
+	virtual void Attack(Class* Target); //parameter determines the target
+	virtual void Defend();
 };
 
