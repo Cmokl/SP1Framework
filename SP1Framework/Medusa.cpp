@@ -13,6 +13,7 @@ Medusa::Medusa()
 }
 Medusa::~Medusa()
 {
+<<<<<<< HEAD
 
 }
 Medusa::~Medusa()
@@ -25,5 +26,15 @@ void Medusa::CursedGaze(Class * target)
 void Medusa::SerpentBite(Class * target)
 {
 	target->SetHealth(target->GetHealth() - 6 + (6 * 0.1*(target->GetDefence() / 10)));
+=======
+}
+void Medusa::CursedGaze(Class* target)
+{
+	target->SetHealth(target->GetHealth() - 7 + (7 * 0.1(target->GetDefence() / 10)));
+}
+void Medusa::SerpentBite(Class* target)
+{
+	target->SetHealth(target->GetHealth() - 6 + (6 * 0.1(target->GetDefence() / 10)));
+>>>>>>> parent of deff345 (Reuploaded files)
 	target->SetIsPoison(true);
 }
