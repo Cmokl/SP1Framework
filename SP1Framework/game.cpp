@@ -35,7 +35,7 @@ int TurnCount;
 int CurrentTurn;
 
 // Console object
-Console g_Console(250, 30, "SP1 Framework");
+Console g_Console(150, 30, "SP1 Framework");
 
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
