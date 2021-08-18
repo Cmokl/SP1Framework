@@ -1,15 +1,15 @@
 #pragma once
-#include <string>
+#include "Items.h"
 
 class Inventory
 {
-	std::string InventoryItems[10];
+	Items* InventoryItems[10];
 	int gold;
 public:
 	Inventory();
 	~Inventory();
 	void SetGold(int value);
 	int GetGold();
-	void AddItem(std::string ItemName);
-	void DiscardItem(std::string ItemName);
+	void AddItem(Items* item);
+	void DiscardItem(Items * item);
 };
