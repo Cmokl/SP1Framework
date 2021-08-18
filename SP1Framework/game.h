@@ -75,6 +75,7 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelect();
 void renderBattleScreen();
+//void initEnemyGroup(int EnemyGroup);
 
 
 // keyboard and mouse input event managers

@@ -5,6 +5,7 @@
 #include "Framework\console.h"
 #include "Party.h"
 #include "Class.h"
+#include "Skeleton.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -371,29 +372,41 @@ void BattleMove()
 {
     /*g_sChar.m_cLocation.Y;
     g_sChar.m_cLocation.X;*/
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
     {
         //move up
         g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 4) / 2;
 
     }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
     {
         //move left
         g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
 
     }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y  - g_Console.getConsoleSize().Y / 8)
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y  - g_Console.getConsoleSize().Y / 8)
     {
         //move down
         g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 4) / 2;
     }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
         //move right
         g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
     }
 }
+
+//void initEnemyGroup(int EnemyGroup)
+//{
+//    //will add more as necessary
+//    if (EnemyGroup == 0)
+//    {
+//        for (int i = 4; i < 8; i++)
+//        {
+//            Classes[i] = new Skeleton;
+//        }
+//    }
+//}
 
 
 

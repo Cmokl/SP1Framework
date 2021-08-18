@@ -17,7 +17,7 @@ Skeleton::~Skeleton()
 }
 void Skeleton::Pierce(Class* target)
 {
-	target->SetHealth(target->GetHealth - 6 + 6 * (0.1 * (target->GetDefence / 10)))
+	target->SetHealth(target->GetHealth() - 6 + 6 * (0.1 * (target->GetDefence() / 10)));
 }
 void Skeleton::Reassemble()
 {
