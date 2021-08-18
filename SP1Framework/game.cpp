@@ -16,7 +16,7 @@ SMouseEvent g_mouseEvent;
 
 // Game specific variables here
 SGameChar   g_sChar;
-EGAMESTATES g_eGameState = S_MENUSCREEN; // initial stat
+EGAMESTATES g_eGameState = S_MENUSCREEN; // initial state
 
 //random encounter variables
 int RandomRate;

@@ -18,20 +18,20 @@ Dragon::~Dragon()
 }
 void Dragon::FireBreath(Class* target)
 {
-	target->SetHealth(target->GetHealth - 10);
-	target->SetIsBurn();
+	target->SetHealth(target->GetHealth - 10 + 10 * (0.1 * (target->GetDefence / 10)));
+	target->SetIsBurn(true);
 	//to add the player burning for 3 turns
 }
 void Dragon::TalonTear(Class* target)
 {
-	target->SetHealth(target->GetHealth() - 8);
+	target->SetHealth(target->GetHealth() - 9 + 9 * (0.1 * (target->GetDefence / 10)));
 }
 void Dragon::FlameBurst(Class* target1, Class* target2, Class* target3, Class* target4)
 {
-	target1->SetHealth(target->GetHealth - 9);
-	target2->SetHealth(target->GetHealth - 9);
-	target3->SetHealth(target->GetHealth - 9);
-	target4->SetHealth(target->GetHealth - 9);
+	target1->SetHealth(target->GetHealth - 9 + 9 * (0.1 * (target->GetDefence / 10)));
+	target2->SetHealth(target->GetHealth - 9 + 9 * (0.1 * (target->GetDefence / 10)));
+	target3->SetHealth(target->GetHealth - 9 + 9 * (0.1 * (target->GetDefence / 10)));
+	target4->SetHealth(target->GetHealth - 9 + 9 * (0.1 * (target->GetDefence / 10)));
 }
 void Dragon::DragonsCall(Oni* NewEnemy)
 {
@@ -41,3 +41,4 @@ void Dragon::DragonsCall(Oni* NewEnemy)
 		DragonsCallUsed = 1;
 	}
 }
+
