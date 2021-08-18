@@ -398,15 +398,17 @@ void renderMenuScreen()  // renders the splash screen
     c.Y /= 3;
     c.X = c.X / 2 - 9;
     g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x09);
-    c.Y += 1;
+    c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 5;
     g_Console.writeToBuffer(c, "1. Start Game", 0x10);
-    c.Y += 1;
+    c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 5;
     g_Console.writeToBuffer(c, "2. Load", 0x10);
-    c.Y += 1;
-    c.X = g_Console.getConsoleSize().X / 2 - 5;
-    g_Console.writeToBuffer(c, "3. Quit", 0x10); // Main page
+    c.Y += 2;
+    c.X = g_Console.getConsoleSize().X / 2 - 5;   
+    g_Console.writeToBuffer(c, "3. Quit", 0x10); // Main page 
+
+
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -427,8 +429,6 @@ void renderMap()
 
 
     COORD c;
-    for (int i = 0; i < 12; ++i)
-    {
         //if (c.X = 5 * i, c.Y = i + 1)
         //{
         //    colour(colors[i]);
@@ -630,10 +630,6 @@ void renderMap()
             colour(colors[0x5E]);
             g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
         }
-    }
-    
-
-    
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------
 
