@@ -15,4 +15,4 @@ public:
 	std::string GetName();
 	//other functions
 	virtual void ItemFunction(Class* target);// Its subclasses, healing items, weapons and armour have different item functions
-};*
+};

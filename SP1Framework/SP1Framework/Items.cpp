@@ -29,4 +29,5 @@ std::string Items::GetName()
 //other functions
 virtual void Items::ItemFunction(Class* target)
 {
+
 }
