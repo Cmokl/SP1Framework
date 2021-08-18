@@ -10,5 +10,5 @@ public:
 	ArmourItems(std::string name, int cost, int ArmourWorth);
 	~ArmourItems();
 	void ItemFunction(Class* target);
-	void RemoveArmour(Class* target, Inventory* Inventory);
+	void RemoveArmour(Class* target);
 };

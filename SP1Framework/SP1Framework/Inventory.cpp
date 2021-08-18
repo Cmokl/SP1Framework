@@ -5,7 +5,7 @@ Inventory::Inventory()
 	gold = 5;
 	for (int i = 0; i < 10; i++)
 	{
-		InventoryItems[i] = " ";
+		InventoryItems[i] = nullptr;
 	}
 }
 Inventory::~Inventory()
@@ -20,30 +20,31 @@ int Inventory::GetGold()
 {
 	return gold;
 }
-void Inventory::AddItem(std::string ItemName)
+void Inventory::AddItem(Items* NewItem)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		if (InventoryItems[i] == " ")
+		if (InventoryItems[i] == nullptr)
 		{
-			InventoryItems[i] = ItemName;
+			InventoryItems[i] = NewItem;
+
 			i = 10;
 		}
 	}
 }
-void Inventory::DiscardItem(std::string ItemName)
+void Inventory::DiscardItem(Items* DiscardedItem)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		if (InventoryItems[i] == ItemName)
+		if (InventoryItems[i] == DiscardedItem)
 		{
-			InventoryItems[i] = " ";
+			InventoryItems[i] = nullptr;
 			i = 10;
 		}
 	}
 }
-void UseItem(Items* UsedItem, Class* target)
+void Inventory::UseItem(Items* UsedItem, Class* target)
 {
 	UsedItem->ItemFunction(target);
-	Inventory::DiscardItem(UsedItem->GetName);
+	this->DiscardItem(UsedItem);
 }

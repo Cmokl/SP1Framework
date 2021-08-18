@@ -18,8 +18,7 @@ void ArmourItems::ItemFunction(Class* target)
 	//equipping item
 	target->SetArmourStatus(true, ArmourWorth);
 }
-void ArmourItems::RemoveArmour(Class* target, Inventory* Inventory)
+void ArmourItems::RemoveArmour(Class* target)
 {
 	target->SetArmourStatus(false, ArmourWorth);
-	Inventory->AddItem(GetName());
 }

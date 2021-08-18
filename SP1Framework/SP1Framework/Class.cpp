@@ -157,7 +157,7 @@ void Class::SetArmourStatus(bool Bolean, int DefenceBonus)
 	else if (Bolean == false)
 	{
 		SetDefence(GetDefence() - DefenceBonus)
-			HasArmour = false;
+		HasArmour = false;
 	}
 }
 

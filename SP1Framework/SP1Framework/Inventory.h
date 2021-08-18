@@ -5,14 +5,14 @@
 
 class Inventory
 {
-	std::string InventoryItems[10];
+	Items* InventoryItems[10];
 	int gold;
 public:
 	Inventory();
 	~Inventory();
 	void SetGold(int value);
 	int GetGold();
-	void AddItem(std::string ItemName);
-	void DiscardItem(std::string ItemName);
+	void AddItem(Items* NewItem);
+	void DiscardItem(Items* DiscardedItem);
 	void UseItem(Items* UsedItem, Class* target);
 };
