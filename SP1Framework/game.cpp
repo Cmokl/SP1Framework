@@ -29,6 +29,10 @@ Class* Classes[8];
 Party PlayerParty;
 Party EnemyParty;
 
+//turn count for battles
+int TurnCount;
+int CurrentTurn;
+
 // Console object
 Console g_Console(80, 25, "SP1 Framework");
 
@@ -72,6 +76,10 @@ void init( void )
     PlayerParty = Party(Classes[0], Classes[1], Classes[2], Classes[3]);
     // Classes 4 - 7 are player classes
     EnemyParty = Party(Classes[4], Classes[5], Classes[6], Classes[7]);
+
+    //initialize turn count for battles
+    TurnCount = 1;
+    CurrentTurn = 1;
 }
 
 //--------------------------------------------------------------
@@ -243,7 +251,7 @@ void update(double dt)
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
-        case S_BATTLE: Battle(); // handle gameplay mouse event
+        case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
     }
 }
@@ -344,17 +352,50 @@ void processUserInput()
         g_bQuitGame = true;    
 }
 
-void Battle()
+void updateBattle()
 {
-    if (g_dElapsedTime > 1.0)
+    TurnStart();
+    BattleMove();
+}
+
+void TurnStart()
+{
+    if (CurrentTurn == TurnCount)
     {
-        g_dElapsedTime = 0;
-    }
-    if (g_dElapsedTime > 0.5) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
-    {
-        g_eGameState = S_GAME;
+        TurnCount++;
+        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
     }
 }
+void BattleMove()
+{
+    /*g_sChar.m_cLocation.Y;
+    g_sChar.m_cLocation.X;*/
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    {
+        //move up
+        g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 4) / 2;
+
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+    {
+        //move left
+        g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
+
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y  - g_Console.getConsoleSize().Y / 8)
+    {
+        //move down
+        g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 4) / 2;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        //move right
+        g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+    }
+}
+
+
 
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
@@ -373,7 +414,7 @@ void render()
         break;
     case S_GAME: renderGame();
         break;
-    case S_BATTLE: renderSplashScreen();    
+    case S_BATTLE: renderBattle();
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -383,7 +424,7 @@ void render()
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0x1F);
+    g_Console.clearBuffer(0x07);
 }
 
 void renderToScreen()
@@ -426,213 +467,211 @@ void renderMap()
 
 
     COORD c;
-    for (int i = 0; i < 12; ++i)
+    //if (c.X = 5 * i, c.Y = i + 1)
+    //{
+    //    colour(colors[i]);
+    //    g_Console.writeToBuffer(c, " °±²Û", colors[i]);   // colour combi
+    //}
+    if (c.X = 38, c.Y = 20)
     {
-        //if (c.X = 5 * i, c.Y = i + 1)
-        //{
-        //    colour(colors[i]);
-        //    g_Console.writeToBuffer(c, " °±²Û", colors[i]);   // colour combi
-        //}
-        if (c.X = 38, c.Y = 20)
-        {
-            colour(colors[0xC3]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x6F]);   // fountain
-        }
-        if (c.X = 4, c.Y = 1)
-        {
-            colour(colors[0xC3]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0xB2]);   // boss
-        }
-
-        if (c.X = 39, c.Y = 13)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 34, c.Y = 13)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "LEFT"
-        }
-        if (c.X = 34, c.Y = 12)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 34, c.Y = 11)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 34, c.Y = 10)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 34, c.Y = 9)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 34, c.Y = 8)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 29, c.Y = 8)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);           //area 1 'RIGHT"
-        }
-        if (c.X = 24, c.Y = 8)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 8)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 10)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 27, c.Y = 10)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 32, c.Y = 10)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 13)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 12)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         // start "RIGHT"
-        }
-        if (c.X = 42, c.Y = 11)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 10)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 9)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 8)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 11)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 12)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);       //hole 1
-        }
-        if (c.X = 22, c.Y = 13)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 14)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 15)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 16)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 22, c.Y = 17)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 7)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 6)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "RIGHT"
-        }
-        if (c.X = 42, c.Y = 5)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 42, c.Y = 4)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 37, c.Y = 4)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 32, c.Y = 4)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 27, c.Y = 4)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 17, c.Y = 17)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 12, c.Y = 17)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 7, c.Y = 17)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
-        if (c.X = 2, c.Y = 17)
-        {
-            colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
-        }
+        colour(colors[8]);
+        g_Console.writeToBuffer(c, "°±²Û", colors[0x6F]);   // fountain
     }
-    
+    if (c.X = 4, c.Y = 1)
+    {
+        colour(colors[0xC3]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0xB2]);   // boss
+    }
 
-    
+    if (c.X = 39, c.Y = 13)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 34, c.Y = 13)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "LEFT"
+    }
+    if (c.X = 34, c.Y = 12)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 34, c.Y = 11)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 34, c.Y = 10)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 34, c.Y = 9)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 34, c.Y = 8)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 29, c.Y = 8)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);           //area 1 'RIGHT"
+    }
+    if (c.X = 24, c.Y = 8)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 8)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 10)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 27, c.Y = 10)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 32, c.Y = 10)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 13)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 12)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         // start "RIGHT"
+    }
+    if (c.X = 42, c.Y = 11)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 10)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 9)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 8)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 11)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 12)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);       //hole 1
+    }
+    if (c.X = 22, c.Y = 13)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 14)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 15)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 16)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 22, c.Y = 17)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 7)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 6)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "RIGHT"
+    }
+    if (c.X = 42, c.Y = 5)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 42, c.Y = 4)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 37, c.Y = 4)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 32, c.Y = 4)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 27, c.Y = 4)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 17, c.Y = 17)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 12, c.Y = 17)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 7, c.Y = 17)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+    if (c.X = 2, c.Y = 17)
+    {
+        colour(colors[0x5E]);
+        g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+    }
+
+
+
+
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -739,8 +778,54 @@ void renderInputEvents()
     default:        
         break;
     }
-    
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------
+void renderBattle()
+{
+    renderBattleScreen();
+    renderSelect();
+}
 
+void renderSelect()
+{
+    // Draw the location of the character
+    WORD charColor = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+
+    g_Console.writeToBuffer(g_sChar.m_cLocation, (char)0, charColor);
+}
+
+void renderBattleScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //fight button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    c.X = (g_Console.getConsoleSize().X / 8);
+
+    ss.str(" Fight");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //defend button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+    ss.str(" Defend");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //special button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+    c.X = (g_Console.getConsoleSize().X / 8);
+
+    ss.str(" Special");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //flee button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+    ss.str(" Flee");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
 
