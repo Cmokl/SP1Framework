@@ -18,8 +18,9 @@ SMouseEvent g_mouseEvent;
 SGameChar   g_sChar;
 EGAMESTATES g_eGameState = S_MENUSCREEN; // initial state
 
-//random encounter rate
+//random encounter variables
 int RandomRate;
+float RandomDelay;
 
 //classes
 Class* Classes[8];
@@ -56,8 +57,9 @@ void init( void )
     g_Console.setKeyboardHandler(keyboardHandler);
     g_Console.setMouseHandler(mouseHandler);
 
-    //init random encounter rate
+    //init random encounter variables
     RandomRate = 4; //how to get: denominator of rate - 1 (e.g. 1/5 = 20% so rate is 4 since 5-1 = 4)
+    RandomDelay = 1;
     
     //Initialize the Classes
     for (int i = 0; i < 8; i++)
@@ -269,12 +271,14 @@ void moveCharacter()
         //Beep(1440, 30);
         g_sChar.m_cLocation.Y--;   
 
-        //setup seed for random endcounter every move
+        //setup seed for random encounter every move
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % RandomRate) == 0)
+        if (((rand() % RandomRate) == 0) &&
+            (--RandomDelay == 0))
         {
+            RandomDelay = 5;
             g_eGameState = S_BATTLE;
         }
     }
@@ -283,12 +287,14 @@ void moveCharacter()
         //Beep(1440, 30);
         g_sChar.m_cLocation.X--;    
 
-        //setup seed for random endcounter every move
+        //setup seed for random encounter every move
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % RandomRate) == 0)
+        if (((rand() % RandomRate) == 0) &&
+            (--RandomDelay == 0))
         {
+            RandomDelay = 5;
             g_eGameState = S_BATTLE;
         }
     }
@@ -301,8 +307,10 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % RandomRate) == 0)
+        if (((rand() % RandomRate) == 0) &&
+            (--RandomDelay == 0))
         {
+            RandomDelay = 5;
             g_eGameState = S_BATTLE;
         }
     }
@@ -315,8 +323,10 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % RandomRate) == 0)
+        if (((rand() % RandomRate) == 0) &&
+            (--RandomDelay == 0))
         {
+            RandomDelay = 5;
             g_eGameState = S_BATTLE;
         }
     }
