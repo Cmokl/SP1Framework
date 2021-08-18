@@ -1,10 +1,6 @@
 #include "Medusa.h"
 Medusa::Medusa()
 {
-
-}
-Medusa::~Medusa()
-{
 	this->SetHealth(24);
 	this->SetMaxHealth(25);
 	this->SetMana(25);
@@ -14,6 +10,10 @@ Medusa::~Medusa()
 	this->SetSpeed(10);
 	this->SetDefence(12);
 	this->SetResistance(10);
+}
+Medusa::~Medusa()
+{
+
 }
 Medusa::~Medusa()
 {
