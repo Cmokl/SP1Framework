@@ -1403,7 +1403,7 @@ void renderMap()
         colour(colors[1]);
         g_Console.writeToBuffer(c, " °±²Û", colors[1]);
     }
-
+    //bcocbdidbdjb
 
 
 }
