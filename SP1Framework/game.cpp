@@ -138,7 +138,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: // don't handle anything for the splash screen
+    case S_MENUSCREEN: gameplayKBHandler(keyboardEvent); // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -167,7 +167,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: // don't handle anything for the splash screen
+    case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // don't handle anything for the splash screen
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
