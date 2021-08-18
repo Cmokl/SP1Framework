@@ -436,8 +436,14 @@ void renderMap()
         if (c.X = 38, c.Y = 20)
         {
             colour(colors[0xC3]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0xC3]);   // fountain
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x6F]);   // fountain
         }
+        if (c.X = 4, c.Y = 1)
+        {
+            colour(colors[0xC3]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0xB2]);   // boss
+        }
+
         if (c.X = 39, c.Y = 13)
         {
             colour(colors[0x5E]);
@@ -446,7 +452,7 @@ void renderMap()
         if (c.X = 34, c.Y = 13)
         {
             colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "LEFT"
         }
         if (c.X = 34, c.Y = 12)
         {
@@ -476,7 +482,7 @@ void renderMap()
         if (c.X = 29, c.Y = 8)
         {
             colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);           //area 1 'RIGHT"
         }
         if (c.X = 24, c.Y = 8)
         {
@@ -511,7 +517,7 @@ void renderMap()
         if (c.X = 42, c.Y = 12)
         {
             colour(colors[0x5E]);
-            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         // start "RIGHT"
         }
         if (c.X = 42, c.Y = 11)
         {
@@ -533,8 +539,97 @@ void renderMap()
             colour(colors[0x5E]);
             g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
         }
+        if (c.X = 22, c.Y = 11)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 22, c.Y = 12)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);       //hole 1
+        }
+        if (c.X = 22, c.Y = 13)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 22, c.Y = 14)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 22, c.Y = 15)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 22, c.Y = 16)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 22, c.Y = 17)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 42, c.Y = 7)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 42, c.Y = 6)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);         //start "RIGHT"
+        }
+        if (c.X = 42, c.Y = 5)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 42, c.Y = 4)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 37, c.Y = 4)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 32, c.Y = 4)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 27, c.Y = 4)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 17, c.Y = 17)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 12, c.Y = 17)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 7, c.Y = 17)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
+        if (c.X = 2, c.Y = 17)
+        {
+            colour(colors[0x5E]);
+            g_Console.writeToBuffer(c, " °±²Û", colors[0x5E]);
+        }
     }
-
     
 
     
