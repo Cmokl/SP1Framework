@@ -18,7 +18,7 @@ Class::Class()
 	IsImmune = false;
 	IsSilenced = false;
 
-	Turn = false;
+	Turn = true;
 }
 
 Class::~Class()
@@ -158,6 +158,16 @@ bool Class::GetIsSilenced(void)
 void Class::SetIsSilenced(bool Boolean)
 {
 	IsSilenced = Boolean;
+}
+
+bool Class::GetTurn(void)
+{
+	return Turn;
+}
+
+void Class::SetTurn(bool Boolean)
+{
+	Turn = Boolean;
 }
 
 //functions

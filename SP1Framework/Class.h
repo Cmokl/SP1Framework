@@ -58,6 +58,10 @@ public:
 	bool GetIsSilenced(void);
 	void SetIsSilenced(bool Boolean);
 
+	//setter/getters for turn
+	bool GetTurn(void);
+	void SetTurn(bool Boolean);
+
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();

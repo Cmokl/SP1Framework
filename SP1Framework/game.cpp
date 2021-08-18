@@ -359,10 +359,20 @@ void TurnStart()
         TurnCount++;
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-    }
-    for (int i = 0; i < 8; i++)
-    {
 
+        CurrentClass = Classes[0];
+        for (int i = 0; i < 8; i++)
+        {
+            if (Classes[i]->GetSpeed() > CurrentClass->GetSpeed())
+            {
+                if ((Classes[i] != nullptr) &&
+                    (Classes[i]->GetTurn()))
+                {
+                    CurrentClass = Classes[i];
+                }
+            }
+        }
+        CurrentClass->SetTurn(false);
     }
 }
 
@@ -391,6 +401,20 @@ void BattleMove()
     {
         //move right
         g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+    }
+
+    //select Attack
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    {
+        //select enemy 1 
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            CurrentClass->Attack(Classes[4]);
+        }
     }
 }
 
@@ -1515,7 +1539,7 @@ void renderBattleScreen()
     c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
     c.X = (g_Console.getConsoleSize().X / 8);
 
-    ss.str(" Fight");
+    ss.str(" Attack");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     //defend button
