@@ -17,6 +17,8 @@ Class::Class()
 	IsPoison = false;
 	IsImmune = false;
 	IsSilenced = false;
+
+	Turn = false;
 }
 
 Class::~Class()

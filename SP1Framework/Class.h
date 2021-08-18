@@ -19,6 +19,9 @@ private:
 	bool IsPoison;
 	bool IsImmune;
 	bool IsSilenced;
+
+	//class has taken it's turn or no
+	bool Turn;
 public:
 	Class();
 	virtual ~Class();
