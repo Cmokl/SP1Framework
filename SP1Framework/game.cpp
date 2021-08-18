@@ -284,12 +284,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if (((rand() % RandomRate) == 0) &&
-            (--RandomDelay == 0))
-        {
-            RandomDelay = 5;
-            g_eGameState = S_BATTLE;
-        }
+        foundRandomEncounter();
     }
     if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > 0)
     {
@@ -300,12 +295,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if (((rand() % RandomRate) == 0) &&
-            (--RandomDelay == 0))
-        {
-            RandomDelay = 5;
-            g_eGameState = S_BATTLE;
-        }
+        foundRandomEncounter();
     }
     if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
     {
@@ -316,12 +306,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if (((rand() % RandomRate) == 0) &&
-            (--RandomDelay == 0))
-        {
-            RandomDelay = 5;
-            g_eGameState = S_BATTLE;
-        }
+        foundRandomEncounter();
     }
     if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
     {
@@ -332,12 +317,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if (((rand() % RandomRate) == 0) &&
-            (--RandomDelay == 0))
-        {
-            RandomDelay = 5;
-            g_eGameState = S_BATTLE;
-        }
+        foundRandomEncounter();
     }
     if (g_skKeyEvent[K_SPACE].keyReleased)
     {
@@ -346,6 +326,18 @@ void moveCharacter()
 
    
 }
+
+void foundRandomEncounter(void)
+{
+    if (((rand() % RandomRate) == 0) &&
+        (--RandomDelay == 0))
+    {
+        RandomDelay = 3;
+        initEnemyGroup(rand() % 1);
+        g_eGameState = S_BATTLE;
+    }
+}
+
 void processUserInput()
 {
     // quits the game if player hits the escape key
@@ -396,17 +388,24 @@ void BattleMove()
     }
 }
 
-//void initEnemyGroup(int EnemyGroup)
-//{
-//    //will add more as necessary
-//    if (EnemyGroup == 0)
-//    {
-//        for (int i = 4; i < 8; i++)
-//        {
-//            Classes[i] = new Skeleton;
-//        }
-//    }
-//}
+void initEnemyGroup(int EnemyGroup)
+{
+    //will add more as necessary
+    if (EnemyGroup == 0)
+    {
+        for (int i = 4; i < 8; i++)
+        {
+            Classes[i] = new Skeleton;
+        }
+    }
+    if (EnemyGroup == 1)
+    {
+        for (int i = 4; i < 7; i++)
+        {
+            Classes[i] = new Skeleton;
+        }
+    }
+}
 
 
 

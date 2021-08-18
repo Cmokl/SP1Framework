@@ -60,6 +60,7 @@ void shutdown    ( void );      // do clean up, free memory
 void splashScreenWait();    // waits for time to pass in splash screen
 void updateGame();          // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
+void foundRandomEncounter(); //function that handles if there is na random enounter or not
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void updateBattle(); //Battle logic
 void TurnStart(); //initializes a turn in battle
@@ -75,7 +76,7 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelect();
 void renderBattleScreen();
-//void initEnemyGroup(int EnemyGroup);
+void initEnemyGroup(int EnemyGroup);
 
 
 // keyboard and mouse input event managers
