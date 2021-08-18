@@ -24,6 +24,7 @@ int RandomRate;
 float RandomDelay;
 
 //classes
+Class* CurrentClass;
 Class* Classes[8];
 
 //parties
@@ -67,6 +68,7 @@ void init( void )
     RandomDelay = 1;
     
     //Initialize the Classes
+    CurrentClass = nullptr;
     for (int i = 0; i < 8; i++)
     {
         Classes[i] = nullptr;
@@ -257,7 +259,6 @@ void update(double dt)
     }
 }
 
-
 void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 1.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
@@ -359,7 +360,12 @@ void TurnStart()
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
     }
+    for (int i = 0; i < 8; i++)
+    {
+
+    }
 }
+
 void BattleMove()
 {
     /*g_sChar.m_cLocation.Y;
@@ -387,6 +393,8 @@ void BattleMove()
         g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
     }
 }
+
+
 
 void initEnemyGroup(int EnemyGroup)
 {
