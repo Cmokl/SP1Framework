@@ -42,3 +42,8 @@ void Inventory::DiscardItem(std::string ItemName)
 		}
 	}
 }
+void UseItem(Items* UsedItem, Class* target)
+{
+	UsedItem->ItemFunction(target);
+	Inventory::DiscardItem(UsedItem->GetName);
+}

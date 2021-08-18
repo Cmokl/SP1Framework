@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <Items.h>
+#include <Class.h>
 
 class Inventory
 {
@@ -12,4 +14,5 @@ public:
 	int GetGold();
 	void AddItem(std::string ItemName);
 	void DiscardItem(std::string ItemName);
+	void UseItem(Items* UsedItem, Class* target);
 };

@@ -1,5 +1,4 @@
 #include "HealingItems.h"
-#include "Class.h"
 
 HealingItems::HealingItems()
 {
@@ -15,7 +14,7 @@ HealingItems::~HealingItems()
 {
 
 }
-void HealingItems::HealPlayer(Class* target)
+void HealingItems::ItemFunction(Class* target)
 {
 	target->SetHealth(target->GetHealth() + HealingWorth));
 	if (target->GetHealth() > target->GetMaxHealth())
