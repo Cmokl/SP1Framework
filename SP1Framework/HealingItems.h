@@ -1,5 +1,6 @@
 #pragma once
 #include "Items.h"
+#include "Class.h"
 
 class HealingItems :
 	public Items

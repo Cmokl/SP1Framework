@@ -17,7 +17,7 @@ HealingItems::~HealingItems()
 }
 void HealingItems::HealPlayer(Class* target)
 {
-	target->SetHealth(target->GetHealth() + HealingWorth));
+	target->SetHealth(target->GetHealth() + HealingWorth);
 	if (target->GetHealth() > target->GetMaxHealth())
 	{
 		target->SetHealth(target->GetMaxHealth());
