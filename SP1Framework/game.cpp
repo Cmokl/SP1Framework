@@ -321,10 +321,10 @@ void moveCharacter()
     }
     if (g_skKeyEvent[K_SPACE].keyReleased)
     {
-        g_sChar.m_bActive = !g_sChar.m_bActive;        
+    g_sChar.m_bActive = !g_sChar.m_bActive;
     }
 
-   
+
 }
 
 void foundRandomEncounter(void)
@@ -342,7 +342,7 @@ void processUserInput()
 {
     // quits the game if player hits the escape key
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        g_bQuitGame = true;    
+        g_bQuitGame = true;
 }
 
 void updateBattle()
@@ -359,7 +359,7 @@ void TurnStart()
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
 
-        CurrentClass = Classes[0];
+        /*CurrentClass = Classes[0];
         for (int i = 0; i < 8; i++)
         {
             if (Classes[i]->GetSpeed() > CurrentClass->GetSpeed())
@@ -371,7 +371,7 @@ void TurnStart()
                 }
             }
         }
-        CurrentClass->SetTurn(false);
+        CurrentClass->SetTurn(false);*/
     }
 }
 
@@ -391,7 +391,7 @@ void BattleMove()
         g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
 
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y  - g_Console.getConsoleSize().Y / 8)
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8)
     {
         //move down
         g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 4) / 2;
@@ -407,6 +407,7 @@ void BattleMove()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
     {
+
         //select enemy 1 
         if (g_skKeyEvent[K_SPACE].keyReleased &&
             (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
@@ -415,7 +416,17 @@ void BattleMove()
             CurrentClass->Attack(Classes[4]);
         }
     }
+
+    //select defend
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+
+        }
+
 }
+
 
 
 
