@@ -6,7 +6,5 @@ class Medusa :
 public:
     Medusa();
     ~Medusa();
-    void CursedGaze(Class* target);
-    void SerpentBite(Class* target);
 };
 

@@ -2,9 +2,7 @@
 
 Fighter::Fighter()
 {
-	//Stat init
 	this->SetHealth(40);
-	this->SetMaxHealth(40);
 	this->SetMana(20);
 	this->SetStrength(16);
 	this->SetIntelligence(8);
@@ -18,42 +16,43 @@ Fighter::~Fighter()
 {
 }
 
-//skills
-void Fighter::Cleave(Party* Target)
+//functions
+void Fighter::SkillList(int SkillIndex, Class* Target)
 {
-	Class* Targeted;
+	Class* Target;
 
-	//mana cost 4
-	this->SetMana(this->GetMana() - 4);
+	//enum Skill
+	//{
+	//	Cleave,
+	//	Smash
+	//};
 
-	for (int i = 0; i < 4; i++)
-	{
-		Targeted = Target->GetPartyClass(i);
+	//switch (SkillIndex)
+	//{
+	//case Cleave:
+	//	//mana cost 4
+	//	this->SetMana(GetMana() - 4);
 
-		if (Targeted != nullptr)
-		{
-			Targeted->SetHealth(Targeted->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.7) * (Targeted->GetDefence() * 0.05))));
-		}
-	}
-}
+	//	//deal damage to all Classes in party
+	//	for (int i = 0; i < 4; i++)
+	//	{ 
+	//		Target = Party->GetPartyClass(i);
+	//		if (Target != nullptr)
+	//		{
+	//			Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 0.6 + Target->GetDefence() * 0.5));
+	//		}
+	//	}
+	//	break;
 
-void Fighter::Smash(Class* Target)
-{
-	//mana cost 3
-	this->SetMana(this->GetMana() - 3);
+	//case Smash:
+	//	//mana cost 3
+	//	this->SetMana(GetMana() - 3);
 
-	Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.4 + ((this->GetStrength() * 1.4) * (Target->GetDefence() * 0.05))));
-}
-
-void Fighter::BattleCry(void)
-{
-	//mana cost 3
-	this->SetMana(this->GetMana() - 3);
-
-	this->SetStrength(this->GetStrength() * 1.1);
-}
-
-void Fighter::BattleCryRevert()
-{
-	this->SetStrength(this->GetStrength() *(100/110));
+	//	//deal amplified damage to a target
+	//	Target = Party->GetPartyClass(PartyIndex);
+	//	if (Target != nullptr)
+	//	{
+	//		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.3 + Target->GetDefence() * 0.5));
+	//	}
+	//}
 }

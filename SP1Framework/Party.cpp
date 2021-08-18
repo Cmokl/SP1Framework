@@ -31,11 +31,3 @@ Class* Party::GetPartyClass(int PartyIndex)
 		return PartyClass[PartyIndex];
 	}
 }
-
-void Party::SetPartyClass(int PartyIndex, Class* ptr)
-{
-	if (PartyIndex < 4)
-	{
-		PartyClass[PartyIndex] = ptr;
-	}
-}

@@ -6,6 +6,4 @@ class Skeleton ://this is one of the weaker enemies
 public:
     Skeleton();
     ~Skeleton();
-    void Pierce(Class* target);
-    void Reassemble();
 };
