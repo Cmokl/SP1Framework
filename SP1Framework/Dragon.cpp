@@ -35,7 +35,7 @@ void Dragon::FlameBurst(Class* target1, Class* target2, Class* target3, Class* t
 }
 void Dragon::DragonsCall(Oni* NewEnemy)
 {
-	if (DragonsCallUsed == 0 && (GetHealth() <= (GetMaxHealth() * 0.25)));
+	if (DragonsCallUsed == 0 && (GetHealth() <= (GetMaxHealth() * 0.25)))
 	{
 		NewEnemy = new Oni;
 		DragonsCallUsed = 1;
