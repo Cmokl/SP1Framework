@@ -18,6 +18,16 @@ SMouseEvent g_mouseEvent;
 SGameChar   g_sChar;
 EGAMESTATES g_eGameState = S_MENUSCREEN; // initial state
 
+//random encounter rate
+int RandomRate;
+
+//classes
+Class* Classes[8];
+
+//parties
+Party PlayerParty;
+Party EnemyParty;
+
 // Console object
 Console g_Console(80, 25, "SP1 Framework");
 
@@ -46,17 +56,20 @@ void init( void )
     g_Console.setKeyboardHandler(keyboardHandler);
     g_Console.setMouseHandler(mouseHandler);
 
+    //init random encounter rate
+    RandomRate = 4; //how to get: denominator of rate - 1 (e.g. 1/5 = 20% so rate is 4 since 5-1 = 4)
+    
     //Initialize the Classes
-    Class* Class[8];
     for (int i = 0; i < 8; i++)
     {
-        Class[i] = nullptr;
+        Classes[i] = nullptr;
     }
+
     //Initialize the parties for battles
-    // Class 0 - 3 are player classes
-    Party PlayerParty(Class[0], Class[1], Class[2], Class[3]);
-    // Class 4 - 7 are player classes
-    Party EnemyParty(Class[4], Class[5], Class[6], Class[7]);
+    // Classes 0 - 3 are player classes
+    PlayerParty = Party(Classes[0], Classes[1], Classes[2], Classes[3]);
+    // Classes 4 - 7 are player classes
+    EnemyParty = Party(Classes[4], Classes[5], Classes[6], Classes[7]);
 }
 
 //--------------------------------------------------------------
@@ -260,7 +273,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % 9) == 0)
+        if ((rand() % RandomRate) == 0)
         {
             g_eGameState = S_BATTLE;
         }
@@ -274,7 +287,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % 4) == 0)
+        if ((rand() % RandomRate) == 0)
         {
             g_eGameState = S_BATTLE;
         }
@@ -288,7 +301,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % 4) == 0)
+        if ((rand() % RandomRate) == 0)
         {
             g_eGameState = S_BATTLE;
         }
@@ -302,7 +315,7 @@ void moveCharacter()
         srand(static_cast<unsigned int>(time(0)));
 
         //random encounter
-        if ((rand() % 4) == 0)
+        if ((rand() % RandomRate) == 0)
         {
             g_eGameState = S_BATTLE;
         }
