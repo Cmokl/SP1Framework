@@ -47,9 +47,6 @@ Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
 Items* Bandage = new HealingItems("Bandage", 1, 2);
 
 
-
-
-
 //turn count for battles
 int TurnCount;
 int CurrentTurn;
@@ -62,6 +59,7 @@ int PlayerTempCoordY;
 enum PlayerActions
 {
     Attack,
+    Special,
     Skill,
     Item
 };
@@ -313,7 +311,7 @@ void update(double dt)
             break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
-        case S_BATTLETARGET: updateBattleTarget();
+        case S_BATTLETARGET: updateBattle2();
             break;
     }
 }
@@ -394,7 +392,6 @@ void foundRandomEncounter(void)
     {
         RandomDelay = 3;
         initEnemyGroup(rand() % 1);
-        EnemyParty->GetPartyClass(0);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_eGameState = S_BATTLE;
@@ -433,7 +430,7 @@ void TurnStart()
             if (Classes[i]->GetSpeed() > CurrentClass->GetSpeed())
             {
                 if ((Classes[i] != nullptr) &&
-                    (Classes[i]->GetTurn()))
+                    (Classes[i]->GetTurn() == true))
                 {
                     CurrentClass = Classes[i];
                 }
@@ -505,7 +502,15 @@ void BattleSelect()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
     {
+        //reset cursor position
+        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
 
+        //set player action
+        Action = Special;
+
+        //change game state
+        g_eGameState = S_BATTLETARGET;
     }
 
     //select flee
@@ -521,27 +526,31 @@ void BattleSelect()
     }
 }
 
-void updateBattleTarget()
+void updateBattle2()
 {
     BattleMove();
-    CheckAction(Action);
-    SelectTarget(TargetParty);
-}
-
-void CheckAction(int Action)
-{
     if (Action == Attack)
     {
-        if (TargetParty != nullptr)
-        {
-            TargetParty = EnemyParty;
-        }
-        if (Target != nullptr)
-        {
-            CurrentClass->Attack(Target);
-            CurrentTurn++;
-            g_eGameState = S_BATTLE;
-        }
+        SelectTarget(TargetParty);
+        BattleAttack();
+    }
+    else if (Action == Special)
+    {
+        SelectSpecialAction();
+    }
+    else if (Action == Special)
+    {
+        SelectSkill();
+    }
+}
+
+void BattleAttack()
+{
+    if (Target != nullptr)
+    {
+        CurrentClass->Attack(Target);
+        CurrentTurn++;
+        g_eGameState = S_BATTLE;
     }
 }
 
@@ -601,14 +610,42 @@ void SelectTarget(Party* TargetParty)
         //go back to previous menu
         g_eGameState = S_BATTLE;
     }
-
-    if (Target != nullptr)
-    {
-        CheckAction(Action);
-    }
-
 }
 
+void SelectSpecialAction()
+{
+    //select Skill
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    {
+        Action = Skill;
+    }
+
+    //select Item
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        Action = Item;
+    }
+
+    //return to previous menu
+    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    {
+        //reset cursor position
+        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+
+        //go back to previous menu
+        g_eGameState = S_BATTLE;
+    }
+}
+
+void SelectSkill()
+{
+    CurrentClass;
+}
 
 void initEnemyGroup(int EnemyGroup)
 {
@@ -631,7 +668,6 @@ void initEnemyGroup(int EnemyGroup)
     {
         EnemyParty->SetPartyClass(i - 4, Classes[i]);
     }
-    EnemyParty->GetPartyClass(0);
 }
 
 
@@ -656,7 +692,7 @@ void render()
         break;
     case S_BATTLE: renderBattle();
         break;
-    case S_BATTLETARGET: renderTargeting();
+    case S_BATTLETARGET: renderSpecialSelect();
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
@@ -2296,11 +2332,11 @@ void renderInputEvents()
 void renderBattle()
 {
     renderBattleScreen();
-    renderSelect();
+    renderSelection();
     renderEnemyHealth();
 }
 
-void renderSelect()
+void renderSelection()
 {
     // Draw the location of the character
     WORD charColor = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
@@ -2342,59 +2378,77 @@ void renderBattleScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 
-void renderTargeting()
+void renderSpecialSelect()
 {
-    renderTargetingScreen();
-    renderSelect();
+    renderSelectScreen();
+    renderSelection();
     renderEnemyHealth();
 }
-void renderTargetingScreen()
+void renderSelectScreen()
 {
     COORD c;
     std::ostringstream ss;
-
-    //target 1
-    if (TargetParty->GetPartyClass(0) != nullptr)
+    if (Action == Attack)
     {
+        //target 1
+        if (TargetParty->GetPartyClass(0) != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 1." << TargetParty->GetPartyClass(0)->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 2
+        if (TargetParty->GetPartyClass(1) != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+            ss.str("");
+            ss << " 2." << TargetParty->GetPartyClass(1)->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 3
+        if (TargetParty->GetPartyClass(2) != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 3." << TargetParty->GetPartyClass(2)->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 4
+        if (TargetParty->GetPartyClass(3) != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+
+            ss.str("");
+            ss << " 4." << TargetParty->GetPartyClass(3)->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+    }
+    else if (Action == Special)
+    {
+        //render skill button
         c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         c.X = (g_Console.getConsoleSize().X / 8);
 
-        ss.str("");
-        ss << " 1." << TargetParty->GetPartyClass(0)->GetName();
+        ss.str(" Skill");
         g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
 
-    //target 2
-    if (TargetParty->GetPartyClass(1) != nullptr)
-    {
+        //render item button
         c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
-        ss.str("");
-        ss << " 2." << TargetParty->GetPartyClass(1)->GetName();
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-
-    //target 3
-    if (TargetParty->GetPartyClass(2) != nullptr)
-    {
-        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-        c.X = (g_Console.getConsoleSize().X / 8);
-
-        ss.str("");
-        ss << " 3." << TargetParty->GetPartyClass(2)->GetName();
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-
-    //target 4
-    if (TargetParty->GetPartyClass(3) != nullptr)
-    {
-        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-        c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-
-        ss.str("");
-        ss << " 4." << TargetParty->GetPartyClass(3)->GetName();
+        ss.str(" Item");
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
 }

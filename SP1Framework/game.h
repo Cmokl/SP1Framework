@@ -69,9 +69,11 @@ void TurnStart(); //initializes a turn in battle
 void BattleMove(); //Checks for movement keys in battle
 void BattleSelect(); // checks selection for initial battle menu
 void initEnemyGroup(int EnemyGroup); //initialize enemy groups
-void updateBattleTarget();
-void CheckAction(int Action);
+void updateBattle2();
+void BattleAttack();
 void SelectTarget(Party* TargetParty);
+void SelectSpecialAction();
+void SelectSkill();
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void renderGame();          // renders the game stuff
@@ -81,10 +83,10 @@ void renderFramerate();     // renders debug information, frame rate, elapsed ti
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
 void renderInputEvents();   // renders the status of input events
 void renderBattle();
-void renderSelect();
+void renderSelection();
 void renderBattleScreen();
-void renderTargeting();
-void renderTargetingScreen();
+void renderSpecialSelect();
+void renderSelectScreen();
 void renderEnemyHealth();
 
 
