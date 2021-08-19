@@ -28,8 +28,9 @@ Class* Target;
 Class* Classes[8];
 
 //parties
-Party PlayerParty;
-Party EnemyParty;
+Party* PlayerParty;
+Party* EnemyParty;
+Party* TargetParty;
 
 //turn count for battles
 int TurnCount;
@@ -90,9 +91,13 @@ void init( void )
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
-    PlayerParty = Party(Classes[0], Classes[1], Classes[2], Classes[3]);
+    PlayerParty = new Party(nullptr, nullptr, nullptr, nullptr);
+
     // Classes 4 - 7 are player classes
-    EnemyParty = Party(Classes[4], Classes[5], Classes[6], Classes[7]);
+    EnemyParty = new Party(nullptr, nullptr, nullptr, nullptr);
+
+    //the targeted party
+    TargetParty = new Party(nullptr, nullptr, nullptr, nullptr);
 
     //initialize turn count for battles
     TurnCount = 1;
@@ -362,6 +367,7 @@ void foundRandomEncounter(void)
     {
         RandomDelay = 3;
         initEnemyGroup(rand() % 1);
+        EnemyParty->GetPartyClass(0);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_eGameState = S_BATTLE;
@@ -448,6 +454,9 @@ void BattleSelect()
         //set player action
         Action = Attack;
 
+        //set the target party
+        TargetParty = EnemyParty;
+
         //change game state
         g_eGameState = S_BATTLETARGET;
     }
@@ -473,6 +482,8 @@ void BattleSelect()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
+        TurnCount = 1;
+        CurrentTurn = 1;
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
         g_eGameState = S_GAME;
@@ -497,16 +508,16 @@ void CheckAction(int Action)
     }
 }
 
-void SelectTarget(Party TargetParty)
+void SelectTarget(Party* TargetParty)
 {
     //select target 1
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
     {
-        if (TargetParty.GetPartyClass(0) != nullptr)
+        if (TargetParty->GetPartyClass(0) != nullptr)
         {
-            Target = TargetParty.GetPartyClass(0);
+            Target = TargetParty->GetPartyClass(0);
         }
     }
 
@@ -515,9 +526,9 @@ void SelectTarget(Party TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (TargetParty.GetPartyClass(0) != nullptr)
+        if (TargetParty->GetPartyClass(1) != nullptr)
         {
-            Target = TargetParty.GetPartyClass(0);
+            Target = TargetParty->GetPartyClass(1);
         }
     }
 
@@ -526,9 +537,9 @@ void SelectTarget(Party TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
     {
-        if (TargetParty.GetPartyClass(0) != nullptr)
+        if (TargetParty->GetPartyClass(2) != nullptr)
         {
-            Target = TargetParty.GetPartyClass(0);
+            Target = TargetParty->GetPartyClass(2);
         }
     }
 
@@ -537,14 +548,12 @@ void SelectTarget(Party TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (TargetParty.GetPartyClass(0) != nullptr)
+        if (TargetParty->GetPartyClass(3) != nullptr)
         {
-            Target = TargetParty.GetPartyClass(0);
+            Target = TargetParty->GetPartyClass(3);
         }
     }
 }
-
-
 
 
 void initEnemyGroup(int EnemyGroup)
@@ -564,6 +573,11 @@ void initEnemyGroup(int EnemyGroup)
             Classes[i] = new Skeleton;
         }
     }
+    for (int i = 4; i < 8; i++)
+    {
+        EnemyParty->SetPartyClass(i - 4, Classes[i]);
+    }
+    EnemyParty->GetPartyClass(0);
 }
 
 
@@ -587,7 +601,7 @@ void render()
         break;
     case S_BATTLE: renderBattle();
         break;
-    case S_BATTLETARGET: renderTargetingScreen();
+    case S_BATTLETARGET: renderTargeting();
         break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
@@ -2265,37 +2279,59 @@ void renderBattleScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 
+void renderTargeting()
+{
+    renderTargetingScreen();
+    renderSelect();
+}
 void renderTargetingScreen()
 {
     COORD c;
     std::ostringstream ss;
 
-    //fight button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    c.X = (g_Console.getConsoleSize().X / 8);
+    //target 1
+    if (TargetParty->GetPartyClass(0) != nullptr)
+    {
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        c.X = (g_Console.getConsoleSize().X / 8);
 
-    ss.str(" Attack");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        ss.str("");
+        ss << " 1." << TargetParty->GetPartyClass(0)->GetName();
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
 
-    //defend button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+    //target 2
+    if (TargetParty->GetPartyClass(1) != nullptr)
+    {
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
-    ss.str(" Defend");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        ss.str("");
+        ss << " 2." << TargetParty->GetPartyClass(1)->GetName();
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
 
-    //special button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-    c.X = (g_Console.getConsoleSize().X / 8);
+    //target 3
+    if (TargetParty->GetPartyClass(2) != nullptr)
+    {
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+        c.X = (g_Console.getConsoleSize().X / 8);
 
-    ss.str(" Special");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        ss.str("");
+        ss << " 3." << TargetParty->GetPartyClass(2)->GetName();
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
 
-    //flee button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+    //target 4
+    if (TargetParty->GetPartyClass(3) != nullptr)
+    {
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+        c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
-    ss.str(" Flee");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+        ss.str("");
+        ss << " 4." << TargetParty->GetPartyClass(3)->GetName();
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
 }
 

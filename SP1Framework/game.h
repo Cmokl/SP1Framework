@@ -1,5 +1,6 @@
 #ifndef _GAME_H
 #define _GAME_H
+#include "Party.h"
 
 #include "Framework\timer.h"
 
@@ -69,7 +70,8 @@ void BattleMove(); //Checks for movement keys in battle
 void BattleSelect(); // checks selection for initial battle menu
 void initEnemyGroup(int EnemyGroup); //initialize enemy groups
 void updateBattleTarget();
-void SelectTarget(Party TargetParty);
+void CheckAction(int Action);
+void SelectTarget(Party* TargetParty);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void renderGame();          // renders the game stuff
@@ -81,6 +83,7 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelect();
 void renderBattleScreen();
+void renderTargeting();
 void renderTargetingScreen();
 
 
