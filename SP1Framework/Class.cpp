@@ -2,6 +2,7 @@
 
 Class::Class()
 {
+	Name = "";
 	MaxHealth = 0;
 	Health = 0;
 	Mana = 0;

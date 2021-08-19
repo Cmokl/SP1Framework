@@ -1,8 +1,10 @@
 #pragma once
+#include<string>
 class Class
 {
 private:
 	//stats
+	std::string Name;
 	int Health;
 	int Mana;
 	int Strength;
