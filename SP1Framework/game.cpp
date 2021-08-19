@@ -649,19 +649,23 @@ void renderSplashScreen()  // renders the splash screen
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "1. Start", 0x09);
-    if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-    {
-        if (g_mouseEvent.mousePosition.X == c.X && g_mouseEvent.mousePosition.Y == c.Y)
-        {
-            std::cout << "pressed";
-        }
-    }
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "2. Load", 0x09);
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "3. Quit", 0x09); // Main page
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 3 + 2)))
+    {
+        //move up
+        g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 3 - 2));
+
+    }
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 3 + 2))
+    {
+        //move down
+        g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 3 + 2));
+    }
     
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
