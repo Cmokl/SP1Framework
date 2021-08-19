@@ -47,7 +47,8 @@ Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
 Items* Bandage = new HealingItems("Bandage", 1, 2);
 Items* NullItem = new Items;
 
-
+//menu position
+COORD Menu_c = g_Console.getConsoleSize();
 
 
 //turn count for battles
@@ -683,36 +684,35 @@ void renderToScreen()
 
 void renderSplashScreen()  // renders the splash screen
 {
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x03);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "1. Start", 0x09);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "2. Load", 0x09);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "3. Quit", 0x09); // Main page
-    c.Y -= 4;
-    c.X = g_Console.getConsoleSize().X / 2 - 15;
-    g_Console.writeToBuffer(c, "-->", 0x09);
+    Menu_c.Y /= 3;
+    Menu_c.X = Menu_c.X / 2 - 9;
+    g_Console.writeToBuffer(Menu_c, "Welcome To :THE 'RPG'!", 0x03);
+    Menu_c.Y += 2;
+    Menu_c.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(Menu_c, "1. Start", 0x09);
+    Menu_c.Y += 2;
+    Menu_c.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(Menu_c, "2. Load", 0x09);
+    Menu_c.Y += 2;
+    Menu_c.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(Menu_c, "3. Quit", 0x09); // Main page
+    Menu_c.Y -= 4;
+    Menu_c.X = g_Console.getConsoleSize().X / 2 - 15;
+    g_Console.writeToBuffer(Menu_c, "-->", 0x09);
 
-    if (g_skKeyEvent[K_DOWN].keyReleased && c.Y < (g_Console.getConsoleSize().Y / 3 + 6))
+    if (g_skKeyEvent[K_DOWN].keyReleased && Menu_c.Y < (g_Console.getConsoleSize().Y / 3 + 6))
     {
         //prints empty on current Y pos
-        g_Console.writeToBuffer(c, " ", 0x07);
+        g_Console.writeToBuffer(Menu_c, " ", 0x07);
         //move Y postition down
-        c.Y += 2;
+        Menu_c.Y += 2;
         //print arrow on new Y pos
-        g_Console.writeToBuffer(c, "-->", 0x09);
+        g_Console.writeToBuffer(Menu_c, "-->", 0x09);
     }
-    if (g_skKeyEvent[K_UP].keyReleased && c.Y > 5)
+    if (g_skKeyEvent[K_UP].keyReleased && Menu_c.Y > 5)
     {
         //move up
-        c.Y -= 2;
+        Menu_c.Y -= 2;
 
     }
 }
