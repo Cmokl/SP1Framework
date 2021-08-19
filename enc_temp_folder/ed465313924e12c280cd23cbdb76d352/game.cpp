@@ -110,7 +110,7 @@ void init( void )
     NullItem->SetName(" ");
     for (int i = 0; i < 9; i++)
     {
-        ShopInventory.AddItem(NullItem);
+        ShopInventory.AddItem(GoldApple);
     }
     for (int i = 0; i < 10; i++)
     {
