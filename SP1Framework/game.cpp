@@ -694,18 +694,22 @@ void renderSplashScreen()  // renders the splash screen
     c.Y -= 4;
     c.X = g_Console.getConsoleSize().X / 2 - 15;
     g_Console.writeToBuffer(c, "-->", 0x09);
-    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 3 + 2)))
+
+    if (g_skKeyEvent[K_DOWN].keyReleased && c.Y < (g_Console.getConsoleSize().Y / 3 + 6))
+    {
+        //prints empty on current Y pos
+        g_Console.writeToBuffer(c, " ", 0x07);
+        //move Y postition down
+        c.Y += 2;
+        //print arrow on new Y pos
+        g_Console.writeToBuffer(c, "-->", 0x09);
+    }
+    if (g_skKeyEvent[K_UP].keyReleased && c.Y > 5)
     {
         //move up
-        g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 3 - 2));
+        c.Y -= 2;
 
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 3 - 2))
-    {
-        //move down
-        g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 3 + 2));
-    }
-    
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
