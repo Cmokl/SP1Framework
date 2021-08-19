@@ -40,6 +40,11 @@ Party* PlayerParty;
 Party* EnemyParty;
 Party* TargetParty;
 
+//creating the player inventory, the shop inventory and the items in it
+Inventory PlayerInventory;
+Inventory ShopInventory;
+Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
+Items* Bandage = new HealingItems("Bandage", 1, 2);
 
 
 
@@ -101,6 +106,10 @@ void init( void )
     {
         Classes[i] = nullptr;
     }
+    //Adds items and gold to the player and shop inventories
+    ShopInventory.AddItem(GoldApple);
+    ShopInventory.AddItem(Bandage);
+    PlayerInventory.SetGold(10);
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
@@ -182,7 +191,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: gameplayKBHandler(keyboardEvent); // don't handle anything for the splash screen
+    case S_MENUSCREEN: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
@@ -213,7 +222,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {    
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // don't handle anything for the splash screen
+    case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -676,19 +685,26 @@ void renderSplashScreen()  // renders the splash screen
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "1. Start", 0x09);
-    if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
-    {
-        if (g_mouseEvent.mousePosition.X == c.X && g_mouseEvent.mousePosition.Y == c.Y)
-        {
-            std::cout << "pressed";
-        }
-    }
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "2. Load", 0x09);
     c.Y += 2;
     c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(c, "3. Quit", 0x09); // Main page
+    c.Y -= 4;
+    c.X = g_Console.getConsoleSize().X / 2 - 15;
+    g_Console.writeToBuffer(c, "-->", 0x09);
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 3 + 2)))
+    {
+        //move up
+        g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 3 - 2));
+
+    }
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 3 - 2))
+    {
+        //move down
+        g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 3 + 2));
+    }
     
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
