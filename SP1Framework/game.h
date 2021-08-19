@@ -41,7 +41,8 @@ enum EGAMESTATES
     S_MENUSCREEN,
     S_GAME,
     S_COUNT,
-    S_BATTLE
+    S_BATTLE,
+    S_BATTLETARGET
 };
 
 // struct for the game character
@@ -65,6 +66,8 @@ void processUserInput();    // checks if you should change states or do somethin
 void updateBattle(); //Battle logic
 void TurnStart(); //initializes a turn in battle
 void BattleMove(); //Checks for movement keys in battle
+void BattleSelect(); // checks selection for initial battle menu
+void initEnemyGroup(int EnemyGroup); //initialize enemy groups
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void renderGame();          // renders the game stuff
@@ -76,7 +79,6 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelect();
 void renderBattleScreen();
-void initEnemyGroup(int EnemyGroup);
 
 
 // keyboard and mouse input event managers
