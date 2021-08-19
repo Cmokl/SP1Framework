@@ -498,7 +498,7 @@ void renderSplashScreen()  // renders the splash screen
     g_Console.writeToBuffer(c, "1. Start", 0x09);
     if (g_mouseEvent.buttonState == FROM_LEFT_1ST_BUTTON_PRESSED)
     {
-        if (g_mouseEvent.mousePosition.X == c.X && g_mouseEvent.mousePosition.Y == c.Y)
+        if (g_mouseEvent.mousePosition.X == g_Console.getConsoleSize().X/2 - 10 && g_mouseEvent.mousePosition.Y == g_Console.getConsoleSize().Y / 3 + 2)
         {
             std::cout << "pressed";
         }
