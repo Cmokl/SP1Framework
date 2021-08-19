@@ -85,6 +85,7 @@ void renderSelect();
 void renderBattleScreen();
 void renderTargeting();
 void renderTargetingScreen();
+void renderEnemyHealth();
 
 
 // keyboard and mouse input event managers

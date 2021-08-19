@@ -4,6 +4,10 @@
 #include "Framework\console.h"
 #include "Party.h"
 #include "Class.h"
+#include "Fighter.h"
+#include "Wizard.h"
+#include "Rogue.h"
+#include "Cleric.h"
 #include "Skeleton.h"
 #include "Inventory.h"
 #include "Items.h"
@@ -100,7 +104,12 @@ void init( void )
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
-    PlayerParty = new Party(nullptr, nullptr, nullptr, nullptr);
+    //will change so that player selects class but for testing init as 4 classes
+    Classes[0] = new Fighter;
+    Classes[1] = new Wizard;
+    Classes[2] = new Rogue;
+    Classes[3] = new Cleric;
+    PlayerParty = new Party(Classes[0], Classes[1], Classes[2], Classes[3]);
 
     // Classes 4 - 7 are player classes
     EnemyParty = new Party(nullptr, nullptr, nullptr, nullptr);
@@ -401,11 +410,15 @@ void TurnStart()
 {
     if (CurrentTurn == TurnCount)
     {
+        //reset target pointers
+        Target = nullptr;
+        TargetParty = nullptr;
+
         TurnCount++;
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
 
-        /*CurrentClass = Classes[0];
+        CurrentClass = Classes[0];
         for (int i = 0; i < 8; i++)
         {
             if (Classes[i]->GetSpeed() > CurrentClass->GetSpeed())
@@ -417,7 +430,7 @@ void TurnStart()
                 }
             }
         }
-        CurrentClass->SetTurn(false);*/
+        CurrentClass->SetTurn(false);
     }
 }
 
@@ -503,16 +516,22 @@ void updateBattleTarget()
 {
     BattleMove();
     CheckAction(Action);
+    SelectTarget(TargetParty);
 }
 
 void CheckAction(int Action)
 {
-    if (Action = Attack)
+    if (Action == Attack)
     {
-        SelectTarget(EnemyParty);
+        if (TargetParty != nullptr)
+        {
+            TargetParty = EnemyParty;
+        }
         if (Target != nullptr)
         {
             CurrentClass->Attack(Target);
+            CurrentTurn++;
+            g_eGameState = S_BATTLE;
         }
     }
 }
@@ -562,6 +581,23 @@ void SelectTarget(Party* TargetParty)
             Target = TargetParty->GetPartyClass(3);
         }
     }
+
+    //go back if escape
+    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    {
+        //reset cursor position
+        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+
+        //go back to previous menu
+        g_eGameState = S_BATTLE;
+    }
+
+    if (Target != nullptr)
+    {
+        CheckAction(Action);
+    }
+
 }
 
 
@@ -2245,6 +2281,7 @@ void renderBattle()
 {
     renderBattleScreen();
     renderSelect();
+    renderEnemyHealth();
 }
 
 void renderSelect()
@@ -2293,6 +2330,7 @@ void renderTargeting()
 {
     renderTargetingScreen();
     renderSelect();
+    renderEnemyHealth();
 }
 void renderTargetingScreen()
 {
@@ -2342,6 +2380,29 @@ void renderTargetingScreen()
         ss.str("");
         ss << " 4." << TargetParty->GetPartyClass(3)->GetName();
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+}
+
+void renderEnemyHealth()
+{
+    //temporary
+    COORD c;
+    std::ostringstream ss;
+
+    c.X = g_Console.getConsoleSize().X / 2;
+    c.Y = g_Console.getConsoleSize().Y / 2;
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (EnemyParty->GetPartyClass(i + 4) != nullptr)
+        {
+            c.X = g_Console.getConsoleSize().X / 2;
+            c.Y = g_Console.getConsoleSize().Y / 2 + i;
+            ss.str("");
+            ss << i + 1 << "." << EnemyParty->GetPartyClass(i)->GetName() << " HP:" <<
+                EnemyParty->GetPartyClass(i)->GetHealth() << "/" << EnemyParty->GetPartyClass(i)->GetMaxHealth();
+            g_Console.writeToBuffer(c, ss.str(), 0x07); \
+        }
     }
 }
 
