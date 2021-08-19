@@ -74,6 +74,7 @@ void CheckAction(int Action);
 void SelectTarget(Party* TargetParty);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
+void renderShop();
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer

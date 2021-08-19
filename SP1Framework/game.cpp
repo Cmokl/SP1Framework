@@ -45,6 +45,7 @@ Inventory PlayerInventory;
 Inventory ShopInventory;
 Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
 Items* Bandage = new HealingItems("Bandage", 1, 2);
+Items* NullItem = new Items;
 
 
 //turn count for battles
@@ -106,7 +107,11 @@ void init( void )
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
-    PlayerInventory.SetGold(10);
+    NullItem->SetName(" ");
+    for (int i = 0; i < 9; i++)
+    {
+        ShopInventory.AddItem(NullItem);
+    }
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
@@ -708,6 +713,50 @@ void renderSplashScreen()  // renders the splash screen
 
     }
 }
+//creates the shop screen
+void renderShop()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //SHOP TITLE
+    c.Y = g_Console.getConsoleSize().Y / 10;
+    c.X = g_Console.getConsoleSize().X / 2;
+    ss.str(" SHOP");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    /*Shop Items all displayed below*/
+    //1st item
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
+        c.X = (g_Console.getConsoleSize().X / 10) * 3;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
+        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 10) * 2;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 10) * 5;
+    ss.str("Buy");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 10) * 8;
+    ss.str("Item ability");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+
 void arrow()
 {
 
