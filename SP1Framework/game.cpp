@@ -5,9 +5,13 @@
 #include "Party.h"
 #include "Class.h"
 #include "Skeleton.h"
+#include "Inventory.h"
+#include "Items.h"
+#include "HealingItems.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+
 
 double  g_dElapsedTime;
 double  g_dDeltaTime;
@@ -31,6 +35,11 @@ Class* Classes[8];
 Party* PlayerParty;
 Party* EnemyParty;
 Party* TargetParty;
+
+
+
+
+
 
 //turn count for battles
 int TurnCount;
@@ -579,6 +588,7 @@ void initEnemyGroup(int EnemyGroup)
     }
     EnemyParty->GetPartyClass(0);
 }
+
 
 
 
