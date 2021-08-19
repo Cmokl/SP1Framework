@@ -507,7 +507,7 @@ void updateBattleTarget()
 
 void CheckAction(int Action)
 {
-    if (Action = Attack)
+    if (Action == Attack)
     {
         SelectTarget(EnemyParty);
         if (Target != nullptr)
