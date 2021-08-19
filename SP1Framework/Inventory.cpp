@@ -16,6 +16,11 @@ void Inventory::SetGold(int value)
 {
 	gold = value;
 }
+
+Items* Inventory::GetItem(int ItemNumber)
+{
+	return InventoryItems[ItemNumber];
+}
 int Inventory::GetGold()
 {
 	return gold;
@@ -43,3 +48,4 @@ void Inventory::DiscardItem(Items* item)
 		}
 	}
 }
+

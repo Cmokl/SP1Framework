@@ -11,5 +11,7 @@ public:
 	void SetGold(int value);
 	int GetGold();
 	void AddItem(Items* item);
-	void DiscardItem(Items * item);
+	void DiscardItem(Items* item);
+	Items* Inventory::GetItem(int ItemNumber);
 };
+
