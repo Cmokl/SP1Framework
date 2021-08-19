@@ -1,6 +1,7 @@
 #include "Cleric.h"
 Cleric::Cleric()
 {
+	this->SetName("Cleric");
 	this->SetHealth(28);
 	this->SetMaxHealth(28);
 	this->SetMana(40);

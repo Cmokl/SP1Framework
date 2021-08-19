@@ -2,6 +2,7 @@
 
 Class::Class()
 {
+	Name = "";
 	MaxHealth = 0;
 	Health = 0;
 	Mana = 0;
@@ -168,6 +169,17 @@ bool Class::GetTurn(void)
 void Class::SetTurn(bool Boolean)
 {
 	Turn = Boolean;
+}
+
+//getter setters for Name
+std::string Class::GetName(void)
+{
+	return Name;
+}
+
+void Class::SetName(std::string str)
+{
+	Name = str;
 }
 
 //functions

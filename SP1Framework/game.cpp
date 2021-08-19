@@ -28,6 +28,7 @@ float RandomDelay;
 
 //classes
 Class* CurrentClass;
+Class* Target;
 Class* Classes[8];
 
 //parties
@@ -46,6 +47,15 @@ int CurrentTurn;
 //coordinates of player when battle is entered
 int PlayerTempCoordX;
 int PlayerTempCoordY;
+
+//player action indicator
+enum PlayerActions
+{
+    Attack,
+    Skill,
+    Item
+};
+int Action;
 
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
@@ -81,6 +91,7 @@ void init( void )
     
     //Initialize the Classes
     CurrentClass = nullptr;
+    Target = nullptr;
     for (int i = 0; i < 8; i++)
     {
         Classes[i] = nullptr;
@@ -99,6 +110,9 @@ void init( void )
     //initialize player coord when entering battle
     PlayerTempCoordX = 0;
     PlayerTempCoordY = 0;
+
+    //initialize player action indicator
+    Action = Attack;
 }
 
 //--------------------------------------------------------------
@@ -276,7 +290,7 @@ void update(double dt)
             break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
-        case S_BATTLETARGET: 
+        case S_BATTLETARGET: updateBattleTarget();
             break;
     }
 }
@@ -436,6 +450,14 @@ void BattleSelect()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
     {
+        //reset curosr position
+        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+
+        //set player action
+        Action = Attack;
+
+        //change game state
         g_eGameState = S_BATTLETARGET;
     }
 
@@ -463,6 +485,71 @@ void BattleSelect()
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
         g_eGameState = S_GAME;
+    }
+}
+
+void updateBattleTarget()
+{
+    BattleMove();
+    CheckAction(Action);
+}
+
+void CheckAction(int Action)
+{
+    if (Action = Attack)
+    {
+        SelectTarget(EnemyParty);
+        if (Target != nullptr)
+        {
+            CurrentClass->Attack(Target);
+        }
+    }
+}
+
+void SelectTarget(Party TargetParty)
+{
+    //select target 1
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    {
+        if (TargetParty.GetPartyClass(0) != nullptr)
+        {
+            Target = TargetParty.GetPartyClass(0);
+        }
+    }
+
+    //select target 2
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        if (TargetParty.GetPartyClass(0) != nullptr)
+        {
+            Target = TargetParty.GetPartyClass(0);
+        }
+    }
+
+    //select target 3
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+    {
+        if (TargetParty.GetPartyClass(0) != nullptr)
+        {
+            Target = TargetParty.GetPartyClass(0);
+        }
+    }
+
+    //select target 4
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        if (TargetParty.GetPartyClass(0) != nullptr)
+        {
+            Target = TargetParty.GetPartyClass(0);
+        }
     }
 }
 
@@ -509,6 +596,9 @@ void render()
     case S_GAME: renderGame();
         break;
     case S_BATTLE: renderBattle();
+        break;
+    case S_BATTLETARGET: renderTargetingScreen();
+        break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -2152,6 +2242,40 @@ void renderSelect()
 }
 
 void renderBattleScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //fight button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    c.X = (g_Console.getConsoleSize().X / 8);
+
+    ss.str(" Attack");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //defend button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+    ss.str(" Defend");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //special button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+    c.X = (g_Console.getConsoleSize().X / 8);
+
+    ss.str(" Special");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    //flee button
+    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+    ss.str(" Flee");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+
+void renderTargetingScreen()
 {
     COORD c;
     std::ostringstream ss;
