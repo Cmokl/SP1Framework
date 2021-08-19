@@ -77,6 +77,7 @@ void renderBattle();
 void renderSelect();
 void renderBattleScreen();
 void initEnemyGroup(int EnemyGroup);
+void collision();//check collision with walls
 
 
 // keyboard and mouse input event managers

@@ -327,6 +327,11 @@ void moveCharacter()
 
 }
 
+void collision(void)
+{
+
+}
+
 void foundRandomEncounter(void)
 {
     if (((rand() % RandomRate) == 0) &&
