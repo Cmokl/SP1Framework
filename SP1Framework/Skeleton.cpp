@@ -2,6 +2,7 @@
 
 Skeleton::Skeleton()
 {
+	this->SetName("Skeleton");
 	this->SetHealth(15);
 	this->SetMaxHealth(15);
 	this->SetMana(15);
