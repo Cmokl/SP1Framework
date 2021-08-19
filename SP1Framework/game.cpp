@@ -36,6 +36,10 @@ Party* PlayerParty;
 Party* EnemyParty;
 Party* TargetParty;
 
+//creating the shop and the items in it
+Inventory ShopInventory;
+Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
+Items* Bandage = new HealingItems("Bandage", 1, 2);
 
 
 
@@ -97,6 +101,10 @@ void init( void )
     {
         Classes[i] = nullptr;
     }
+    //Adds items to the shop
+    ShopInventory.AddItem(GoldApple);
+    ShopInventory.AddItem(Bandage);
+
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
