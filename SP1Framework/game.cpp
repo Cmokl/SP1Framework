@@ -2345,6 +2345,35 @@ void renderBattleScreen()
     ss.str(" Flee");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
+//creates the shop screen
+void renderShop()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //SHOP TITLE
+    c.Y = g_Console.getConsoleSize().Y / 10;
+    c.X = g_Console.getConsoleSize().X / 2;
+    ss.str(" SHOP");
+
+    /*Shop Items all displayed below*/
+    //1st item
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 6) * (i + 1);
+        c.X = (g_Console.getConsoleSize().X / 5) * 2;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 6) * (i + 1);
+        c.X = (g_Console.getConsoleSize().X / 5) * 4;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+}
+
 
 void renderTargeting()
 {
