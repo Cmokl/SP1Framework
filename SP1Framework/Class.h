@@ -65,5 +65,6 @@ public:
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();
+	void RevertDefend();
 };
 
