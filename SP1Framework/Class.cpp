@@ -108,7 +108,7 @@ void Class::SetResistance(int Value)
 
 int Class::GetMaxHealth()
 {
-	return Health;
+	return MaxHealth;
 }
 
 void Class::SetMaxHealth(int Value)
