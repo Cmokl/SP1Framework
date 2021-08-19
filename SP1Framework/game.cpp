@@ -696,6 +696,10 @@ void renderSplashScreen()  // renders the splash screen
     Menu_c.Y += 2;
     Menu_c.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(Menu_c, "3. Quit", 0x09); // Main page
+    
+}
+void arrow()
+{
     Menu_c.Y -= 4;
     Menu_c.X = g_Console.getConsoleSize().X / 2 - 15;
     g_Console.writeToBuffer(Menu_c, "-->", 0x09);
