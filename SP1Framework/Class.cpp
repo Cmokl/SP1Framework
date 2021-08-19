@@ -171,6 +171,17 @@ void Class::SetTurn(bool Boolean)
 	Turn = Boolean;
 }
 
+//getter setters for Name
+std::string Class::GetName(void)
+{
+	return Name;
+}
+
+void Class::SetName(std::string str)
+{
+	Name = str;
+}
+
 //functions
 void Class::Attack(Class* Target)
 {

@@ -64,6 +64,10 @@ public:
 	bool GetTurn(void);
 	void SetTurn(bool Boolean);
 
+	//setter/getters for name
+	std::string GetName(void);
+	void SetName(std::string str);
+
 	//functions
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();
