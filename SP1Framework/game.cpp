@@ -112,6 +112,10 @@ void init( void )
     {
         ShopInventory.AddItem(NullItem);
     }
+    for (int i = 0; i < 10; i++)
+    {
+        PlayerInventory.AddItem(NullItem);
+    }
 
     //Initialize the parties for battles
     // Classes 0 - 3 are player classes
@@ -727,7 +731,6 @@ void renderShop()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     /*Shop Items all displayed below*/
-    //1st item
     for (int i = 0; i < 5; i++)
     {
         c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
@@ -756,6 +759,34 @@ void renderShop()
     c.X = (g_Console.getConsoleSize().X / 10) * 8;
     ss.str("Item ability");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+
+void renderInventory()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //SHOP TITLE
+    c.Y = g_Console.getConsoleSize().Y / 10;
+    c.X = g_Console.getConsoleSize().X / 2;
+    ss.str(" YOUR BACKPACK");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    /*Player's items all displayed below*/
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
+        c.X = (g_Console.getConsoleSize().X / 10) * 3;
+        ss.str(PlayerInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
+        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        ss.str(PlayerInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
 }
 
 

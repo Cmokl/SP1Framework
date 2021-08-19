@@ -37,13 +37,13 @@ void Inventory::AddItem(Items* item)
 	}
 }
 
-void Inventory::DiscardItem(Items* item)
+void Inventory::DiscardItem(Items* item, Items* NullItem)
 {
 	for (int i = 0; i < 10; i++)
 	{
 		if (InventoryItems[i] == item)
 		{
-			InventoryItems[i] = nullptr;
+			InventoryItems[i] = NullItem;
 			i = 10;
 		}
 	}
