@@ -45,7 +45,7 @@ Inventory PlayerInventory;
 Inventory ShopInventory;
 Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
 Items* Bandage = new HealingItems("Bandage", 1, 2);
-Items* NullItem = new Items;
+
 
 //menu position
 COORD Menu_c = g_Console.getConsoleSize();
@@ -110,11 +110,6 @@ void init( void )
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
-    NullItem->SetName(" ");
-    for (int i = 0; i < 9; i++)
-    {
-        ShopInventory.AddItem(NullItem);
-    }
     PlayerInventory.SetGold(10);
 
     //Initialize the parties for battles
