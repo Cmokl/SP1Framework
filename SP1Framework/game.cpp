@@ -263,7 +263,6 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x44: key = K_RIGHT; break;
     case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break;
-    case VK_TAB: key = K_TAB;break;
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
@@ -1700,24 +1699,12 @@ void initEnemyGroup(int EnemyGroup)
     }
 }
 
-//INVENTORY AND SHOP SYSTEM---------------------------------------------
-
-//player chooses to view inventory
-void ViewInventory(void)
-{
-    if (g_skKeyEvent[K_TAB].keyReleased)
-    {
-        PlayerTempCoordX = (g_Console.getConsoleSize().X / 10) * 2;
-        PlayerTempCoordY = (g_Console.getConsoleSize().Y / 10) * 3;
-        g_eGameState = S_INVENTORY;
-    }
-}
-
-
 //Moving system for inventories and shops
 void InventoryMove()
 {
-    if (g_skKeyEvent[K_UP].keyReleased)
+    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
     {
         //move up
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
@@ -1730,7 +1717,7 @@ void InventoryMove()
             g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_LEFT].keyReleased)
+    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
     {
         //move left
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -1743,7 +1730,7 @@ void InventoryMove()
             g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
         }
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased)
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
     {
         //move down
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
@@ -1756,7 +1743,7 @@ void InventoryMove()
             g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_RIGHT].keyReleased)
+    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
         //move right
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -1771,16 +1758,18 @@ void InventoryMove()
     }
 }
 
-void InventorySelect(Inventory* PlayerInventory, Class* Player1,
-    Class* Player2, Class* Player3, Class* Player4)
+//selecting system for shops
+void ShopSelect()
 {
+    //select the item
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y <= (g_Console.getConsoleSize().Y / 10) * 8))
     {
 
     }
+
     //select exit
-    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
     {
@@ -1789,14 +1778,14 @@ void InventorySelect(Inventory* PlayerInventory, Class* Player1,
         g_eGameState = S_GAME;
     }
     //select info
-    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 6)
     {
 
     }
     //select use
-    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 9)
     {
@@ -1804,62 +1793,6 @@ void InventorySelect(Inventory* PlayerInventory, Class* Player1,
     }
 }
 
-//selecting system for shops
-void ShopSelect(Items* SelectedItem, Inventory* ShopInventory, Inventory* PlayerInventory)
-{
-    //select the item
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y <= (g_Console.getConsoleSize().Y / 10) * 8))
-    {
-        if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 2)
-        {
-            for (int i = 3; i < 8; i++)
-            {
-                if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * i)
-                {
-                }
-            }
-        }
-        else
-        {
-            for (int i = 3; i < 8; i++)
-            {
-                if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * i)
-                {
-                }
-            }
-        }
-    }
-    //select exit
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
-    {
-        g_sChar.m_cLocation.X = PlayerTempCoordX;
-        g_sChar.m_cLocation.Y = PlayerTempCoordY;
-        g_eGameState = S_GAME;
-    }
-    //select info
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 6)
-    {
-
-    }
-    //select buy
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 9)
-    {
-        if (SelectedItem != nullptr)//checks if an item was selected
-        {
-            PlayerInventory->AddItem(SelectedItem);
-            PlayerInventory->SetGold(PlayerInventory->GetGold() - SelectedItem->GetCost());//item added to player inventory
-        }
-    }
-}
-
-//------------------------------------------------------------------------------------------------
 
 
 
@@ -1873,6 +1806,7 @@ void ShopSelect(Items* SelectedItem, Inventory* ShopInventory, Inventory* Player
 // Input    : void
 // Output   : void
 //--------------------------------------------------------------
+<<<<<<< HEAD
 void clearScreen()
 {
     // Clears the buffer with this colour attribute
@@ -1934,65 +1868,57 @@ void renderShopScreen()
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
     for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    ss.str("Exit");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str("Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    ss.str("Buy");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-}
-
-
-
-void renderInventoryScreen()
+=======
+void render()
 {
-    COORD c;
-    std::ostringstream ss;
-
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    g_Console.writeToBuffer(c, "YOUR BACKPACK", 0x07);
-
-    /*Player's items all displayed below*/
-    for (int i = 0; i < 5; i++)
+    clearScreen();      // clears the current screen and draw from scratch 
+    switch (g_eGameState)
+>>>>>>> parent of 6b15c04 (added tab options)
     {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    case S_MENUSCREEN: renderSplashScreen();
+        break;
+    case S_GAME: renderGame();
+        break;
+    case S_BATTLE: renderBattle();
+        break;
+    case S_BATTLETARGET: renderSpecialSelect();
+        break;
     }
-    for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-      
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    g_Console.writeToBuffer(c, "Exit", 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    g_Console.writeToBuffer(c, "Info", 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    g_Console.writeToBuffer(c, "Use", 0x07);
+    renderFramerate();      // renders debug information, frame rate, elapsed time, etc
+    renderInputEvents();    // renders status of input events
+    renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
 }
 
+void clearScreen()
+{
+    // Clears the buffer with this colour attribute
+    g_Console.clearBuffer(0x07);
+}
+
+void renderToScreen()
+{
+    // Writes the buffer to the console, hence you will see what you have written
+    g_Console.flushBufferToConsole();
+}
+
+void renderSplashScreen()  // renders the splash screen
+{
+    COORD ca=g_Console.getConsoleSize();
+    ca.Y = 10;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Welcome To :THE 'RPG'!", 0x03);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "1. Start", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "2. Load", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
+    arrow();
+
+}
 void arrow()
 {
     g_Console.writeToBuffer(cb, "-->", 0x09);
