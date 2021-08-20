@@ -29,6 +29,9 @@ EGAMESTATES g_eGameState = S_MENUSCREEN; // initial state
 int RandomRate;
 float RandomDelay;
 
+//pause menu variable
+bool timescale = true;
+
 //classes
 Class* CurrentClass;
 Class* Target;
@@ -1240,7 +1243,13 @@ void renderInventoryScreen()
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
-
+void pausemenu()
+{
+    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    {
+        timescale = false;
+    }
+}
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------

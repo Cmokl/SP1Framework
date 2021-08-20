@@ -94,6 +94,7 @@ void renderSpecialSelect();
 void renderSelectScreen();
 void renderEnemyHealth();
 void arrow();
+void pausemenu();
 
 
 // keyboard and mouse input event managers
