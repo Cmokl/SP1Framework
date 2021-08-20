@@ -21,16 +21,18 @@ Wizard::~Wizard()
 //skills
 void Wizard::MagicMissile(Class* Target[])
 {
-	Class* Targeted;
+	int Targeted;
+
 	//mana cost 3
 	this->SetMana(GetMana() - 3);
 
 	//effect
 	srand(static_cast<unsigned int>(time(0)));
+	
 	for (int i = 0; i < 3; i++)
 	{
-		Targeted = Target[rand() % 3];
-		Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
+		Targeted = rand() % 3; //random number from 0 to 3
+		Target[Targeted]->SetHealth(Target[Targeted]->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Target[Targeted]->GetResistance() * 0.05))));
 	}
 
 	if (IsMirror == true)
@@ -38,8 +40,8 @@ void Wizard::MagicMissile(Class* Target[])
 		srand(static_cast<unsigned int>(time(0)));
 		for (int i = 0; i < 3; i++)
 		{
-			Targeted = Target[rand() % 3];
-			Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
+			Targeted = rand() % 3; //random number from 0 to 3
+			Target[Targeted]->SetHealth(Target[Targeted]->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Target[Targeted]->GetResistance() * 0.05))));
 		}
 		IsMirror = false;
 	}
@@ -79,11 +81,46 @@ void Wizard::MirrorImage()
 
 void Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
+	if (ListIndex == 0)
+	{
+		MagicMissile(TargetParty);
+	}
+	else if (ListIndex == 1)
+	{
+		PyroBlast(TargetParty[ClassIndex]);
+	}
+	else if (ListIndex == 2)
+	{
+		MirrorImage();
+	}
+}
+
+int Wizard::SkillTargetType(int ListIndex)
+{
+	return 0;
 }
 
 std::string Wizard::SkillNameList(int ListIndex)
 {
+	if (ListIndex == 0)
+	{
+		return "Magic Missile";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Pyro Blast";
+	}
+	else if (ListIndex == 2)
+	{
+		return "Mirror Image";
+	}
+
 	return std::string();
+}
+
+int Wizard::ManaCost(int ListIndex)
+{
+	return 0;
 }
 
 
