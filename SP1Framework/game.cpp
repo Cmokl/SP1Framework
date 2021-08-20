@@ -1758,6 +1758,37 @@ void ShopSelect(Items* SelectedItem, Inventory* ShopInventory, Inventory* Player
 // Input    : void
 // Output   : void
 //--------------------------------------------------------------
+void clearScreen()
+{
+    // Clears the buffer with this colour attribute
+    g_Console.clearBuffer(0x07);
+}
+
+void renderToScreen()
+{
+    // Writes the buffer to the console, hence you will see what you have written
+    g_Console.flushBufferToConsole();
+}
+
+void renderSplashScreen()  // renders the splash screen
+{
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 10;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Welcome To :THE 'RPG'!", 0x03);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "1. Start", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "2. Load", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
+    arrow();
+
+}
+
 void renderShop()
 {
     renderShopScreen();
@@ -1784,7 +1815,7 @@ void renderShopScreen()
     {
         c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
         c.X = (g_Console.getConsoleSize().X / 10) * 2;
-    
+
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
     for (int i = 5; i < 10; i++)
