@@ -39,6 +39,7 @@ enum EKEYS
 enum EGAMESTATES
 {
     S_MENUSCREEN,
+    S_GAMEPAUSE,
     S_GAME,
     S_COUNT,
     S_BATTLE,
@@ -94,7 +95,7 @@ void renderSpecialSelect();
 void renderSelectScreen();
 void renderEnemyHealth();
 void arrow();
-
+void gamepause();
 
 // keyboard and mouse input event managers
 void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent);  // define this function for the console to call when there are keyboard events
