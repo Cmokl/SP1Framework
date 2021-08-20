@@ -330,8 +330,6 @@ void update(double dt)
 
 void splashScreenWait()    // waits for time to pass in splash screen
 {
-    if (g_dElapsedTime > 10.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
-        g_eGameState = S_GAME;
     if (g_skKeyEvent[K_DOWN].keyDown && cb.Y<16)
     {
         cb.Y += 2;
@@ -339,6 +337,10 @@ void splashScreenWait()    // waits for time to pass in splash screen
     if (g_skKeyEvent[K_UP].keyDown && cb.Y > 12)
     {
         cb.Y -= 2;
+    }
+    if (cb.Y==12 && g_skKeyEvent[K_SPACE].keyDown)
+    {
+        g_eGameState = S_GAME;
     }
 }
 
