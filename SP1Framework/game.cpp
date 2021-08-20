@@ -1258,7 +1258,16 @@ void updateGame()       // gameplay logic
 }
 void gamepause()
 {
-
+    COORD a=g_Console.getConsoleSize();
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "continue", 0x09);
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "main menu", 0x09);
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "quit", 0x09); // Main page
 }
 
 void moveCharacter()
