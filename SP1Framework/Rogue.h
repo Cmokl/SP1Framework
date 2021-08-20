@@ -1,6 +1,5 @@
 #pragma once
 #include "Class.h"
-#include "Party.h"
 
 class Rogue :
     public Class
@@ -18,7 +17,7 @@ public:
     void Attack(Class* Target);
 
     //skills
-    void Stealth(Party* Target); //party here is rogue's own party
+    void Stealth(Class* Target); //party here is rogue's own party
     void CheapShot(Class* Target);
     void Lacerate(Class* Target);
 

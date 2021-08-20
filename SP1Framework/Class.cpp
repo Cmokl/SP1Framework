@@ -116,12 +116,6 @@ void Class::SetMaxHealth(int Value)
 	MaxHealth = Value;
 }
 
-//getter for party size
-int Class::GetPartySize(void)
-{
-	return PartySize;
-}
-
 //setter/getters(statuses)
 bool Class::GetIsBleed(void)
 {

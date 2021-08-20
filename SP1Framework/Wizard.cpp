@@ -19,7 +19,7 @@ Wizard::~Wizard()
 }
 
 //skills
-void Wizard::MagicMissile(Party* Target)
+void Wizard::MagicMissile(Class* Target[])
 {
 	Class* Targeted;
 	//mana cost 3
@@ -29,7 +29,7 @@ void Wizard::MagicMissile(Party* Target)
 	srand(static_cast<unsigned int>(time(0)));
 	for (int i = 0; i < 3; i++)
 	{
-		Targeted = Target->GetPartyClass(rand() % 3);
+		Targeted = Target[rand() % 3];
 		Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
 	}
 
@@ -38,7 +38,7 @@ void Wizard::MagicMissile(Party* Target)
 		srand(static_cast<unsigned int>(time(0)));
 		for (int i = 0; i < 3; i++)
 		{
-			Targeted = Target->GetPartyClass(rand() % 3);
+			Targeted = Target[rand() % 3];
 			Targeted->SetHealth(Targeted->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Targeted->GetResistance() * 0.05))));
 		}
 		IsMirror = false;

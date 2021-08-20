@@ -1,7 +1,6 @@
 #ifndef _GAME_H
 #define _GAME_H
-#include "Party.h"
-
+#include "Class.h"
 #include "Framework\timer.h"
 
 extern CStopWatch g_swTimer;
@@ -43,7 +42,9 @@ enum EGAMESTATES
     S_GAME,
     S_COUNT,
     S_BATTLE,
-    S_BATTLETARGET
+    S_BATTLETARGET,
+    S_INVENTORY,
+    S_SHOP
 };
 
 // struct for the game character
@@ -76,6 +77,10 @@ void SelectSpecialAction();
 void SelectSkill();
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
+void renderShopScreen();    //renders the shopping screen
+void renderInventoryScreen();//renders the screen for the player's inventory
+void renderShop();           //renders shop system
+void renderInventory();      //renders inventory system
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
@@ -88,6 +93,7 @@ void renderBattleScreen();
 void renderSpecialSelect();
 void renderSelectScreen();
 void renderEnemyHealth();
+void arrow();
 
 
 // keyboard and mouse input event managers

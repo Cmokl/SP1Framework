@@ -24,41 +24,34 @@ void Paladin::Attack(Class* Target)
 
 }
 
-void Paladin::Guard(Class* Target, Party* Self)
+void Paladin::Guard(Class* Party[])
 {
-	Class* Temp;
 	for (int i = 0; i < 4; i++)
 	{
-		Temp = Self->GetPartyClass(i);
-
-		if (Temp == Target)
-		{
-			Self->SetPartyClass(i, this);
-		}
 	}
 }
 
-void Paladin::RevertGuard(Class* Target, Party* Self)
+void Paladin::RevertGuard(Class* Party[])
 {
-	Self->SetPartyClass(GuardedIndex, Target);
+
 }
 
-void Paladin::InspiringAura(Party* Self)
+void Paladin::InspiringAura(Class* Self[])
 {
 	Class* Temp;
 	for (int i = 0; i < 4; i++)
 	{ 
-		Temp = Self->GetPartyClass(i);
+		Temp = Self[i];
 		Temp->SetResistance(Temp->GetResistance() * 1.15);
 	}
 }
 
-void Paladin::RevertInspiringAura(Party* Self)
+void Paladin::RevertInspiringAura(Class* Self[])
 {
 	Class* Temp;
 	for (int i = 0; i < 4; i++)
 	{
-		Temp = Self->GetPartyClass(i);
+		Temp = Self[i];
 		Temp->SetResistance(Temp->GetResistance() / 1.15);
 	}
 }

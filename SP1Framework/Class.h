@@ -17,9 +17,6 @@ private:
 	int Resistance;
 	int MaxHealth;
 
-	//party size
-	static int PartySize;
-
 	//statuses
 	bool IsBleed;
 	bool IsBurn;
@@ -52,9 +49,6 @@ public:
 	void SetResistance(int Value);
 	int GetMaxHealth();
 	void SetMaxHealth(int Value);
-
-	//getter for party size
-	static int GetPartySize(void);
 
 	//setter/getters(statuses). Conditions : Bleeding, burning, poisoned and immune
 	bool GetIsBleed(void);

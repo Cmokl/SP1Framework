@@ -1,6 +1,6 @@
 #pragma once
 #include "Class.h"
-#include "Party.h"
+
 class Oni :
     public Class
 {

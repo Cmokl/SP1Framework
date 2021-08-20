@@ -27,8 +27,6 @@ bool Rogue::GetIsStealth(void)
 //attack
 void Rogue::Attack(Class* Target)
 {
-	Class* RogueIndex;
-
 	if (IsStealth == false)
 	{
 		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.0 + Target->GetDefence() * 0.5));
@@ -41,7 +39,7 @@ void Rogue::Attack(Class* Target)
 }
 
 //skills
-void Rogue::Stealth(Party* Target)
+void Rogue::Stealth(Class* Target)
 {
 	Class* RogueIndex;
 

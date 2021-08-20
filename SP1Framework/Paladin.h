@@ -1,6 +1,5 @@
 #pragma once
 #include "Class.h"
-#include "Party.h"
 
 class Paladin :
     public Class
@@ -16,10 +15,10 @@ public:
     void Attack(Class* Target);
 
     //skills
-    void Guard(Class* Target, Party* Self);//party is own party
-    void RevertGuard(Class* Target, Party* Self);
-    void InspiringAura(Party* Self);
-    void RevertInspiringAura(Party* Self);
+    void Guard(Class* Party[]);//party is own party
+    void RevertGuard(Class* Party[]);
+    void InspiringAura(Class* Self[]);
+    void RevertInspiringAura(Class* Self[]);
 
 
 };
