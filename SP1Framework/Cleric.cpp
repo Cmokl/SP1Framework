@@ -27,10 +27,47 @@ void Cleric::Resurrection(Class* target)
 {
 	target->SetMaxHealth(GetMaxHealth() * 0.1);
 }
-void Cleric::Protection(Class* target1, Class* target2, Class* target3, Class* target4)
+void Cleric::Protection(Class* TargetParty[4])
 {
-	target1->SetIsImmune(true);
-	target2->SetIsImmune(true);
-	target3->SetIsImmune(true);
-	target4->SetIsImmune(true);
+	for (int i = 0; i < 4; i++)
+	{
+		if (TargetParty[i] != nullptr)
+		{
+			TargetParty[i]->SetIsImmune(true);
+		}
+	}
+}
+
+void Cleric::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+	if (ListIndex == 0)
+	{
+		HolyRestoration(TargetParty[ClassIndex]);
+	}
+	else if (ListIndex == 1)
+	{
+		Resurrection(TargetParty[ClassIndex]);
+	}
+	else if (ListIndex == 2)
+	{
+		Protection(TargetParty);
+	}
+}
+
+std::string Cleric::SkillNameList(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return "Holy Restoration";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Resurrection";
+	}
+	else if (ListIndex == 2)
+	{
+		return "Protection";
+	}
+
+	return "";
 }

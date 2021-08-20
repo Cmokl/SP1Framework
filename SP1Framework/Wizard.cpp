@@ -77,6 +77,15 @@ void Wizard::MirrorImage()
 	IsMirror = true;
 }
 
+void Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+}
+
+std::string Wizard::SkillNameList(int ListIndex)
+{
+	return std::string();
+}
+
 
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Class.h"
 #include "Oni.h"
+
 class Dragon :
     public Class
 {
@@ -9,9 +10,15 @@ private:
 public:
     Dragon();
     ~Dragon();
+
+    //skills
     void FireBreath(Class* target);
     void TalonTear(Class* target);
-    void FlameBurst(Class* target1, Class* target2, Class* target3, Class* target4);
-    void DragonsCall(Oni* NewEnemy);//a pointer has to be created for the summoned Oni
+    void FlameBurst(Class* target[4]);
+    void DragonsCall(Class* NewEnemy);//a pointer has to be created for the summoned Oni
+
+    //skill list
+    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    std::string SkillNameList(int ListIndex);
 };
 

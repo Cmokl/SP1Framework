@@ -21,4 +21,8 @@ public:
     void Stealth(Party* Target); //party here is rogue's own party
     void CheapShot(Class* Target);
     void Lacerate(Class* Target);
+
+    //skill list
+    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    std::string SkillNameList(int ListIndex);
 };

@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "Framework\console.h"
-#include "Party.h"
 #include "Class.h"
 #include "Fighter.h"
 #include "Wizard.h"
@@ -33,12 +32,8 @@ float RandomDelay;
 //classes
 Class* CurrentClass;
 Class* Target;
-Class* Classes[8];
-
-//parties
-Party* PlayerParty;
-Party* EnemyParty;
-Party* TargetParty;
+Class* PlayerParty[4];
+Class* EnemyParty[4];
 
 //creating the player inventory, the shop inventory and the items in it
 Inventory PlayerInventory;
@@ -100,29 +95,19 @@ void init( void )
     //Initialize the Classes
     CurrentClass = nullptr;
     Target = nullptr;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 4; i++)
     {
-        Classes[i] = nullptr;
+        EnemyParty[i] = nullptr;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        PlayerParty[i] = nullptr;
     }
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
     PlayerInventory.SetGold(10);
-
-    //Initialize the parties for battles
-    // Classes 0 - 3 are player classes
-    //will change so that player selects class but for testing init as 4 classes
-    Classes[0] = new Fighter;
-    Classes[1] = new Wizard;
-    Classes[2] = new Rogue;
-    Classes[3] = new Cleric;
-    PlayerParty = new Party(Classes[0], Classes[1], Classes[2], Classes[3]);
-
-    // Classes 4 - 7 are player classes
-    EnemyParty = new Party(nullptr, nullptr, nullptr, nullptr);
-
-    //the targeted party
-    TargetParty = new Party(nullptr, nullptr, nullptr, nullptr);
 
     //initialize turn count for battles
     TurnCount = 1;
@@ -418,21 +403,33 @@ void TurnStart()
     {
         //reset target pointers
         Target = nullptr;
-        TargetParty = nullptr;
 
         TurnCount++;
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
 
-        CurrentClass = Classes[0];
-        for (int i = 0; i < 8; i++)
+        CurrentClass = EnemyParty[0];
+        for (int i = 0; i < 4; i++)
         {
-            if (Classes[i]->GetSpeed() > CurrentClass->GetSpeed())
+            //check player party first so that if a enemy and a player has the same speed the player would go first
+            if (PlayerParty[i] != nullptr)
             {
-                if ((Classes[i] != nullptr) &&
-                    (Classes[i]->GetTurn() == true))
+                if (PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed())
                 {
-                    CurrentClass = Classes[i];
+                    if (PlayerParty[i]->GetTurn() == true)
+                    {
+                        CurrentClass = PlayerParty[i];
+                    }
+                }
+            }
+            if (EnemyParty[i] != nullptr)
+            {
+                if (EnemyParty[i]->GetSpeed() > CurrentClass->GetSpeed())
+                {
+                    if (EnemyParty[i]->GetTurn() == true)
+                    {
+                        CurrentClass = EnemyParty[i];
+                    }
                 }
             }
         }
@@ -482,9 +479,6 @@ void BattleSelect()
         //set player action
         Action = Attack;
 
-        //set the target party
-        TargetParty = EnemyParty;
-
         //change game state
         g_eGameState = S_BATTLETARGET;
     }
@@ -531,7 +525,7 @@ void updateBattle2()
     BattleMove();
     if (Action == Attack)
     {
-        SelectTarget(TargetParty);
+        SelectTarget(EnemyParty);
         BattleAttack();
     }
     else if (Action == Special)
@@ -554,17 +548,14 @@ void BattleAttack()
     }
 }
 
-void SelectTarget(Party* TargetParty)
+void SelectTarget(Class* TargetParty[])
 {
     //select target 1
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
     {
-        if (TargetParty->GetPartyClass(0) != nullptr)
-        {
-            Target = TargetParty->GetPartyClass(0);
-        }
+        Target = TargetParty[0];
     }
 
     //select target 2
@@ -572,10 +563,7 @@ void SelectTarget(Party* TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (TargetParty->GetPartyClass(1) != nullptr)
-        {
-            Target = TargetParty->GetPartyClass(1);
-        }
+        Target = TargetParty[1];
     }
 
     //select target 3
@@ -583,10 +571,7 @@ void SelectTarget(Party* TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
     {
-        if (TargetParty->GetPartyClass(2) != nullptr)
-        {
-            Target = TargetParty->GetPartyClass(2);
-        }
+        Target = TargetParty[2];
     }
 
     //select target 4
@@ -594,10 +579,7 @@ void SelectTarget(Party* TargetParty)
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (TargetParty->GetPartyClass(3) != nullptr)
-        {
-            Target = TargetParty->GetPartyClass(3);
-        }
+        Target = TargetParty[3];
     }
 
     //go back if escape
@@ -652,21 +634,17 @@ void initEnemyGroup(int EnemyGroup)
     //will add more as necessary
     if (EnemyGroup == 0)
     {
-        for (int i = 4; i < 8; i++)
+        for (int i = 0; i < 4; i++)
         {
-            Classes[i] = new Skeleton;
+            EnemyParty[i] = new Skeleton;
         }
     }
     if (EnemyGroup == 1)
     {
-        for (int i = 4; i < 7; i++)
+        for (int i = 0; i < 4; i++)
         {
-            Classes[i] = new Skeleton;
+            EnemyParty[i] = new Skeleton;
         }
-    }
-    for (int i = 4; i < 8; i++)
-    {
-        EnemyParty->SetPartyClass(i - 4, Classes[i]);
     }
 }
 
@@ -2391,47 +2369,47 @@ void renderSelectScreen()
     if (Action == Attack)
     {
         //target 1
-        if (TargetParty->GetPartyClass(0) != nullptr)
+        if (EnemyParty != nullptr)
         {
             c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
             c.X = (g_Console.getConsoleSize().X / 8);
 
             ss.str("");
-            ss << " 1." << TargetParty->GetPartyClass(0)->GetName();
+            ss << " 1." << EnemyParty[0]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
 
         //target 2
-        if (TargetParty->GetPartyClass(1) != nullptr)
+        if (EnemyParty[1] != nullptr)
         {
             c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
             c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
             ss.str("");
-            ss << " 2." << TargetParty->GetPartyClass(1)->GetName();
+            ss << " 2." << EnemyParty[1]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
 
         //target 3
-        if (TargetParty->GetPartyClass(2) != nullptr)
+        if (EnemyParty[2] != nullptr)
         {
             c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
             c.X = (g_Console.getConsoleSize().X / 8);
 
             ss.str("");
-            ss << " 3." << TargetParty->GetPartyClass(2)->GetName();
+            ss << " 3." << EnemyParty[2]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
 
         //target 4
-        if (TargetParty->GetPartyClass(3) != nullptr)
+        if (EnemyParty[3] != nullptr)
         {
             c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
             c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
 
             ss.str("");
-            ss << " 4." << TargetParty->GetPartyClass(3)->GetName();
+            ss << " 4." << EnemyParty[3]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
@@ -2464,14 +2442,14 @@ void renderEnemyHealth()
 
     for (int i = 0; i < 4; i++)
     {
-        if (EnemyParty->GetPartyClass(i + 4) != nullptr)
+        if (EnemyParty[i] != nullptr)
         {
             c.X = g_Console.getConsoleSize().X / 2;
             c.Y = g_Console.getConsoleSize().Y / 2 + i;
             ss.str("");
-            ss << i + 1 << "." << EnemyParty->GetPartyClass(i)->GetName() << " HP:" <<
-                EnemyParty->GetPartyClass(i)->GetHealth() << "/" << EnemyParty->GetPartyClass(i)->GetMaxHealth();
-            g_Console.writeToBuffer(c, ss.str(), 0x07); \
+            ss << i + 1 << "." << EnemyParty[i]->GetName() << " HP:" <<
+                EnemyParty[i]->GetHealth() << "/" << EnemyParty[i]->GetMaxHealth();
+            g_Console.writeToBuffer(c, ss.str(), 0x07); 
         }
     }
 }

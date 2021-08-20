@@ -116,6 +116,12 @@ void Class::SetMaxHealth(int Value)
 	MaxHealth = Value;
 }
 
+//getter for party size
+int Class::GetPartySize(void)
+{
+	return PartySize;
+}
+
 //setter/getters(statuses)
 bool Class::GetIsBleed(void)
 {
@@ -199,3 +205,4 @@ void Class::RevertDefend()
 	this->SetDefence(static_cast<int>(this->GetDefence() * 0.5/1.5));
 	this->SetResistance(static_cast<int>(this->GetResistance() * 0.5/1.5));
 }
+

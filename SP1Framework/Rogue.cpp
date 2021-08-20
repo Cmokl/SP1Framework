@@ -77,4 +77,13 @@ void Rogue::Lacerate(Class* Target)
 	}
 }
 
+void Rogue::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+}
+
+std::string Rogue::SkillNameList(int ListIndex)
+{
+	return std::string();
+}
+
 

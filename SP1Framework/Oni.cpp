@@ -40,3 +40,22 @@ void Oni::RevertSoulLock(Class* Target)
 {
 	Target->SetIsSilenced(false);
 }
+
+//skill list
+void Oni::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+}
+
+std::string Oni::SkillNameList(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return "Infernal Blast";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Soul Lock";
+	}
+
+	return "";
+}

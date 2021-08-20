@@ -71,7 +71,7 @@ void BattleSelect(); // checks selection for initial battle menu
 void initEnemyGroup(int EnemyGroup); //initialize enemy groups
 void updateBattle2();
 void BattleAttack();
-void SelectTarget(Party* TargetParty);
+void SelectTarget(Class* TargetParty[]);
 void SelectSpecialAction();
 void SelectSkill();
 void clearScreen();         // clears the current screen and draw from scratch 

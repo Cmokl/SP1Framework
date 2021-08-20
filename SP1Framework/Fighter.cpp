@@ -19,20 +19,16 @@ Fighter::~Fighter()
 }
 
 //skills
-void Fighter::Cleave(Party* Target)
+void Fighter::Cleave(Class* Target[])
 {
-	Class* Targeted;
-
 	//mana cost 4
 	this->SetMana(this->GetMana() - 4);
 
 	for (int i = 0; i < 4; i++)
 	{
-		Targeted = Target->GetPartyClass(i);
-
-		if (Targeted != nullptr)
+		if (Target[i] != nullptr)
 		{
-			Targeted->SetHealth(Targeted->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.7) * (Targeted->GetDefence() * 0.05))));
+			Target[i]->SetHealth(Target[i]->GetHealth() - (this->GetStrength() * 0.7 + ((this->GetStrength() * 0.7) * (Target[i]->GetDefence() * 0.05))));
 		}
 	}
 }
@@ -56,4 +52,38 @@ void Fighter::BattleCry(void)
 void Fighter::BattleCryRevert()
 {
 	this->SetStrength(this->GetStrength() *(100/110));
+}
+
+void Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+	if (ListIndex == 0)
+	{
+		Cleave(TargetParty);
+	}
+	else if (ListIndex == 1)
+	{
+		Smash(TargetParty[ClassIndex]);
+	}
+	else if (ListIndex == 2)
+	{
+		BattleCry();
+	}
+}
+
+std::string Fighter::SkillNameList(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return "Cleave";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Smash";
+	}
+	else if (ListIndex == 2)
+	{
+		return "Battle Cry";
+	}
+
+	return "";
 }

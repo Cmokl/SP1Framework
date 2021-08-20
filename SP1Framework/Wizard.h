@@ -24,5 +24,9 @@ public:
     void PyroBlast(Class* Target);
     //sets IsMirror to true
     void MirrorImage();
+
+    //skill list
+    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    std::string SkillNameList(int ListIndex);
 };
 

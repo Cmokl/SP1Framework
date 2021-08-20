@@ -1,5 +1,7 @@
 #pragma once
+
 #include<string>
+
 class Class
 {
 private:
@@ -14,6 +16,9 @@ private:
 	int Defence;
 	int Resistance;
 	int MaxHealth;
+
+	//party size
+	static int PartySize;
 
 	//statuses
 	bool IsBleed;
@@ -48,6 +53,9 @@ public:
 	int GetMaxHealth();
 	void SetMaxHealth(int Value);
 
+	//getter for party size
+	static int GetPartySize(void);
+
 	//setter/getters(statuses). Conditions : Bleeding, burning, poisoned and immune
 	bool GetIsBleed(void);
 	void SetIsBleed(bool Boolean);
@@ -72,5 +80,7 @@ public:
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();
 	void RevertDefend();
+	virtual void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
+	virtual std::string SkillNameList(int ListIndex) = 0;
 };
 
