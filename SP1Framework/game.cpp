@@ -654,6 +654,100 @@ void initEnemyGroup(int EnemyGroup)
     EnemyParty->GetPartyClass(0);
 }
 
+//Moving system for inventories and shops
+void InventoryMove()
+{
+    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    {
+        //move up
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
+        {
+            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+        }
+        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3)
+        {
+            g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
+        }
+    }
+    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+    {
+        //move left
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
+            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 3)
+        {
+            g_sChar.m_cLocation.X -= (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 7)
+        {
+            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
+        }
+    }
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
+    {
+        //move down
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
+        {
+            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9)
+        {
+            g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
+        }
+    }
+    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        //move right
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
+            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 9)
+        {
+            g_sChar.m_cLocation.X += (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 2)
+        {
+            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        }
+    }
+}
+//selecting system for shops
+void ShopSelect()
+{
+    //select the item
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y <= (g_Console.getConsoleSize().Y / 10) * 8))
+    {
+
+    }
+
+    //select exit
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
+    {
+        g_sChar.m_cLocation.X = PlayerTempCoordX;
+        g_sChar.m_cLocation.Y = PlayerTempCoordY;
+        g_eGameState = S_GAME;
+    }
+    //select info
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 6)
+    {
+
+    }
+    //select use
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 9)
+    {
+
+    }
+}
+
+
 
 
 
@@ -718,7 +812,6 @@ void arrow()
 {
     g_Console.writeToBuffer(cb, "-->", 0x09);
 }
-//creates the shop screen
 void renderShop()
 {
     COORD c;
@@ -746,29 +839,29 @@ void renderShop()
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 10) * 2;
+    c.X = (g_Console.getConsoleSize().X / 13) * 3;
     ss.str("Exit");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 10) * 4;
-    ss.str("Buy");
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    ss.str("Info");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 10) * 6;
-    ss.str("Item ability");
+    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    ss.str("Buy");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
+
 
 void renderInventory()
 {
     COORD c;
     std::ostringstream ss;
 
-    //SHOP TITLE
     c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = (g_Console.getConsoleSize().X / 13)*6;
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
     ss.str(" YOUR BACKPACK");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
@@ -787,7 +880,20 @@ void renderInventory()
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 3;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    ss.str(" Info");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    ss.str(" Use");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
