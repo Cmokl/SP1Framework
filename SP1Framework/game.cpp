@@ -2,7 +2,6 @@
 
 #include "game.h"
 #include "Framework\console.h"
-#include "Class.h"
 #include "Fighter.h"
 #include "Wizard.h"
 #include "Rogue.h"
@@ -47,6 +46,10 @@ Items* NullItem = new Items;
 int TurnCount;
 int CurrentTurn;
 
+//Selection for battles
+int EffectSelect;
+int TargetIndex;
+
 //coordinates of player when battle is entered
 int PlayerTempCoordX;
 int PlayerTempCoordY;
@@ -57,7 +60,9 @@ enum PlayerActions
     Attack,
     Special,
     Skill,
-    Item
+    Item,
+    Select,
+    FSelect
 };
 int Action;
 
@@ -105,6 +110,7 @@ void init( void )
     {
         PlayerParty[i] = nullptr;
     }
+
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
@@ -125,6 +131,10 @@ void init( void )
     //initialize player coord when entering battle
     PlayerTempCoordX = 0;
     PlayerTempCoordY = 0;
+
+    //Selection for battles
+    EffectSelect = 0;
+    TargetIndex = 0;
 
     //initialize player action indicator
     Action = Attack;
@@ -862,6 +872,8 @@ void BattleSelect()
     }
 }
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------
+
 void updateBattle2()
 {
     BattleMove();
@@ -874,11 +886,29 @@ void updateBattle2()
     {
         SelectSpecialAction();
     }
-    else if (Action == Special)
+    else if (Action == Skill)
     {
         SelectSkill();
     }
+    else if (Action == Select)
+    {
+        SelectTarget(EnemyParty);
+        if (Target != nullptr)
+        {
+            ExecuteSkill(EffectSelect);
+        }
+    }
+    else if (Action == FSelect)
+    {
+        SelectTarget(PlayerParty);
+        if (Target != nullptr)
+        {
+            ExecuteSkill(EffectSelect);
+        }
+    }
 }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 void BattleAttack()
 {
@@ -895,7 +925,8 @@ void SelectTarget(Class* TargetParty[])
     //select target 1
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
+        (TargetParty[0] != nullptr)) 
     {
         Target = TargetParty[0];
     }
@@ -903,7 +934,8 @@ void SelectTarget(Class* TargetParty[])
     //select target 2
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+        (TargetParty[1] != nullptr))
     {
         Target = TargetParty[1];
     }
@@ -911,7 +943,8 @@ void SelectTarget(Class* TargetParty[])
     //select target 3
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
+        (TargetParty[2] != nullptr))
     {
         Target = TargetParty[2];
     }
@@ -919,7 +952,8 @@ void SelectTarget(Class* TargetParty[])
     //select target 4
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+        (TargetParty[3] != nullptr))
     {
         Target = TargetParty[3];
     }
@@ -935,6 +969,8 @@ void SelectTarget(Class* TargetParty[])
         g_eGameState = S_BATTLE;
     }
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void SelectSpecialAction()
 {
@@ -968,7 +1004,86 @@ void SelectSpecialAction()
 
 void SelectSkill()
 {
-    CurrentClass;
+    //select target 1
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 )
+    {
+        if (CurrentClass->SkillNameList(0) != "")
+        {
+            EffectSelect = 0;
+            CheckTargetType(CurrentClass->SkillTargetType(0));
+        }
+    }
+
+    //select target 2
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        if (CurrentClass->SkillNameList(1) != "")
+        {
+            EffectSelect = 1;
+            CheckTargetType(CurrentClass->SkillTargetType(1));
+        }
+    }
+
+    //select target 3
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+    {
+        if (CurrentClass->SkillNameList(2) != "")
+        {
+            EffectSelect = 2;
+            CheckTargetType(CurrentClass->SkillTargetType(2));
+        }
+    }
+
+    //select target 4
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        if (CurrentClass->SkillNameList(4) != "")
+        {
+            EffectSelect = 3;
+            CheckTargetType(CurrentClass->SkillTargetType(4));
+        }
+    }
+}
+void CheckTargetType(int type)
+{
+    if (type == Class::Single)
+    {
+        Action = Select;
+    }
+    else if (type == Class::AOE)
+    {
+        Target = EnemyParty[0];
+        ExecuteSkill(EffectSelect);
+    }
+    else if (type == Class::Self)
+    {
+        Target = PlayerParty[0];
+        ExecuteSkill(EffectSelect);
+    }
+    else if (type == Class::FSingle)
+    {
+        Action = FSelect;
+    }
+    else if (type == Class::FAOE)
+    {
+        Target = PlayerParty[0];
+        ExecuteSkill(EffectSelect);
+    }
+}
+
+void ExecuteSkill(int SkillIndex)
+{
+    CurrentClass->SkillList(SkillIndex, TargetIndex, &Target);
+    CurrentTurn++;
+    g_eGameState = S_BATTLE;
 }
 
 void initEnemyGroup(int EnemyGroup)
@@ -1171,7 +1286,7 @@ void renderShopScreen()
 
     /*Shop Items all displayed below*/
     for (int i = 0; i < 5; i++)
-    {
+  /*  {
         c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
         c.X = (g_Console.getConsoleSize().X / 10) * 2;
         ss.str(ShopInventory.GetItem(i)->GetName());
@@ -1183,7 +1298,7 @@ void renderShopScreen()
         c.X = (g_Console.getConsoleSize().X / 10) * 7;
         ss.str(ShopInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
+    }*/
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
     c.X = (g_Console.getConsoleSize().X / 13) * 3;
     ss.str("Exit");
@@ -1213,7 +1328,7 @@ void renderInventoryScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     /*Player's items all displayed below*/
-    for (int i = 0; i < 5; i++)
+   /* for (int i = 0; i < 5; i++)
     {
         c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
         c.X = (g_Console.getConsoleSize().X / 10) * 2;
@@ -1226,7 +1341,7 @@ void renderInventoryScreen()
         c.X = (g_Console.getConsoleSize().X / 10) * 7;
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
+    }*/
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
     c.X = (g_Console.getConsoleSize().X / 13) * 3;
     ss.str("Exit");
@@ -2952,6 +3067,53 @@ void renderSelectScreen()
 
         ss.str(" Item");
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    else if (Action == Skill)
+    {
+        //skill 1
+        if (CurrentClass->SkillNameList(0) != "")
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " " << CurrentClass->SkillNameList(0) << " MP(" << CurrentClass->ManaCost(0) << ")";
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //skill 2
+        if (CurrentClass->SkillNameList(1) != "")
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+            ss.str("");
+            ss << " " << CurrentClass->SkillNameList(1) << " MP(" << CurrentClass->ManaCost(1) << ")";
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //skill 3 
+        if (CurrentClass->SkillNameList(2) != "")
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " " << CurrentClass->SkillNameList(2) << " MP(" << CurrentClass->ManaCost(2) << ")";
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //skill 4
+        if (CurrentClass->SkillNameList(3) != "")
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+
+            ss.str("");
+            ss << " " << CurrentClass->SkillNameList(3) << " MP(" << CurrentClass->ManaCost(3) << ")";
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
 }
 

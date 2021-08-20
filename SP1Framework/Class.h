@@ -26,6 +26,7 @@ private:
 
 	//class has taken it's turn or no
 	bool Turn;
+
 public:
 	Class();
 	virtual ~Class();
@@ -74,7 +75,21 @@ public:
 	virtual void Attack(Class* Target); //parameter determines the target
 	virtual void Defend();
 	void RevertDefend();
+
+	//skill list
 	virtual void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
+	virtual int SkillTargetType(int ListIndex);
 	virtual std::string SkillNameList(int ListIndex) = 0;
+	virtual int ManaCost(int ListIndex);
+
+	//enum for targeting type
+	enum TargetingType
+	{
+		Single,
+		AOE,
+		Self,
+		FSingle,
+		FAOE
+	};
 };
 

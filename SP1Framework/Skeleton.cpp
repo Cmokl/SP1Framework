@@ -32,7 +32,7 @@ void Skeleton::Reassemble()
 }
 
 //skill list
-void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
 {
 	if (ListIndex == 0)
 	{

@@ -70,6 +70,23 @@ void Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	}
 }
 
+int Fighter::SkillTargetType(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return AOE;
+	}
+	else if (ListIndex == 1)
+	{
+		return Single;
+	}
+	else if (ListIndex == 2)
+	{
+		return Self;
+	}
+	return Single;
+}
+
 std::string Fighter::SkillNameList(int ListIndex)
 {
 	if (ListIndex == 0)
@@ -86,4 +103,21 @@ std::string Fighter::SkillNameList(int ListIndex)
 	}
 
 	return "";
+}
+
+int Fighter::ManaCost(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return 4;
+	}
+	else if (ListIndex == 1)
+	{
+		return 3;
+	}
+	else if (ListIndex == 2)
+	{
+		return 3;
+	}
+	return 0;
 }

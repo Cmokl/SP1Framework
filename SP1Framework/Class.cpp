@@ -200,3 +200,13 @@ void Class::RevertDefend()
 	this->SetResistance(static_cast<int>(this->GetResistance() * 0.5/1.5));
 }
 
+int Class::SkillTargetType(int ListIndex)
+{
+	return 0;
+}
+
+int Class::ManaCost(int ListIndex)
+{
+	return 0;
+}
+
