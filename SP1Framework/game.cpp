@@ -721,6 +721,64 @@ void InventoryMove()
         }
     }
 }
+//Moving system for inventories and shops
+void InventoryMove()
+{
+    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    {
+        //move up
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
+        {
+            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+        }
+        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3)
+        {
+            g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
+        }
+    }
+    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+    {
+        //move left
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
+            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 3)
+        {
+            g_sChar.m_cLocation.X -= (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 7)
+        {
+            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
+        }
+    }
+    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
+    {
+        //move down
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
+        {
+            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9)
+        {
+            g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
+        }
+    }
+    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    {
+        //move right
+        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
+            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 9)
+        {
+            g_sChar.m_cLocation.X += (g_Console.getConsoleSize().X / 13) * 3;
+        }
+        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 2)
+        {
+            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        }
+    }
+}
 //selecting system for shops
 void ShopSelect()
 {
@@ -755,6 +813,7 @@ void ShopSelect()
 
     }
 }
+
 
 
 
@@ -864,6 +923,7 @@ void renderShop()
 }
 
 
+
 void renderInventory()
 {
     COORD c;
@@ -902,6 +962,7 @@ void renderInventory()
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
+
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
