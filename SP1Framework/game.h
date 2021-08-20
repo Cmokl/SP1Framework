@@ -77,6 +77,8 @@ void BattleAttack();
 void SelectTarget(Class* TargetParty[]);
 void SelectSpecialAction();
 void SelectSkill();
+void CheckTargetType(int type);
+void ExecuteSkill(int SkillIndex);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void renderShopScreen();    //renders the shopping screen

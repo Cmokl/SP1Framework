@@ -27,7 +27,8 @@ void Cleric::Resurrection(Class* target)
 {
 	target->SetMaxHealth(GetMaxHealth() * 0.1);
 }
-void Cleric::Protection(Class* TargetParty[4])
+
+void Cleric::Protection(Class* TargetParty[])
 {
 	for (int i = 0; i < 4; i++)
 	{
