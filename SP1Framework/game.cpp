@@ -825,6 +825,14 @@ void arrow()
 }
 void renderShop()
 {
+    renderShopScreen();
+}
+void renderInventory()
+{
+    renderInventoryScreen();
+}
+void renderShopScreen()
+{
     COORD c;
     std::ostringstream ss;
 
@@ -867,7 +875,7 @@ void renderShop()
 
 
 
-void renderInventory()
+void renderInventoryScreen()
 {
     COORD c;
     std::ostringstream ss;

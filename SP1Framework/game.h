@@ -43,7 +43,9 @@ enum EGAMESTATES
     S_GAME,
     S_COUNT,
     S_BATTLE,
-    S_BATTLETARGET
+    S_BATTLETARGET,
+    S_INVENTORY,
+    S_SHOP
 };
 
 // struct for the game character
@@ -74,8 +76,10 @@ void CheckAction(int Action);
 void SelectTarget(Party* TargetParty);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
-void renderShop();          //renders the shopping screen
-void renderInventory();//renders the player's inventory
+void renderShopScreen();    //renders the shopping screen
+void renderInventoryScreen();//renders the screen for the player's inventory
+void renderShop();           //renders shop system
+void renderInventory();      //renders inventory system
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
