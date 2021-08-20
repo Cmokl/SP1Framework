@@ -32,7 +32,8 @@ enum EKEYS
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
-    K_COUNT
+    K_COUNT,
+    K_TAB
 };
 
 // Enumeration for the different screen states
@@ -80,6 +81,9 @@ void clearScreen();         // clears the current screen and draw from scratch
 void renderSplashScreen();  // renders the splash screen
 void renderShopScreen();    //renders the shopping screen
 void renderInventoryScreen();//renders the screen for the player's inventory
+void InventorySelect(Inventory* PlayerInventory, Class* Player1,
+    Class* Player2, Class* Player3, Class* Player4);//function for selecting inventory items
+void ShopSelect(Items* SelectedItem, Inventory* ShopInventory, Inventory* PlayerInventory);//shop selecting system
 void renderShop();           //renders shop system
 void renderInventory();      //renders inventory system
 void renderGame();          // renders the game stuff
