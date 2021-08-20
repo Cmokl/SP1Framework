@@ -81,6 +81,8 @@ void CheckTargetType(int type);
 void ExecuteSkill(int SkillIndex);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
+void renderInventoryScreen();
+void renderShopScreen();
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer

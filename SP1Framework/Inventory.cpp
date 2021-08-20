@@ -43,3 +43,8 @@ void Inventory::DiscardItem(Items* item)
 		}
 	}
 }
+
+Items* Inventory::GetItem(int ItemIndex)
+{
+	return nullptr;
+}

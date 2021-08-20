@@ -12,4 +12,5 @@ public:
 	int GetGold();
 	void AddItem(Items* item);
 	void DiscardItem(Items * item);
+	Items* GetItem(int ItemIndex);
 };
