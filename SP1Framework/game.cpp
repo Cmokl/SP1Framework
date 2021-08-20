@@ -1158,6 +1158,786 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     {
         g_sChar.m_cLocation.X -= 1;
     }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 6) // maze tail
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 7) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 8) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 9) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 10) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 11) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 12) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 13) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 14) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 15) // in start maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 15) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 14) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 13) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 12) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 11) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 10) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 9) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 14) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 13) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 12) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 11) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 10) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 9) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 8) // inside maze 1
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 14) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 13) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 12) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 11) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 10) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 9) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 8) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 7) //  maze 1 right wall
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 4) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 3) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 2) // inside maze 1
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 5) // on top of maze 1
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 2) // upmost map
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 4) // on top of maze map
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
     //===========================================================================================================
 }
 
