@@ -1257,7 +1257,16 @@ void updateGame()       // gameplay logic
 }
 void gamepause()
 {
-
+    COORD a=g_Console.getConsoleSize();
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "continue", 0x09);
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "main menu", 0x09);
+    a.Y += 2;
+    a.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(a, "quit", 0x09); // Main page
 }
 
 void moveCharacter()
@@ -1757,7 +1766,7 @@ void InventoryMove()
         }
     }
 }
-
+        //move right
 //selecting system for shops
 void ShopSelect()
 {
@@ -1793,7 +1802,7 @@ void ShopSelect()
     }
 }
 
-
+//------------------------------------------------------------------------------------------------
 
 
 
@@ -1806,74 +1815,10 @@ void ShopSelect()
 // Input    : void
 // Output   : void
 //--------------------------------------------------------------
-<<<<<<< HEAD
-void clearScreen()
-{
-    // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0x07);
-}
-
-void renderToScreen()
-{
-    // Writes the buffer to the console, hence you will see what you have written
-    g_Console.flushBufferToConsole();
-}
-
-void renderSplashScreen()  // renders the splash screen
-{
-    COORD ca = g_Console.getConsoleSize();
-    ca.Y = 10;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Welcome To :THE 'RPG'!", 0x03);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "1. Start", 0x09);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "2. Load", 0x09);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
-    arrow();
-
-}
-
-void renderShop()
-{
-    renderShopScreen();
-}
-void renderInventory()
-{
-    renderInventoryScreen();
-    InventoryMove();
-    renderSelection();
-}
-void renderShopScreen()
-{
-    COORD c;
-    std::ostringstream ss;
-
-    //SHOP TITLE
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = g_Console.getConsoleSize().X / 2;
-    ss.str(" SHOP");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    /*Shop Items all displayed below*/
-    for (int i = 0; i < 5; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    for (int i = 5; i < 10; i++)
-=======
 void render()
 {
     clearScreen();      // clears the current screen and draw from scratch 
     switch (g_eGameState)
->>>>>>> parent of 6b15c04 (added tab options)
     {
     case S_MENUSCREEN: renderSplashScreen();
         break;
@@ -1901,6 +1846,91 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
+void renderShop()
+{
+    renderShopScreen();
+}
+
+void renderInventory()
+{
+    renderInventoryScreen();
+}
+void renderShopScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    //SHOP TITLE
+    c.Y = g_Console.getConsoleSize().Y / 10;
+    c.X = g_Console.getConsoleSize().X / 2;
+    ss.str(" SHOP");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    /*Shop Items all displayed below*/
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
+        c.X = (g_Console.getConsoleSize().X / 10) * 2;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
+        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        ss.str(ShopInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 3;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    ss.str("Info");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    ss.str("Buy");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+
+void renderInventoryScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+
+    c.Y = g_Console.getConsoleSize().Y / 10;
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    ss.str(" YOUR BACKPACK");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+
+    /*Player's items all displayed below*/
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
+        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        ss.str(PlayerInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 3;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    ss.str(" Info");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
+    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    ss.str(" Use");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+
+
+
 void renderSplashScreen()  // renders the splash screen
 {
     COORD ca=g_Console.getConsoleSize();
@@ -1919,99 +1949,11 @@ void renderSplashScreen()  // renders the splash screen
     arrow();
 
 }
+
+
 void arrow()
 {
     g_Console.writeToBuffer(cb, "-->", 0x09);
-}
-void renderShop()
-{
-    renderShopScreen();
-}
-void renderInventory()
-{
-    renderInventoryScreen();
-}
-void renderShopScreen()
-{
-    COORD c;
-    std::ostringstream ss;
-
-    //SHOP TITLE
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = g_Console.getConsoleSize().X / 2;
-    ss.str(" SHOP");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    /*Shop Items all displayed below*/
-    for (int i = 0; i < 5; i++)
-  /*  {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-       /* ss.str(ShopInventory.GetItem(i)->GetName());*/
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-       /* ss.str(ShopInventory.GetItem(i)->GetName());*/
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }*/
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    ss.str("Exit");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str("Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    ss.str("Buy");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-}
-
-
-
-void renderInventoryScreen()
-{
-    COORD c;
-    std::ostringstream ss;
-
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str(" YOUR BACKPACK");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    /*Player's items all displayed below*/
-   /* for (int i = 0; i < 5; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-       /* ss.str(PlayerInventory.GetItem(i)->GetName());*/
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-       /* ss.str(PlayerInventory.GetItem(i)->GetName());*/
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }*/
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    ss.str("Exit");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str(" Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    ss.str(" Use");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -3648,7 +3590,6 @@ void renderBattleScreen()
     ss.str(" Flee");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
-//creates the shop screen
 
 
 void renderSpecialSelect()
