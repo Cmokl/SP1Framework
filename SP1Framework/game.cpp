@@ -338,10 +338,19 @@ void splashScreenWait()    // waits for time to pass in splash screen
     {
         cb.Y -= 2;
     }
-    if (cb.Y==12 && g_skKeyEvent[K_SPACE].keyDown)
+    
+    if (g_skKeyEvent[K_SPACE].keyDown)
     {
-        g_eGameState = S_GAME;
+        if (cb.Y == 12)
+        {
+            g_eGameState = S_GAME;
+        }
+        if (cb.Y == 16)
+        {
+            g_bQuitGame = true;
+        }
     }
+
 }
 
 void updateGame()       // gameplay logic
