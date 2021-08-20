@@ -1727,14 +1727,6 @@ void renderInventoryScreen()
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
-void pausemenu()
-{
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
-    {
-        timescale = false;
-    }
-}
-
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
