@@ -1230,17 +1230,17 @@ void splashScreenWait()    // waits for time to pass in splash screen
 
 void updateGame()       // gameplay logic
 {
-    if (g_skKeyEvent[K_ESCAPE].keyDown)
-    {
-        timescale = false;
-    }
-    else
-    {
-        processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-        moveCharacter();    // moves the character, collision detection, physics, etc
-                            // sound can be played here too.
+    //if (g_skKeyEvent[K_ESCAPE].keyDown)
+    //{
+    //    timescale = false;
+    //}
+    //else
+    //{
 
-    }
+    //}
+     processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
+     moveCharacter();    // moves the character, collision detection, physics, etc
+                        // sound can be played here too.
 }
 
 void moveCharacter()
@@ -1312,12 +1312,12 @@ void foundRandomEncounter(void)
     }
 }
 
-//void processUserInput()
-//{
-//    // quits the game if player hits the escape key
-//    if (g_skKeyEvent[K_ESCAPE].keyReleased)
-//        g_bQuitGame = true;
-//}
+void processUserInput()
+{
+    // quits the game if player hits the escape key
+    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        g_bQuitGame = true;
+}
 
 void updateBattle()
 {
