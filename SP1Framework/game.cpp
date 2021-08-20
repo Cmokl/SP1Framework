@@ -67,7 +67,7 @@ int Action;
 
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
-
+COORD ca = g_Console.getConsoleSize();
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
 //            Initialize variables, allocate memory, load data from file, etc. 
@@ -684,36 +684,41 @@ void renderToScreen()
 
 void renderSplashScreen()  // renders the splash screen
 {
-    COORD c = g_Console.getConsoleSize();
-    c.Y /= 3;
-    c.X = c.X / 2 - 9;
-    g_Console.writeToBuffer(c, "Welcome To :THE 'RPG'!", 0x03);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "1. Start", 0x09);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "2. Load", 0x09);
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(c, "3. Quit", 0x09); // Main page
-    c.Y -= 4;
-    c.X = g_Console.getConsoleSize().X / 2 - 15;
-    g_Console.writeToBuffer(c, "-->", 0x09);
 
-    if (g_skKeyEvent[K_DOWN].keyReleased && c.Y < (g_Console.getConsoleSize().Y / 3 + 6))
+    ca.Y = 10;
+    ca.X = ca.X / 1 - 2;
+    g_Console.writeToBuffer(ca, "Welcome To :THE 'RPG'!", 0x03);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "1. Start", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "2. Load", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
+    arrow();
+
+}
+void arrow()
+{
+    ca.Y -= 4;
+    ca.X = g_Console.getConsoleSize().X / 2 - 15;
+    g_Console.writeToBuffer(ca, "-->", 0x09);
+
+    if (g_skKeyEvent[K_DOWN].keyReleased && ca.Y < (g_Console.getConsoleSize().Y / 3 + 6))
     {
         //prints empty on current Y pos
-        g_Console.writeToBuffer(c, " ", 0x07);
+        g_Console.writeToBuffer(ca, " ", 0x07);
         //move Y postition down
-        c.Y += 2;
+        ca.Y += 2;
         //print arrow on new Y pos
-        g_Console.writeToBuffer(c, "-->", 0x09);
+        g_Console.writeToBuffer(ca, "-->", 0x09);
     }
-    if (g_skKeyEvent[K_UP].keyReleased && c.Y > 5)
+    if (g_skKeyEvent[K_UP].keyReleased && ca.Y > 5)
     {
         //move up
-        c.Y -= 2;
+        ca.Y -= 2;
 
     }
 }
@@ -788,11 +793,6 @@ void renderInventory()
     }
 }
 
-
-void arrow()
-{
-
-}
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void renderGame()
