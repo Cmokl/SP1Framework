@@ -67,7 +67,7 @@ int Action;
 
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
-COORD ca = g_Console.getConsoleSize();
+COORD cb;
 //--------------------------------------------------------------
 // Purpose  : Initialisation function
 //            Initialize variables, allocate memory, load data from file, etc. 
@@ -142,6 +142,10 @@ void init( void )
 
     //initialize player action indicator
     Action = Attack;
+
+    cb = g_Console.getConsoleSize();
+    cb.Y = 12;
+    cb.X = g_Console.getConsoleSize().X / 2-14;
 }
 
 //--------------------------------------------------------------
@@ -328,6 +332,12 @@ void splashScreenWait()    // waits for time to pass in splash screen
 {
     if (g_dElapsedTime > 10.0) // wait for 3 seconds to switch to game mode, else do nothing //CHNAGE TIMING FIX LTR!!!!!!!!!
         g_eGameState = S_GAME;
+    if (g_skKeyEvent[K_DOWN].keyDown )
+    {
+        cb.Y += 2;
+        
+
+    }
 }
 
 void updateGame()       // gameplay logic
@@ -684,9 +694,9 @@ void renderToScreen()
 
 void renderSplashScreen()  // renders the splash screen
 {
-
+    COORD ca=g_Console.getConsoleSize();
     ca.Y = 10;
-    ca.X = ca.X / 1 - 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(ca, "Welcome To :THE 'RPG'!", 0x03);
     ca.Y += 2;
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
@@ -702,25 +712,7 @@ void renderSplashScreen()  // renders the splash screen
 }
 void arrow()
 {
-    ca.Y -= 4;
-    ca.X = g_Console.getConsoleSize().X / 2 - 15;
-    g_Console.writeToBuffer(ca, "-->", 0x09);
-
-    if (g_skKeyEvent[K_DOWN].keyReleased && ca.Y < (g_Console.getConsoleSize().Y / 3 + 6))
-    {
-        //prints empty on current Y pos
-        g_Console.writeToBuffer(ca, " ", 0x07);
-        //move Y postition down
-        ca.Y += 2;
-        //print arrow on new Y pos
-        g_Console.writeToBuffer(ca, "-->", 0x09);
-    }
-    if (g_skKeyEvent[K_UP].keyReleased && ca.Y > 5)
-    {
-        //move up
-        ca.Y -= 2;
-
-    }
+    g_Console.writeToBuffer(cb, "-->", 0x09);
 }
 //creates the shop screen
 void renderShop()
