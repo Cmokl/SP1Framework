@@ -1194,7 +1194,7 @@ void update(double dt)
     {
         case S_MENUSCREEN: splashScreenWait(); // game logic for the splash screen
             break;
-        case S_GAMEPAUSE:       
+        case S_GAMEPAUSE: gamepause();
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
@@ -1235,6 +1235,7 @@ void updateGame()       // gameplay logic
     if (g_skKeyEvent[K_ESCAPE].keyDown)
     {
         timescale = false;
+        g_eGameState = S_GAMEPAUSE;
     }
     else
     {
@@ -1243,6 +1244,10 @@ void updateGame()       // gameplay logic
 
     }
      //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
+}
+void gamepause()
+{
+
 }
 
 void moveCharacter()
