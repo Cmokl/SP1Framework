@@ -32,13 +32,15 @@ enum EKEYS
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
-    K_COUNT
+    K_COUNT,
+    K_TAB
 };
 
 // Enumeration for the different screen states
 enum EGAMESTATES
 {
     S_MENUSCREEN,
+    S_GAMEPAUSE,
     S_GAME,
     S_COUNT,
     S_BATTLE,
@@ -81,6 +83,9 @@ void clearScreen();         // clears the current screen and draw from scratch
 void renderSplashScreen();  // renders the splash screen
 void renderShopScreen();    //renders the shopping screen
 void renderInventoryScreen();//renders the screen for the player's inventory
+void InventorySelect(Inventory* PlayerInventory, Class* Player1,
+    Class* Player2, Class* Player3, Class* Player4);//function for selecting inventory items
+void ShopSelect(Items* SelectedItem, Inventory* ShopInventory, Inventory* PlayerInventory);//shop selecting system
 void renderShop();           //renders shop system
 void renderInventory();      //renders inventory system
 void renderGame();          // renders the game stuff
@@ -96,7 +101,7 @@ void renderSpecialSelect();
 void renderSelectScreen();
 void renderEnemyHealth();
 void arrow();
-
+void gamepause();
 
 // keyboard and mouse input event managers
 void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent);  // define this function for the console to call when there are keyboard events
