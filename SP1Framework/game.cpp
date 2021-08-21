@@ -42,7 +42,6 @@ Inventory PlayerInventory;
 Inventory ShopInventory;
 Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
 Items* Bandage = new HealingItems("Bandage", 1, 2);
-Items* NullItem = new Items;
 
 
 //turn count for battles
@@ -117,14 +116,9 @@ void init( void )
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
-    NullItem->SetName(" ");
-    for (int i = 0; i < 9; i++)
-    {
-        ShopInventory.AddItem(NullItem);
-    }
     for (int i = 0; i < 10; i++)
     {
-        PlayerInventory.AddItem(NullItem);
+        PlayerInventory.AddItem(GoldApple);
     }
 
     //initialize turn count for battles
@@ -208,6 +202,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_BATTLETARGET: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
         break;
+    case S_INVENTORY: gameplayKBHandler(keyboardEvent);
+        break;
     }
 }
 
@@ -239,6 +235,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
         break;
     case S_BATTLETARGET: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
+    case S_INVENTORY: gameplayMouseHandler(mouseEvent);
+        break;
     }
 }
 
@@ -263,6 +261,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x44: key = K_RIGHT; break;
     case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break;
+    case VK_TAB: key = K_TAB; break;
     }
     // a key pressed event would be one with bKeyDown == true
     // a key released event would be one with bKeyDown == false
@@ -1992,6 +1991,8 @@ void update(double dt)
             break;
         case S_BATTLETARGET: updateBattle2();
             break;
+        case S_INVENTORY: updateInventory();
+            break;
     }
 }
 
@@ -2491,9 +2492,7 @@ void initEnemyGroup(int EnemyGroup)
 //Moving system for inventories and shops
 void InventoryMove()
 {
-    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
-    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
-    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    if (g_skKeyEvent[K_UP].keyReleased)
     {
         //move up
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
@@ -2506,7 +2505,7 @@ void InventoryMove()
             g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+    if (g_skKeyEvent[K_LEFT].keyReleased)
     {
         //move left
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -2519,7 +2518,7 @@ void InventoryMove()
             g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
         }
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
+    if (g_skKeyEvent[K_DOWN].keyReleased)
     {
         //move down
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
@@ -2532,7 +2531,7 @@ void InventoryMove()
             g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    if (g_skKeyEvent[K_RIGHT].keyReleased)
     {
         //move right
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -2546,7 +2545,6 @@ void InventoryMove()
         }
     }
 }
-        //move right
 //selecting system for shops
 void ShopSelect()
 {
@@ -2603,6 +2601,7 @@ void render()
         break;
     case S_BATTLETARGET: renderSpecialSelect();
         break;
+    case S_INVENTORY: renderInventory();
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -2626,9 +2625,19 @@ void renderShop()
     renderShopScreen();
 }
 
+void updateInventory()
+{
+    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+    InventoryMove();
+
+}
+
 void renderInventory()
 {
     renderInventoryScreen();
+    renderSelection();
+    InventoryMove();
 }
 void renderShopScreen()
 {
@@ -2683,6 +2692,13 @@ void renderInventoryScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     /*Player's items all displayed below*/
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
+        c.X = (g_Console.getConsoleSize().X / 10) * 2;
+        ss.str(PlayerInventory.GetItem(i)->GetName());
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
     for (int i = 5; i < 10; i++)
     {
         c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
