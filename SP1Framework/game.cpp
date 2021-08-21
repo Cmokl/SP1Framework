@@ -5357,7 +5357,7 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
         g_sChar.m_cLocation.X -= 1;
     }
     //===========================================================================================================
-}
+
 
 //--------------------------------------------------------------
 // Purpose  : This is the mouse handler in the game state. Whenever there is a mouse event in the game state, this function will be called.
