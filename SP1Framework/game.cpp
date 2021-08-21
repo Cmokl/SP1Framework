@@ -5353,9 +5353,11 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     {
         g_sChar.m_cLocation.X -= 1;
     }
+    {
     if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 22) // in fountain
         g_sChar.m_cLocation.X -= 1;
     }
+}   
     //===========================================================================================================
 
 
