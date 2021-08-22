@@ -6720,6 +6720,10 @@ void moveCharacter()
     {
     g_sChar.m_bActive = !g_sChar.m_bActive;
     }
+    if (g_skKeyEvent[K_TAB].keyReleased)
+    {
+        inventoryOpened();
+    }
 
 
 }
@@ -7155,6 +7159,13 @@ void renderToScreen()
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
 
+void inventoryOpened()
+{
+    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_eGameState = S_INVENTORY;
+}
+
 void renderShop()
 {
     renderShopScreen();
@@ -7162,7 +7173,7 @@ void renderShop()
 //Moving system for inventories and shops
 void InventoryMove()
 {
-    if (g_skKeyEvent[K_UP].keyReleased)
+    if (g_skKeyEvent[K_UP].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3))
     {
         //move up
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
@@ -7170,12 +7181,12 @@ void InventoryMove()
             g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
             g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
         }
-        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3)
+        else
         {
             g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_LEFT].keyReleased)
+    else if (g_skKeyEvent[K_LEFT].keyReleased)
     {
         //move left
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -7188,7 +7199,7 @@ void InventoryMove()
             g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
         }
     }
-    if (g_skKeyEvent[K_DOWN].keyReleased)
+    else if (g_skKeyEvent[K_DOWN].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9))
     {
         //move down
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
@@ -7196,12 +7207,12 @@ void InventoryMove()
             g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 9;
             g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 13) * 3;
         }
-        else if (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9)
+        else
         {
             g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
         }
     }
-    if (g_skKeyEvent[K_RIGHT].keyReleased)
+    else if (g_skKeyEvent[K_RIGHT].keyReleased)
     {
         //move right
         if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
@@ -7214,6 +7225,10 @@ void InventoryMove()
             g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
         }
     }
+}
+void updateInventory()
+{
+
 }
 //selecting system for shops
 void ShopSelect()
@@ -7230,8 +7245,6 @@ void ShopSelect()
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
     {
-        g_sChar.m_cLocation.X = PlayerTempCoordX;
-        g_sChar.m_cLocation.Y = PlayerTempCoordY;
         g_eGameState = S_GAME;
     }
     //select info
@@ -7248,14 +7261,6 @@ void ShopSelect()
     {
 
     }
-}
-
-void updateInventory()
-{
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-    InventoryMove();
-
 }
 
 void renderInventory()
