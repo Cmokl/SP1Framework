@@ -7107,6 +7107,58 @@ void initEnemyGroup(int EnemyGroup)
     }
 }
 
+
+
+//--------------------------------------------------------------
+// Purpose  : Render function is to update the console screen
+//            At this point, you should know exactly what to draw onto the screen.
+//            Just draw it!
+//            To get an idea of the values for colours, look at console.h and the URL listed there
+// Input    : void
+// Output   : void
+//--------------------------------------------------------------
+void render()
+{
+    clearScreen();      // clears the current screen and draw from scratch 
+    switch (g_eGameState)
+    {
+    case S_MENUSCREEN: renderSplashScreen();
+        break;
+    case S_GAME: renderGame();
+        break;
+    case S_BATTLE: renderBattle();
+        break;
+    case S_BATTLETARGET: renderSpecialSelect();
+        break;
+    case S_INVENTORY: renderInventory();
+    }
+    renderFramerate();      // renders debug information, frame rate, elapsed time, etc
+    renderInputEvents();    // renders status of input events
+    renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
+}
+
+void clearScreen()
+{
+    // Clears the buffer with this colour attribute
+    g_Console.clearBuffer(0x07);
+}
+
+void renderToScreen()
+{
+    // Writes the buffer to the console, hence you will see what you have written
+    g_Console.flushBufferToConsole();
+}
+
+
+
+
+//----------------------------------------------------------------------------------
+//Inventory function is coded here
+
+void renderShop()
+{
+    renderShopScreen();
+}
 //Moving system for inventories and shops
 void InventoryMove()
 {
@@ -7196,51 +7248,6 @@ void ShopSelect()
     {
 
     }
-}
-
-//--------------------------------------------------------------
-// Purpose  : Render function is to update the console screen
-//            At this point, you should know exactly what to draw onto the screen.
-//            Just draw it!
-//            To get an idea of the values for colours, look at console.h and the URL listed there
-// Input    : void
-// Output   : void
-//--------------------------------------------------------------
-void render()
-{
-    clearScreen();      // clears the current screen and draw from scratch 
-    switch (g_eGameState)
-    {
-    case S_MENUSCREEN: renderSplashScreen();
-        break;
-    case S_GAME: renderGame();
-        break;
-    case S_BATTLE: renderBattle();
-        break;
-    case S_BATTLETARGET: renderSpecialSelect();
-        break;
-    case S_INVENTORY: renderInventory();
-    }
-    renderFramerate();      // renders debug information, frame rate, elapsed time, etc
-    renderInputEvents();    // renders status of input events
-    renderToScreen();       // dump the contents of the buffer to the screen, one frame worth of game
-}
-
-void clearScreen()
-{
-    // Clears the buffer with this colour attribute
-    g_Console.clearBuffer(0x07);
-}
-
-void renderToScreen()
-{
-    // Writes the buffer to the console, hence you will see what you have written
-    g_Console.flushBufferToConsole();
-}
-
-void renderShop()
-{
-    renderShopScreen();
 }
 
 void updateInventory()
@@ -7337,6 +7344,8 @@ void renderInventoryScreen()
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
+
+//----------------------------------------------------------------------------
 
 
 
