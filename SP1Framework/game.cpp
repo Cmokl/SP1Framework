@@ -385,6 +385,20 @@ void splashScreenWait()    // choose options in menu
 
 }
 
+void renderhowtoplay()
+{
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 12;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Resume", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Main menu", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
+}
+
 void updateGame()       // gameplay logic
 {
     if (g_skKeyEvent[K_ESCAPE].keyDown)
@@ -905,6 +919,8 @@ void render()
     switch (g_eGameState)
     {
     case S_MENUSCREEN: renderSplashScreen();
+        break;
+    case S_HOWTOPLAY: 
         break;
     case S_GAMEPAUSE: rendergamepause();
         break;
