@@ -44,7 +44,6 @@ enum EGAMESTATES
     S_GAME,
     S_COUNT,
     S_BATTLE,
-    S_BATTLETARGET,
     S_INVENTORY,
     S_SHOP
 };
@@ -66,24 +65,29 @@ void splashScreenWait();    // waits for time to pass in splash screen
 void updateGame();          // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void foundRandomEncounter(); //function that handles if there is na random enounter or not
+void initEnemyGroup(int EnemyGroup); //initialize enemy groups
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void updateBattle(); //Battle logic
 void TurnStart(); //initializes a turn in battle
 void BattleMove(); //Checks for movement keys in battle
 void BattleSelect(); // checks selection for initial battle menu
-void initEnemyGroup(int EnemyGroup); //initialize enemy groups
-void updateBattle2();
 void BattleAttack();
 void SelectTarget(Class* TargetParty[]);
 void SelectSpecialAction();
 void SelectSkill();
 void CheckTargetType(int type);
 void ExecuteSkill(int SkillIndex);
+void ResetCursorPosition();
+void TurnEnd();
+void RoundEnd();
+void VictoryCondition();
+void EndBattle();
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void updateInventory();
 void inventoryOpened();
 void renderInventoryScreen();
+void InventorySelection();
 void renderInventory();
 void renderShopScreen();
 void renderGame();          // renders the game stuff
@@ -95,7 +99,6 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelection();
 void renderBattleScreen();
-void renderSpecialSelect();
 void renderSelectScreen();
 void renderStatuses();
 void arrow();

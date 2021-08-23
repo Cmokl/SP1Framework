@@ -1,9 +1,11 @@
 #include "Paladin.h"
 Paladin::Paladin()
 {
+	this->SetName("Paladin");
 	this->SetHealth(35);
 	this->SetMaxHealth(35);
 	this->SetMana(35);
+	this->SetMaxMana(35);
 	this->SetStrength(13);
 	this->SetIntelligence(9);
 	this->SetFaith(15);

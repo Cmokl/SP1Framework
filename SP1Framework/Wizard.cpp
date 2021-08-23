@@ -1,6 +1,7 @@
 #include "Wizard.h"
 Wizard::Wizard()
 {
+	this->SetName("Wizard");
 	this->SetHealth(25);
 	this->SetMaxHealth(25);
 	this->SetMana(40);

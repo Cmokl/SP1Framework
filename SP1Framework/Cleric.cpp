@@ -5,6 +5,7 @@ Cleric::Cleric()
 	this->SetHealth(28);
 	this->SetMaxHealth(28);
 	this->SetMana(40);
+	this->SetMaxMana(40);
 	this->SetStrength(8);
 	this->SetIntelligence(13);
 	this->SetFaith(16);

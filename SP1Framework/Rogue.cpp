@@ -2,6 +2,7 @@
 
 Rogue::Rogue()
 {
+	this->SetName("Rogue");
 	this->SetHealth(25);
 	this->SetMaxHealth(25);
 	this->SetMana(30);

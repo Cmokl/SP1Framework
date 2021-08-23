@@ -33,7 +33,7 @@ bool timescale = true;
 
 //classes
 Class* CurrentClass;
-Class* Target;
+Class* Target[4];
 Class* PlayerParty[4];
 Class* EnemyParty[4];
 
@@ -59,6 +59,7 @@ int PlayerTempCoordY;
 //player action indicator
 enum PlayerActions
 {
+    Main,
     Attack,
     Special,
     Skill,
@@ -102,7 +103,10 @@ void init( void )
     
     //Initialize the Classes
     CurrentClass = nullptr;
-    Target = nullptr;
+    for (int i = 0; i < 4; i++)
+    {
+        Target[i] = nullptr;
+    }
     for (int i = 0; i < 4; i++)
     {
         EnemyParty[i] = nullptr;
@@ -119,6 +123,7 @@ void init( void )
     PlayerParty[3] = new Wizard;
 
     //Adds items and gold to the player and shop inventories
+    GoldApple->SetDescription(": Heals 8 hp");
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
     for (int i = 0; i < 10; i++)
@@ -139,7 +144,7 @@ void init( void )
     TargetIndex = 0;
 
     //initialize player action indicator
-    Action = Attack;
+    Action = Main;
 
     cb = g_Console.getConsoleSize();
     cb.Y = 12;
@@ -207,8 +212,6 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_BATTLE: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
         break;
-    case S_BATTLETARGET: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
-        break;
     case S_INVENTORY: gameplayKBHandler(keyboardEvent);
         break;
     }
@@ -241,8 +244,6 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
-        break;
-    case S_BATTLETARGET: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_INVENTORY: gameplayMouseHandler(mouseEvent);
         break;
@@ -281,6290 +282,8 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
         g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
         g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
     }
-    //====================================================================================================
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 15) //starting
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 14)
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 13)
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 12)
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 11)
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 15)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 14)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 13)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 12) //starting right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 11)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 10)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 9)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 8)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 7)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 6)  //starting above wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 6)
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 10) //above hole wall
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 11) // hole entrance
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 12) // hole up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 12) // hole down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 12) // inside hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 6) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 7) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 8) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 9) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 10) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 11) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 12) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 13) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 14) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 15) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 16) // beside hole
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 13) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 14) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 15) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 16) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 17) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 18) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 19) // below big block hole
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 19) // area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 17) // area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 19) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 18) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 17) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 16) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 15) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 14) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 13) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 12) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 11) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 10) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 9) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 8) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 7) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 6) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 5) // area 1 left wall
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 7) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 8) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 9) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 10) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 11) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 12) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 13) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 14) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 15) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 16) // area 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 5) // area 1 up tall wall
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 6) // maze tail
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 7) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 8) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 9) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 10) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 11) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 12) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 13) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 14) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 15) // in start maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 15) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 14) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 13) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 12) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 11) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 10) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 9) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 14) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 13) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 12) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 11) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 10) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 9) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 8) // inside maze 1
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 14) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 13) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 12) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 11) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 10) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 9) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 8) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 7) //  maze 1 right wall
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 4) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 3) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 2) // inside maze 1
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 6) // on top of maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 5) // on top of maze 1
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 2) // upmost map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 4) // on top of maze map
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 2) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 3) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 4) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 5) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 6) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 7) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 8) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 9) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 10) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 11) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 12) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 13) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 14) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 15) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 16) // right of area 2
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 5) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 6) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 7) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 8) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 9) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 10) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 11) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 12) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 13) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 14) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 15) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 16) // right of area 2
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 17) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 14) // area 2 up map right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 15) // area 2 up map right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 16) // area 2 up map right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 14) // area 2 up map
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 14) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 15) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 16) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 17) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 18) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 19) // area 2 up map left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 19) // mid platform
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 17) // mid right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 18) // mid right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 19) // mid right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 17) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 16) // entrance 
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 14) // entrance 
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 15) // entrance 
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 16) // entrance 
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 14) // mid up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 6) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 7) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 8) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 9) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 10) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 11) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 12) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 13) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 14) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 15) // mid down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 8) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 9) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 10) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 11) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 12) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 13) // mid upwards left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 6) // mid upwards up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 7) // mid upwards down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 8) // mid upwards small side
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 6) // mid upwards left side
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 7) // mid upwards left side
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 8) // mid upwards left side
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 9) // mid upwards left side
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 9) // box right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 10) // box right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 11) // box right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 12) // box right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 9) // box up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 9) // box up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 9) // box up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 9) // box up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 9) // box up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 12) // box down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 11) // box hole left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 12) // box hole left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 10) // entrance to area 1 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 6) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 7) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 8) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 9) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 11) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 12) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 13) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 14) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 15) // entrance left
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 6) // aft entrance up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 15) // aft entrance  down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 4) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 5) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 6) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 7) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 8) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 9) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 10) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 11) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 12) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 13) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 14) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 15) // aft entrance left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 4) // to fountain 
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 134 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 135 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 136 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 137 && g_sChar.m_cLocation.Y == 4) // above box 
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 3) // fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 134 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 135 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 136 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 137 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 2) // fountain
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 2) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 3) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 4) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 5) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 6) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 7) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 8) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 9) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 10) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 11) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 12) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 13) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 14) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 15) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 16) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 17) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 18) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 19) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 20) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 21) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 22) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 23) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 24) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 25) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 26) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 27) // slope down
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 5) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 6) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 7) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 8) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 9) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 10) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 11) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 12) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 13) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 14) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 15) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 16) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 17) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 18) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 19) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 20) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 21) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 22) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 23) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 24) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 25) // slope down
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 134 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 135 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 136 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 137 && g_sChar.m_cLocation.Y == 26) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 134 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 135 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 136 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 137 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 27) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 2) // area 3
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 2) // area 3
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 25) // maze 2 entrance
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 24) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 21) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 22) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 23) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 24) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 24) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 24) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 24) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 24) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 21) // maze wall left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 22) // maze wall left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 23) // maze wall left
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 22) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 23) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 24) // maze wall right
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 21) // maze up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 21) // maze down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 20) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 20) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 20) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 20) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 19) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 21) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 20) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 19) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 18) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 17) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 16) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 15) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 18) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 18) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 18) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 15) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 15) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 15) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 11) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 12) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 13) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 14) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 15) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 16) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 17) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 18) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 14) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 13) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 13) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 13) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 8) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 9) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 10) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 11) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 12) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 13) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 10) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 9) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 9) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 9) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 7) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 8) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 9) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 8) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 8) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 8) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 7) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 6) // maze Obstacles
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 23) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 24) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 25) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 26) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 27) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 22) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 22) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 22) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 22) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 22) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 21) // maze 4 up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 21) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 22) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 23) // maze 4
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 23) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 24) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 25) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 26) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 27) // maze Obstacles
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 27) // maze 4 down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 24) //fountain base
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 22) // fountain base
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 23) // fountain base
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 21) // fountain base
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 21) // fountain base
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 21) // fountain base
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 21) // fountain base
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 21) // fountain base
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 21) // in fountain
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
     
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 22) // in fountain
-    {   
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 22) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 23) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 24) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 25) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 26) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 27) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 21) // beside fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 21) // beside fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 21) // beside fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 21) // beside fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 21) // beside fountain
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 21) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 22) //beside fountain
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 22) //beside fountain
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 23) //beside fountain
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 23) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 23) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 23) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 23) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 23) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 23) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 21) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 22) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 21) //beside fountain up
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 21) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 22) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 23) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 24) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 25) //beside fountain edge
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 25) // beside fountain down
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 24) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 26) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 26) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 27) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 26) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 26) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 25) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 24) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 22) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 23) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 21) //beside fountain zic zac
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 4) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 5) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 6) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 7) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 8) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 9) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 10) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 11) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 12) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 13) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 14) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 15) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 16) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 17) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 18) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 19) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 20) //to boss
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 2) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 3) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 4) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 5) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 6) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 7) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 8) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 9) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 10) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 11) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 12) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 13) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 14) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 15) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 16) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 17) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 18) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 19) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 20) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 21) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 22) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 23) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 24) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 25) //to boss
-    {
-        g_sChar.m_cLocation.X += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 1 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y += 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 2) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.X -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 3) //BOSS ROOM
-    {
-        g_sChar.m_cLocation.Y -= 1;
-    }
 }   
-    //===========================================================================================================
 
 
 //--------------------------------------------------------------
@@ -6614,8 +333,6 @@ void update(double dt)
             break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
-        case S_BATTLETARGET: updateBattle2();
-            break;
         case S_INVENTORY: updateInventory();
             break;
     }
@@ -6656,7 +373,7 @@ void updateGame()       // gameplay logic
     else
     {
      moveCharacter();    // moves the character, collision detection, physics, etc
-                         // sound can be played here too.
+                       // sound can be played here too.
 
     }
      //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
@@ -6748,6 +465,25 @@ void foundRandomEncounter(void)
     }
 }
 
+void initEnemyGroup(int EnemyGroup)
+{
+    //will add more as necessary
+    if (EnemyGroup == 0)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            EnemyParty[i] = new Skeleton;
+        }
+    }
+    if (EnemyGroup == 1)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            EnemyParty[i] = new Skeleton;
+        }
+    }
+}
+
 //void processUserInput()
 //{
 //    // quits the game if player hits the escape key
@@ -6755,11 +491,40 @@ void foundRandomEncounter(void)
 //        g_bQuitGame = true;
 //}
 
+//---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    TurnStart();
     BattleMove();
-    BattleSelect();
+    switch (Action)
+    {
+    case Main:
+        TurnStart();
+        BattleSelect();
+        break;
+    case Attack:
+        SelectTarget(EnemyParty);
+        if (Target[0] != nullptr)
+        {
+            BattleAttack();
+        }
+        break;
+    case Special:
+        SelectSpecialAction();
+        break;
+    case Skill:
+        SelectSkill();
+        break;
+    case Select:
+
+        SelectTarget(EnemyParty);
+        if (Target[0] != nullptr)
+        {
+            ExecuteSkill(EffectSelect);
+        }
+        break;
+    }
+
+    VictoryCondition();
 }
 
 void TurnStart()
@@ -6767,13 +532,15 @@ void TurnStart()
     if (CurrentTurn == TurnCount)
     {
         //reset target pointers
-        Target = nullptr;
+        for (int i = 0; i < 4; i++)
+        {
+            Target[i] = nullptr;
+        }
 
         TurnCount++;
-        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+        ResetCursorPosition();
 
-        CurrentClass = EnemyParty[0];
+        CurrentClass = PlayerParty[0];
         for (int i = 0; i < 4; i++)
         {
             //check player party first so that if a enemy and a player has the same speed the player would go first
@@ -6798,7 +565,6 @@ void TurnStart()
                 }
             }
         }
-        CurrentClass->SetTurn(false);
     }
 }
 
@@ -6838,14 +604,10 @@ void BattleSelect()
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
     {
         //reset curosr position
-        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+        ResetCursorPosition();
 
         //set player action
         Action = Attack;
-
-        //change game state
-        g_eGameState = S_BATTLETARGET;
     }
 
     //select defend
@@ -6862,14 +624,10 @@ void BattleSelect()
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
     {
         //reset cursor position
-        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+        ResetCursorPosition();
 
         //set player action
         Action = Special;
-
-        //change game state
-        g_eGameState = S_BATTLETARGET;
     }
 
     //select flee
@@ -6877,71 +635,29 @@ void BattleSelect()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        TurnCount = 1;
-        CurrentTurn = 1;
-        g_sChar.m_cLocation.X = PlayerTempCoordX;
-        g_sChar.m_cLocation.Y = PlayerTempCoordY;
-        g_eGameState = S_GAME;
+        EndBattle();
     }
 }
-
-//---------------------------------------------------------------------------------------------------------------------------------------------------
-
-void updateBattle2()
-{
-    BattleMove();
-    if (Action == Attack)
-    {
-        SelectTarget(EnemyParty);
-        BattleAttack();
-    }
-    else if (Action == Special)
-    {
-        SelectSpecialAction();
-    }
-    else if (Action == Skill)
-    {
-        SelectSkill();
-    }
-    else if (Action == Select)
-    {
-        SelectTarget(EnemyParty);
-        if (Target != nullptr)
-        {
-            ExecuteSkill(EffectSelect);
-        }
-    }
-    else if (Action == FSelect)
-    {
-        SelectTarget(PlayerParty);
-        if (Target != nullptr)
-        {
-            ExecuteSkill(EffectSelect);
-        }
-    }
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 void BattleAttack()
 {
     if (Target != nullptr)
     {
-        CurrentClass->Attack(Target);
-        CurrentTurn++;
-        g_eGameState = S_BATTLE;
+        CurrentClass->Attack(Target[0]);
+        TurnEnd();
+        Action = Main;
     }
 }
 
 void SelectTarget(Class* TargetParty[])
-{
+ {
     //select target 1
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
         (TargetParty[0] != nullptr)) 
     {
-        Target = TargetParty[0];
+        Target[0] = TargetParty[0];
     }
 
     //select target 2
@@ -6950,7 +666,7 @@ void SelectTarget(Class* TargetParty[])
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
         (TargetParty[1] != nullptr))
     {
-        Target = TargetParty[1];
+        Target[0] = TargetParty[1];
     }
 
     //select target 3
@@ -6959,7 +675,7 @@ void SelectTarget(Class* TargetParty[])
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
         (TargetParty[2] != nullptr))
     {
-        Target = TargetParty[2];
+        Target[0] = TargetParty[2];
     }
 
     //select target 4
@@ -6968,7 +684,7 @@ void SelectTarget(Class* TargetParty[])
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
         (TargetParty[3] != nullptr))
     {
-        Target = TargetParty[3];
+        Target[0] = TargetParty[3];
     }
 
     //go back if escape
@@ -6979,11 +695,9 @@ void SelectTarget(Class* TargetParty[])
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
 
         //go back to previous menu
-        g_eGameState = S_BATTLE;
+        Action = Main;
     }
 }
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void SelectSpecialAction()
 {
@@ -7000,6 +714,7 @@ void SelectSpecialAction()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
+        ResetCursorPosition();
         Action = Item;
     }
 
@@ -7007,17 +722,16 @@ void SelectSpecialAction()
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
     {
         //reset cursor position
-        g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-        g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+        ResetCursorPosition();
 
         //go back to previous menu
-        g_eGameState = S_BATTLE;
+        Action = Main;
     }
 }
 
 void SelectSkill()
 {
-    //select target 1
+    //select skill 1
     if (g_skKeyEvent[K_SPACE].keyReleased &&
          (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 )
@@ -7029,7 +743,7 @@ void SelectSkill()
         }
     }
 
-    //select target 2
+    //select skill 2
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
@@ -7041,7 +755,7 @@ void SelectSkill()
         }
     }
 
-    //select target 3
+    //select skill 3
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
@@ -7053,7 +767,7 @@ void SelectSkill()
         }
     }
 
-    //select target 4
+    //select skill 4
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
@@ -7069,56 +783,87 @@ void CheckTargetType(int type)
 {
     if (type == Class::Single)
     {
+        ResetCursorPosition();
         Action = Select;
     }
     else if (type == Class::AOE)
     {
-        Target = EnemyParty[0];
+        for (int i = 0; i < 4; i++)
+        {
+            Target[i] = EnemyParty[i];
+        }
         ExecuteSkill(EffectSelect);
     }
     else if (type == Class::Self)
     {
-        Target = PlayerParty[0];
+        Target[0] = PlayerParty[0];
         ExecuteSkill(EffectSelect);
     }
     else if (type == Class::FSingle)
     {
+        ResetCursorPosition();
         Action = FSelect;
     }
     else if (type == Class::FAOE)
     {
-        Target = PlayerParty[0];
+        for (int i = 0; i < 4; i++)
+        {
+            Target[i] = PlayerParty[i];
+        }
         ExecuteSkill(EffectSelect);
     }
 }
 
 void ExecuteSkill(int SkillIndex)
 {
-    CurrentClass->SkillList(SkillIndex, TargetIndex, &Target);
-    CurrentTurn++;
-    g_eGameState = S_BATTLE;
+    CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
+    TurnEnd();
+    Action = Main;
 }
 
-void initEnemyGroup(int EnemyGroup)
+void ResetCursorPosition(void)
 {
-    //will add more as necessary
-    if (EnemyGroup == 0)
+    //reset cursor position
+    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+}
+
+void TurnEnd(void)
+{
+    //check if an enemy is dead
+    for (int i = 0; i < 4; i++)
     {
-        for (int i = 0; i < 4; i++)
+        if (EnemyParty[i] != nullptr)
         {
-            EnemyParty[i] = new Skeleton;
+            if (EnemyParty[i]->GetHealth() <= 0)
+            {
+                delete EnemyParty[i];
+                EnemyParty[i] = nullptr;
+            }
         }
     }
-    if (EnemyGroup == 1)
+    CurrentClass->SetTurn(false);
+    CurrentTurn++;
+}
+
+void RoundEnd(void)
+{
+    for (int i = 0; i < 4; i++)
     {
-        for (int i = 0; i < 4; i++)
+        if (EnemyParty[i] != nullptr)
         {
-            EnemyParty[i] = new Skeleton;
+            EnemyParty[i]->SetTurn(true);
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (PlayerParty[i] != nullptr)
+        {
+            PlayerParty[i]->SetTurn(true);
         }
     }
 }
-
-
 
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
@@ -7141,8 +886,6 @@ void render()
         break;
     case S_BATTLE: renderBattle();
         break;
-    case S_BATTLETARGET: renderSpecialSelect();
-        break;
     case S_INVENTORY: renderInventory();
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
@@ -7162,16 +905,39 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
+void VictoryCondition()
+{
+    if ((EnemyParty[0] == nullptr) &&
+        (EnemyParty[1] == nullptr) &&
+        (EnemyParty[2] == nullptr) &&
+        (EnemyParty[3] == nullptr))
+    {
+        EndBattle();
+    }
+}
+
+void EndBattle()
+{
+    TurnCount = 1;
+    CurrentTurn = 1;
+    g_sChar.m_cLocation.X = PlayerTempCoordX;
+    g_sChar.m_cLocation.Y = PlayerTempCoordY;
+    g_eGameState = S_GAME;
+}
+
 
 
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
+Items* SelectedItem = nullptr;
+Class* SelectedPlayer = nullptr;
+int InfoSelected = 0;
 
 void inventoryOpened()
 {
-    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
-    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_sChar.m_cLocation.X = 29;
+    g_sChar.m_cLocation.Y = 9;
     g_eGameState = S_INVENTORY;
 }
 
@@ -7182,62 +948,63 @@ void renderShop()
 //Moving system for inventories and shops
 void InventoryMove()
 {
-    if (g_skKeyEvent[K_UP].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3))
+    if (g_skKeyEvent[K_UP].keyReleased && (g_sChar.m_cLocation.Y != 9))
     {
         //move up
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
-            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+            g_sChar.m_cLocation.Y = 9;
+            g_sChar.m_cLocation.X = 29;
         }
         else
         {
-            g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
+            g_sChar.m_cLocation.Y -= 3;
         }
     }
-    else if (g_skKeyEvent[K_LEFT].keyReleased)
+    else if (g_skKeyEvent[K_LEFT].keyReleased && (g_sChar.m_cLocation.X != 32) 
+        && (g_sChar.m_cLocation.X != 29))
     {
         //move left
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
-            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 3)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X -= (g_Console.getConsoleSize().X / 13) * 3;
-        }
-        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 7)
-        {
-            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
-        }
-    }
-    else if (g_skKeyEvent[K_DOWN].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9))
-    {
-        //move down
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
-        {
-            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 13) * 3;
+            g_sChar.m_cLocation.X -= 68;
         }
         else
         {
-            g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
+            g_sChar.m_cLocation.X -= 75;
         }
     }
-    else if (g_skKeyEvent[K_RIGHT].keyReleased)
+    else if (g_skKeyEvent[K_DOWN].keyReleased && (g_sChar.m_cLocation.Y != 27))
+    {
+        //move down
+        if (g_sChar.m_cLocation.Y == 21)
+        {
+            g_sChar.m_cLocation.Y = 27;
+            g_sChar.m_cLocation.X = 32;
+        }
+        else
+        {
+            g_sChar.m_cLocation.Y += 3;
+        }
+    }
+    else if (g_skKeyEvent[K_RIGHT].keyReleased && (g_sChar.m_cLocation.X != 104)
+        && (g_sChar.m_cLocation.X != 99))
     {
         //move right
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
-            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 9)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X += (g_Console.getConsoleSize().X / 13) * 3;
+            g_sChar.m_cLocation.X += 68;
         }
-        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 2)
+        else
         {
-            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+            g_sChar.m_cLocation.X += 75;
         }
     }
 }
 void updateInventory()
 {
-
+    InventoryMove();
+    InventorySelection();
 }
 //selecting system for shops
 void ShopSelect()
@@ -7276,7 +1043,6 @@ void renderInventory()
 {
     renderInventoryScreen();
     renderSelection();
-    InventoryMove();
 }
 void renderShopScreen()
 {
@@ -7310,11 +1076,6 @@ void renderShopScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str("Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
     c.X = (g_Console.getConsoleSize().X / 13) * 9;
     ss.str("Buy");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
@@ -7325,42 +1086,94 @@ void renderInventoryScreen()
     COORD c;
     std::ostringstream ss;
 
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    c.Y = 3;
+    c.X = 67;
     ss.str(" YOUR BACKPACK");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     /*Player's items all displayed below*/
     for (int i = 0; i < 5; i++)
     {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
+        c.Y = 9 + (3 * i);
+        c.X = 30;
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+        if (SelectedItem == PlayerInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
+
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
     for (int i = 5; i < 10; i++)
     {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        c.Y = (3 * i) - 6;
+        c.X = 105;
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+        if (SelectedItem == PlayerInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
+    c.Y = 27;
+    c.X = 33;
     ss.str("Exit");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str(" Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    c.Y = 27;
+    c.X = 66;
+    c.X = 100;
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 
-//----------------------------------------------------------------------------
+void InventorySelection()
+{
+    //select item
+    for (int i = 0; i < 5; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased && 
+            g_sChar.m_cLocation.X == 29 &&
+            g_sChar.m_cLocation.Y == 9 + (3 * i))
+        {
+            SelectedItem = PlayerInventory.GetItem(i);
+        }
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 104 &&
+            g_sChar.m_cLocation.Y == (3 * i) - 6)
+        {
+            SelectedItem = PlayerInventory.GetItem(i);
+        }
+    }
 
+    //select use
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 99)
+    {
+    }
+    //select exit
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 32)
+    {
+        g_eGameState = S_GAME;
+    }
+}
+
+//----------------------------------------------------------------------------
 
 
 void renderSplashScreen()  // renders the splash screen
@@ -7379,7 +1192,6 @@ void renderSplashScreen()  // renders the splash screen
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
     arrow();
-
 }
 
 
@@ -8890,12 +2702,12 @@ void renderFramerate()
     c.Y = 0;
     g_Console.writeToBuffer(c, ss.str());
 
-    // displays the elapsed time
-    ss.str("");
-    ss << g_dElapsedTime << "secs";
-    c.X = 0;
-    c.Y = 0;
-    g_Console.writeToBuffer(c, ss.str(), 0x59);
+    //// displays the elapsed time
+    //ss.str("");
+    //ss << g_dElapsedTime << "secs";
+    //c.X = 0;
+    //c.Y = 0;
+    //g_Console.writeToBuffer(c, ss.str(), 0x59);
 }
 
 // this is an example of how you would use the input events
@@ -8976,9 +2788,9 @@ void renderInputEvents()
 //------------------------------------------------------------------------------------------------------------------------------------------------
 void renderBattle()
 {
-    renderBattleScreen();
-    renderSelection();
-    renderStatuses();
+        renderBattleScreen();
+        renderStatuses();
+        renderSelection();
 }
 
 void renderSelection()
@@ -8993,51 +2805,41 @@ void renderBattleScreen()
 {
     COORD c;
     std::ostringstream ss;
+    if (Action == Main)
+    {
+        //fight button
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        c.X = (g_Console.getConsoleSize().X / 8);
 
-    //fight button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    c.X = (g_Console.getConsoleSize().X / 8);
+        ss.str(" Attack");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
 
-    ss.str(" Attack");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        //defend button
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+        c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
-    //defend button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+        ss.str(" Defend");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
 
-    ss.str(" Defend");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        //special button
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+        c.X = (g_Console.getConsoleSize().X / 8);
 
-    //special button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-    c.X = (g_Console.getConsoleSize().X / 8);
+        ss.str(" Special");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
 
-    ss.str(" Special");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
+        //flee button
+        c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+        c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
 
-    //flee button
-    c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-    c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-    ss.str(" Flee");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-}
-
-
-void renderSpecialSelect()
-{
-    renderSelectScreen();
-    renderSelection();
-    renderStatuses();
-}
-void renderSelectScreen()
-{
-    COORD c;
-    std::ostringstream ss;
-    if (Action == Attack)
+        ss.str(" Flee");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    else if ((Action == Attack) ||
+        (Action == Select))
     {
         //target 1
-        if (EnemyParty != nullptr)
+        if (EnemyParty[0] != nullptr)
         {
             c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
             c.X = (g_Console.getConsoleSize().X / 8);
@@ -9146,6 +2948,13 @@ void renderSelectScreen()
     }
 }
 
+void renderSelectScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+    
+}
+
 void renderStatuses()
 {
     //temporary
@@ -9173,12 +2982,31 @@ void renderStatuses()
         if (PlayerParty[i] != nullptr)
         {
             c.X = 0;
-            c.Y = 0;
-            ss.str("");
-            ss << i + 1 << "." << PlayerParty[i]->GetName() << " HP:" <<
-                PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth() << "   MP:"
-                << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
+            c.Y = 0 + i;
+            
+            if (CurrentClass == PlayerParty[i])
+            {
+                for (int i = 0; i < 34; i++)
+                {
+                    ss.str(" ");
+                    g_Console.writeToBuffer(c, ss.str(), 0x70);
+                    c.X++;
+                }
+                c.X = 0;
+                ss.str("");
+                ss << "> " << i + 1 << "." << PlayerParty[i]->GetName() << " HP:" <<
+                    PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth() << "   MP:"
+                    << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
+                g_Console.writeToBuffer(c, ss.str(), 0x70);
+            }
+            else
+            {
+                ss.str("");
+                ss << "  " << i + 1 << "." << PlayerParty[i]->GetName() << " HP:" <<
+                    PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth() << "   MP:"
+                    << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
+                g_Console.writeToBuffer(c, ss.str(), 0x07);
+            }
         }
     }
 }

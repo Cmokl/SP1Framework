@@ -3,6 +3,7 @@
 Fighter::Fighter()
 {
 	//Stat init
+	this->SetName("Fighter");
 	this->SetHealth(40);
 	this->SetMaxHealth(40);
 	this->SetMana(20);
@@ -20,7 +21,7 @@ Fighter::~Fighter()
 }
 
 //skills
-void Fighter::Cleave(Class* Target[])
+void Fighter::Cleave(Class* Target[4])
 {
 	//mana cost 4
 	this->SetMana(this->GetMana() - 4);
