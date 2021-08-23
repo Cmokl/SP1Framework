@@ -84,6 +84,7 @@ void renderSplashScreen();  // renders the splash screen
 void updateInventory();
 void inventoryOpened();
 void renderInventoryScreen();
+void InventorySelection();
 void renderInventory();
 void renderShopScreen();
 void renderGame();          // renders the game stuff

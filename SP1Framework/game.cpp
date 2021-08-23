@@ -7167,11 +7167,13 @@ void renderToScreen()
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
+Items* SelectedItem = nullptr;
+Class* SelectedPlayer = nullptr;
 
 void inventoryOpened()
 {
-    g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
-    g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
+    g_sChar.m_cLocation.X = 29;
+    g_sChar.m_cLocation.Y = 9;
     g_eGameState = S_INVENTORY;
 }
 
@@ -7182,62 +7184,63 @@ void renderShop()
 //Moving system for inventories and shops
 void InventoryMove()
 {
-    if (g_skKeyEvent[K_UP].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 3))
+    if (g_skKeyEvent[K_UP].keyReleased && (g_sChar.m_cLocation.Y != 9))
     {
         //move up
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 3;
-            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 10) * 2;
+            g_sChar.m_cLocation.Y = 9;
+            g_sChar.m_cLocation.X = 29;
         }
         else
         {
-            g_sChar.m_cLocation.Y -= (g_Console.getConsoleSize().Y / 10);
+            g_sChar.m_cLocation.Y -= 3;
         }
     }
-    else if (g_skKeyEvent[K_LEFT].keyReleased)
+    else if (g_skKeyEvent[K_LEFT].keyReleased && (g_sChar.m_cLocation.X != 32) 
+        && (g_sChar.m_cLocation.X != 29))
     {
         //move left
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
-            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 3)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X -= (g_Console.getConsoleSize().X / 13) * 3;
-        }
-        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 7)
-        {
-            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
-        }
-    }
-    else if (g_skKeyEvent[K_DOWN].keyReleased && (g_sChar.m_cLocation.Y != (g_Console.getConsoleSize().Y / 10) * 9))
-    {
-        //move down
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 7)
-        {
-            g_sChar.m_cLocation.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-            g_sChar.m_cLocation.X = (g_Console.getConsoleSize().X / 13) * 3;
+            g_sChar.m_cLocation.X -= 34;
         }
         else
         {
-            g_sChar.m_cLocation.Y += (g_Console.getConsoleSize().Y / 10);
+            g_sChar.m_cLocation.X -= 75;
         }
     }
-    else if (g_skKeyEvent[K_RIGHT].keyReleased)
+    else if (g_skKeyEvent[K_DOWN].keyReleased && (g_sChar.m_cLocation.Y != 27))
+    {
+        //move down
+        if (g_sChar.m_cLocation.Y == 21)
+        {
+            g_sChar.m_cLocation.Y = 27;
+            g_sChar.m_cLocation.X = 32;
+        }
+        else
+        {
+            g_sChar.m_cLocation.Y += 3;
+        }
+    }
+    else if (g_skKeyEvent[K_RIGHT].keyReleased && (g_sChar.m_cLocation.X != 104)
+        && (g_sChar.m_cLocation.X != 99))
     {
         //move right
-        if (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9 &&
-            g_sChar.m_cLocation.X != (g_Console.getConsoleSize().X / 13) * 9)
+        if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X += (g_Console.getConsoleSize().X / 13) * 3;
+            g_sChar.m_cLocation.X += 34;
         }
-        else if (g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 10) * 2)
+        else
         {
-            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+            g_sChar.m_cLocation.X += 75;
         }
     }
 }
 void updateInventory()
 {
-
+    InventoryMove();
+    InventorySelection();
 }
 //selecting system for shops
 void ShopSelect()
@@ -7276,7 +7279,6 @@ void renderInventory()
 {
     renderInventoryScreen();
     renderSelection();
-    InventoryMove();
 }
 void renderShopScreen()
 {
@@ -7325,42 +7327,104 @@ void renderInventoryScreen()
     COORD c;
     std::ostringstream ss;
 
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    c.Y = 3;
+    c.X = 67;
     ss.str(" YOUR BACKPACK");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     /*Player's items all displayed below*/
     for (int i = 0; i < 5; i++)
     {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
+        c.Y = 9 + (3 * i);
+        c.X = 30;
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+        if (SelectedItem == PlayerInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
     for (int i = 5; i < 10; i++)
     {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
+        c.Y = (3 * i) - 6;
+        c.X = 105;
         ss.str(PlayerInventory.GetItem(i)->GetName());
         g_Console.writeToBuffer(c, ss.str(), 0x07);
+        if (SelectedItem == PlayerInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
+    c.Y = 27;
+    c.X = 33;
     ss.str("Exit");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
+    c.Y = 27;
+    c.X = 66;
     ss.str(" Info");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
+    c.Y = 27;
+    c.X = 100;
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 
-//----------------------------------------------------------------------------
+void InventorySelection()
+{
+    //select item
+    for (int i = 0; i < 5; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased && 
+            g_sChar.m_cLocation.X == 29 &&
+            g_sChar.m_cLocation.Y == 9 + (3 * i))
+        {
+            SelectedItem = PlayerInventory.GetItem(i);
+        }
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 104 &&
+            g_sChar.m_cLocation.Y == (3 * i) - 6)
+        {
+            SelectedItem = PlayerInventory.GetItem(i);
+        }
+    }
 
+    //select use
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 99)
+    {
+    }
+
+    //select info
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 66)
+    {
+    }
+
+    //select exit
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 32)
+    {
+        g_eGameState = S_GAME;
+    }
+}
+
+//----------------------------------------------------------------------------
 
 
 void renderSplashScreen()  // renders the splash screen
