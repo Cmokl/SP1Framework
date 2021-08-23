@@ -198,6 +198,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
+    case S_GAMEPAUSE: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
+        break;
     case S_BATTLE: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
         break;
     case S_BATTLETARGET: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
@@ -230,6 +232,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+        break;
+    case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
