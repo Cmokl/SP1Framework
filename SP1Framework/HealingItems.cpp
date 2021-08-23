@@ -15,11 +15,11 @@ HealingItems::~HealingItems()
 {
 
 }
-void HealingItems::ItemEffect(Class* player, int EffectValue)
+void HealingItems::HealPlayer(Class* target)
 {
-	player->SetHealth(player->GetHealth() + HealingWorth);
-	if (player->GetHealth() > player->GetMaxHealth())
+	target->SetHealth(target->GetHealth() + HealingWorth);
+	if (target->GetHealth() > target->GetMaxHealth())
 	{
-		player->SetHealth(player->GetMaxHealth());
+		target->SetHealth(target->GetMaxHealth());
 	}
 }

@@ -498,7 +498,6 @@ void moveCharacter()
     if (g_skKeyEvent[K_TAB].keyReleased)
     {
         inventoryOpened();
-
     }
 
 
@@ -981,6 +980,7 @@ void EndBattle()
 
 
 
+
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
 Items* SelectedItem = nullptr;
@@ -992,23 +992,12 @@ int InventoryPage = 1;
 
 void inventoryOpened()
 {
-    if (InventoryPage != 0)
-    {
-        initialX = g_sChar.m_cLocation.X;
-        initialY = g_sChar.m_cLocation.Y;
-        g_sChar.m_cLocation.X = 29;
-        g_sChar.m_cLocation.Y = 9;
-        g_eGameState = S_INVENTORY;
-    }
-}
-void inventoryClosed()
-{
-    g_eGameState = S_GAME;
-    g_sChar.m_cLocation.X = initialX;
-    g_sChar.m_cLocation.Y = initialY;
-    SelectedItem = nullptr;
-    SelectedPlayer = nullptr;
-    InventoryPage = 0;
+    initialX = g_sChar.m_cLocation.X;
+    initialY = g_sChar.m_cLocation.Y;
+    g_sChar.m_cLocation.X = 29;
+    g_sChar.m_cLocation.Y = 9;
+    g_eGameState = S_INVENTORY;
+    InventoryPage = 1;
 }
 
 void renderShop()
@@ -1231,7 +1220,6 @@ void renderInventoryScreen()
                 ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x07);
             }
-            ss.str(" ");
         }
         c.Y = 20;
         c.X = 68;
@@ -1267,13 +1255,16 @@ void InventorySelection()
             (g_sChar.m_cLocation.Y == 27) &&
             g_sChar.m_cLocation.X == 32)
         {
-            inventoryClosed();
+            g_eGameState = S_GAME;
+            g_sChar.m_cLocation.X = initialX;
+            g_sChar.m_cLocation.Y = initialY;
+            SelectedItem = nullptr;
+            SelectedPlayer = nullptr;
         }
         //select use
         else if (g_skKeyEvent[K_SPACE].keyReleased &&
-            g_sChar.m_cLocation.Y == 27 &&
-            g_sChar.m_cLocation.X == 100 &&
-            SelectedItem != nullptr)
+            (g_sChar.m_cLocation.Y == 27) &&
+            g_sChar.m_cLocation.X == 100)
         {
             InventoryPage = 2;
             g_sChar.m_cLocation.X = 67;
@@ -1289,6 +1280,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
                 SelectedPlayer = PlayerParty[i];
+
             }
         }
         if (g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
@@ -1296,7 +1288,6 @@ void InventorySelection()
         {
             //item is used on the player
             SelectedPlayer = nullptr;
-            SelectedItem = nullptr;
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
@@ -1305,7 +1296,6 @@ void InventorySelection()
 }
 
 //----------------------------------------------------------------------------
-
 
 void renderSplashScreen()  // renders the splash screen
 {
