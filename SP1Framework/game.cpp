@@ -119,6 +119,7 @@ void init( void )
     PlayerParty[3] = new Wizard;
 
     //Adds items and gold to the player and shop inventories
+    GoldApple->SetDescription(": Heals 8 hp");
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(Bandage);
     for (int i = 0; i < 10; i++)
@@ -7169,6 +7170,7 @@ void renderToScreen()
 //Inventory function is coded here
 Items* SelectedItem = nullptr;
 Class* SelectedPlayer = nullptr;
+int InfoSelected = 0;
 
 void inventoryOpened()
 {
@@ -7203,7 +7205,7 @@ void InventoryMove()
         //move left
         if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X -= 34;
+            g_sChar.m_cLocation.X -= 68;
         }
         else
         {
@@ -7229,7 +7231,7 @@ void InventoryMove()
         //move right
         if (g_sChar.m_cLocation.Y == 27)
         {
-            g_sChar.m_cLocation.X += 34;
+            g_sChar.m_cLocation.X += 68;
         }
         else
         {
@@ -7312,11 +7314,6 @@ void renderShopScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 
     c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 6;
-    ss.str("Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
     c.X = (g_Console.getConsoleSize().X / 13) * 9;
     ss.str("Buy");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
@@ -7342,7 +7339,8 @@ void renderInventoryScreen()
         if (SelectedItem == PlayerInventory.GetItem(i) &&
             SelectedItem != nullptr)
         {
-            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+            g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
+
         }
         else
         {
@@ -7358,7 +7356,7 @@ void renderInventoryScreen()
         if (SelectedItem == PlayerInventory.GetItem(i) &&
             SelectedItem != nullptr)
         {
-            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+            g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
         }
         else
         {
@@ -7371,9 +7369,6 @@ void renderInventoryScreen()
     g_Console.writeToBuffer(c, ss.str(), 0x07);
     c.Y = 27;
     c.X = 66;
-    ss.str(" Info");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-    c.Y = 27;
     c.X = 100;
     ss.str(" Use");
     g_Console.writeToBuffer(c, ss.str(), 0x07);
@@ -7407,14 +7402,6 @@ void InventorySelection()
         g_sChar.m_cLocation.X == 99)
     {
     }
-
-    //select info
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == 27) &&
-        g_sChar.m_cLocation.X == 66)
-    {
-    }
-
     //select exit
     if (g_skKeyEvent[K_SPACE].keyReleased &&
         (g_sChar.m_cLocation.Y == 27) &&
@@ -7443,7 +7430,6 @@ void renderSplashScreen()  // renders the splash screen
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
     arrow();
-
 }
 
 

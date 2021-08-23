@@ -14,4 +14,5 @@ public:
 	void SetName(std::string name);
 	std::string GetName();
 	void SetDescription(std::string NewDescription);
+	std::string GetDescription();
 };

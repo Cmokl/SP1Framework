@@ -31,3 +31,7 @@ void Items::SetDescription(std::string NewDescription)
 {
 	description = NewDescription;
 }
+std::string Items::GetDescription()
+{
+	return description;
+}
