@@ -116,6 +116,16 @@ void Class::SetMaxHealth(int Value)
 	MaxHealth = Value;
 }
 
+int Class::GetMaxMana()
+{
+	return MaxMana;
+}
+
+void Class::SetMaxMana(int Value)
+{
+	MaxMana = Value;
+}
+
 //setter/getters(statuses)
 bool Class::GetIsBleed(void)
 {

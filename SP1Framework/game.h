@@ -94,7 +94,7 @@ void renderSelection();
 void renderBattleScreen();
 void renderSpecialSelect();
 void renderSelectScreen();
-void renderEnemyHealth();
+void renderStatuses();
 void arrow();
 void gamepause();
 

@@ -4,6 +4,7 @@ Wizard::Wizard()
 	this->SetHealth(25);
 	this->SetMaxHealth(25);
 	this->SetMana(40);
+	this->SetMaxMana(40);
 	this->SetStrength(8);
 	this->SetIntelligence(16);
 	this->SetFaith(13);
@@ -52,7 +53,7 @@ void Wizard::PyroBlast(Class* Target)
 	CastCount++;
 	if (CastCount == 0)
 	{
-		//mana cost 4
+		//mana cost 3
 		this->SetMana(GetMana() - 3);
 	}
 
@@ -72,8 +73,8 @@ void Wizard::PyroBlast(Class* Target)
 
 void Wizard::MirrorImage()
 {
-	//mana cost 4
-	this->SetMana(GetMana() - 3);
+	//mana cost 2
+	this->SetMana(GetMana() - 2);
 
 	//effect
 	IsMirror = true;
@@ -97,7 +98,19 @@ void Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 
 int Wizard::SkillTargetType(int ListIndex)
 {
-	return 0;
+	if (ListIndex == 0)
+	{
+		return AOE;
+	}
+	else if (ListIndex == 1)
+	{
+		return Single;
+	}
+	else if (ListIndex == 2)
+	{
+		return Self;
+	}
+	return Self;
 }
 
 std::string Wizard::SkillNameList(int ListIndex)
@@ -120,6 +133,18 @@ std::string Wizard::SkillNameList(int ListIndex)
 
 int Wizard::ManaCost(int ListIndex)
 {
+	if (ListIndex == 0)
+	{
+		return 3;
+	}
+	else if (ListIndex == 1)
+	{
+		return 2;
+	}
+	else if (ListIndex == 2)
+	{
+		return 2;
+	}
 	return 0;
 }
 

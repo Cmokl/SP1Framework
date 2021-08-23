@@ -6,6 +6,7 @@ Fighter::Fighter()
 	this->SetHealth(40);
 	this->SetMaxHealth(40);
 	this->SetMana(20);
+	this->SetMaxMana(20);
 	this->SetStrength(16);
 	this->SetIntelligence(8);
 	this->SetFaith(8);
@@ -84,7 +85,7 @@ int Fighter::SkillTargetType(int ListIndex)
 	{
 		return Self;
 	}
-	return Single;
+	return Self;
 }
 
 std::string Fighter::SkillNameList(int ListIndex)

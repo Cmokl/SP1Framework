@@ -113,6 +113,11 @@ void init( void )
     {
         PlayerParty[i] = nullptr;
     }
+    //is temporary for testing purposes
+    PlayerParty[0] = new Fighter;
+    PlayerParty[1] = new Rogue;
+    PlayerParty[2] = new Cleric;
+    PlayerParty[3] = new Wizard;
 
     //Adds items and gold to the player and shop inventories
     ShopInventory.AddItem(GoldApple);
@@ -3541,7 +3546,7 @@ void renderBattle()
 {
     renderBattleScreen();
     renderSelection();
-    renderEnemyHealth();
+    renderStatuses();
 }
 
 void renderSelection()
@@ -3591,7 +3596,7 @@ void renderSpecialSelect()
 {
     renderSelectScreen();
     renderSelection();
-    renderEnemyHealth();
+    renderStatuses();
 }
 void renderSelectScreen()
 {
@@ -3709,7 +3714,7 @@ void renderSelectScreen()
     }
 }
 
-void renderEnemyHealth()
+void renderStatuses()
 {
     //temporary
     COORD c;
@@ -3728,6 +3733,20 @@ void renderEnemyHealth()
             ss << i + 1 << "." << EnemyParty[i]->GetName() << " HP:" <<
                 EnemyParty[i]->GetHealth() << "/" << EnemyParty[i]->GetMaxHealth();
             g_Console.writeToBuffer(c, ss.str(), 0x07); 
+        }
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (PlayerParty[i] != nullptr)
+        {
+            c.X = 0;
+            c.Y = 0;
+            ss.str("");
+            ss << i + 1 << "." << PlayerParty[i]->GetName() << " HP:" <<
+                PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth() << "   MP:"
+                << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
 }

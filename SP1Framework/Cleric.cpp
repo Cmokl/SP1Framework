@@ -17,6 +17,9 @@ Cleric::~Cleric()
 }
 void Cleric::HolyRestoration(Class* target)
 {
+	//mana cost 3
+	this->SetMana(GetMana() - 3);
+
 	target->SetHealth(target->GetHealth() + (GetFaith()/2)); 
 	if (target-> GetHealth() > target->GetMaxHealth())
 	{
@@ -25,11 +28,15 @@ void Cleric::HolyRestoration(Class* target)
 }
 void Cleric::Resurrection(Class* target)
 {
+	this->SetMana(GetMana() - 5);
+
 	target->SetMaxHealth(GetMaxHealth() * 0.1);
 }
 
 void Cleric::Protection(Class* TargetParty[])
 {
+	this->SetMana(GetMana() - 20);
+
 	for (int i = 0; i < 4; i++)
 	{
 		if (TargetParty[i] != nullptr)
@@ -55,6 +62,23 @@ void Cleric::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	}
 }
 
+int Cleric::SkillTargetType(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return FSingle;
+	}
+	else if (ListIndex == 1)
+	{
+		return FSingle;
+	}
+	else if (ListIndex == 2)
+	{
+		return FAOE;
+	}
+	return Self;
+}
+
 std::string Cleric::SkillNameList(int ListIndex)
 {
 	if (ListIndex == 0)
@@ -71,4 +95,21 @@ std::string Cleric::SkillNameList(int ListIndex)
 	}
 
 	return "";
+}
+
+int Cleric::ManaCost(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return 3;
+	}
+	else if (ListIndex == 1)
+	{
+		return 5;
+	}
+	else if (ListIndex == 2)
+	{
+		return 20;
+	}
+	return 0;
 }

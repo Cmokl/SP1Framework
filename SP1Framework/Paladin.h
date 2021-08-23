@@ -20,6 +20,10 @@ public:
     void InspiringAura(Class* Self[]);
     void RevertInspiringAura(Class* Self[]);
 
-
+    //skill list
+    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    int SkillTargetType(int ListIndex);
+    std::string SkillNameList(int ListIndex);
+    int ManaCost(int ListIndex);
 };
 

@@ -5,6 +5,7 @@ Rogue::Rogue()
 	this->SetHealth(25);
 	this->SetMaxHealth(25);
 	this->SetMana(30);
+	this->SetMaxMana(30);
 	this->SetStrength(13);
 	this->SetIntelligence(9);
 	this->SetFaith(8);
@@ -39,10 +40,8 @@ void Rogue::Attack(Class* Target)
 }
 
 //skills
-void Rogue::Stealth(Class* Target)
+void Rogue::Stealth()
 {
-	Class* RogueIndex;
-
 	//mana cost 2
 	this->SetMana(GetMana() - 2);
 
@@ -77,11 +76,69 @@ void Rogue::Lacerate(Class* Target)
 
 void Rogue::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
+	if (ListIndex == 0)
+	{
+		Stealth();
+	}
+	else if (ListIndex == 1)
+	{
+		CheapShot(TargetParty[ClassIndex]);
+	}
+	else if (ListIndex == 2)
+	{
+		Lacerate(TargetParty[ClassIndex]);
+	}
+}
+
+int Rogue::SkillTargetType(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return Self;
+	}
+	else if (ListIndex == 1)
+	{
+		return Single;
+	}
+	else if (ListIndex == 2)
+	{
+		return Single;
+	}
+	return Self;
 }
 
 std::string Rogue::SkillNameList(int ListIndex)
 {
-	return std::string();
+	if (ListIndex == 0)
+	{
+		return "Stealth";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Cheap Shot";
+	}
+	else if (ListIndex == 2)
+	{
+		return "Lacerate";
+	}
+	return "";
+}
+
+int Rogue::ManaCost(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return 2;
+	}
+	else if (ListIndex == 1)
+	{
+		return 2;
+	}
+	else if (ListIndex == 2)
+	{
+		return 3;
+	}
+	return 0;
 }
 
 

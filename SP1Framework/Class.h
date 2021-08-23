@@ -16,6 +16,7 @@ private:
 	int Defence;
 	int Resistance;
 	int MaxHealth;
+	int MaxMana;
 
 	//statuses
 	bool IsBleed;
@@ -50,6 +51,8 @@ public:
 	void SetResistance(int Value);
 	int GetMaxHealth();
 	void SetMaxHealth(int Value);
+	int GetMaxMana();
+	void SetMaxMana(int Value);
 
 	//setter/getters(statuses). Conditions : Bleeding, burning, poisoned and immune
 	bool GetIsBleed(void);
@@ -76,7 +79,7 @@ public:
 	virtual void Defend();
 	void RevertDefend();
 
-	//skill list
+	//skill list(mostly hardcoding)
 	virtual void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
 	virtual int SkillTargetType(int ListIndex);
 	virtual std::string SkillNameList(int ListIndex) = 0;

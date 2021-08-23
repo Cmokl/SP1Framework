@@ -55,3 +55,34 @@ void Paladin::RevertInspiringAura(Class* Self[])
 		Temp->SetResistance(Temp->GetResistance() / 1.15);
 	}
 }
+
+void Paladin::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+{
+}
+
+int Paladin::SkillTargetType(int ListIndex)
+{
+	return 0;
+}
+
+std::string Paladin::SkillNameList(int ListIndex)
+{
+	return std::string();
+}
+
+int Paladin::ManaCost(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return 3;
+	}
+	else if (ListIndex == 1)
+	{
+		return 2;
+	}
+	else if (ListIndex == 2)
+	{
+		return 2;
+	}
+	return 0;
+}
