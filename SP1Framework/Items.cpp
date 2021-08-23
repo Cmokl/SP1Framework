@@ -4,6 +4,7 @@ Items::Items()
 {
 	cost = 0;
 	name = "-";
+	description = "-";
 }
 Items::~Items()
 {
@@ -25,4 +26,8 @@ void Items::SetName(std::string name)
 std::string Items::GetName()
 {
 	return name;
+}
+void Items::SetDescription(std::string NewDescription)
+{
+	description = NewDescription;
 }

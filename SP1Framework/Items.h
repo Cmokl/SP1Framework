@@ -4,6 +4,7 @@ class Items
 {
 	int cost;
 	std::string name;
+	std::string description;
 public:
 	Items();
 	~Items();
@@ -12,4 +13,5 @@ public:
 	int GetCost();
 	void SetName(std::string name);
 	std::string GetName();
+	void SetDescription(std::string NewDescription);
 };
