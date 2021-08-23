@@ -207,6 +207,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
     {
     case S_MENUSCREEN: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
+    case S_HOWTOPLAY: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
+        break;
     case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
     case S_GAMEPAUSE: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
@@ -329,6 +331,8 @@ void update(double dt)
     switch (g_eGameState)
     {
         case S_MENUSCREEN: splashScreenWait(); // game logic for the splash screen
+            break;
+        case S_HOWTOPLAY: 
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
