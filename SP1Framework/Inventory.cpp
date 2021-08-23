@@ -11,6 +11,8 @@ Inventory::Inventory()
 Inventory::~Inventory()
 {
 
+}void ItemEffect(Class* Player, int EffectValue)
+{
 }
 void Inventory::SetGold(int value)
 {
