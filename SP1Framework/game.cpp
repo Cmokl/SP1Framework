@@ -242,6 +242,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     {
     case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
+    case S_HOWTOPLAY: gameplayMouseHandler(mouseEvent); // handle gameplay keyboard event
+        break;
     case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
@@ -332,7 +334,7 @@ void update(double dt)
     {
         case S_MENUSCREEN: splashScreenWait(); // game logic for the splash screen
             break;
-        case S_HOWTOPLAY: 
+        case S_HOWTOPLAY: howtoplaybutton();
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
@@ -372,6 +374,10 @@ void splashScreenWait()    // choose options in menu
             {
                 g_eGameState = S_MENUSCREEN;
             }
+            else
+            {
+                g_eGameState = S_HOWTOPLAY;
+            }
         }
         if (cb.Y == 16)
         {
@@ -383,6 +389,27 @@ void splashScreenWait()    // choose options in menu
         }
     }
 
+}
+void howtoplaybutton()
+{
+    if (g_skKeyEvent[K_ESCAPE].keyDown)
+    {
+        g_eGameState = S_MENUSCREEN;
+    }
+}
+
+void renderhowtoplay()
+{
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 12;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Use WASD for movement", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 13;
+    g_Console.writeToBuffer(ca, "Press esc in game to pause", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
 }
 
 void updateGame()       // gameplay logic
@@ -906,6 +933,8 @@ void render()
     switch (g_eGameState)
     {
     case S_MENUSCREEN: renderSplashScreen();
+        break;
+    case S_HOWTOPLAY: renderhowtoplay();
         break;
     case S_GAMEPAUSE: rendergamepause();
         break;
