@@ -81,7 +81,10 @@ void CheckTargetType(int type);
 void ExecuteSkill(int SkillIndex);
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
+void updateInventory();
+void inventoryOpened();
 void renderInventoryScreen();
+void renderInventory();
 void renderShopScreen();
 void renderGame();          // renders the game stuff
 void renderMap();           // renders the map to the buffer first
@@ -96,7 +99,7 @@ void renderSpecialSelect();
 void renderSelectScreen();
 void renderStatuses();
 void arrow();
-void gamepause();
+void rendergamepause();
 
 // keyboard and mouse input event managers
 void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent);  // define this function for the console to call when there are keyboard events
