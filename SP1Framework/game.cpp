@@ -372,6 +372,10 @@ void splashScreenWait()    // choose options in menu
             {
                 g_eGameState = S_MENUSCREEN;
             }
+            else
+            {
+                g_eGameState = S_HOWTOPLAY;
+            }
         }
         if (cb.Y == 16)
         {
@@ -383,6 +387,13 @@ void splashScreenWait()    // choose options in menu
         }
     }
 
+}
+void howtoplaybutton()
+{
+    if (g_skKeyEvent[K_ESCAPE].keyDown)
+    {
+        g_eGameState = S_MENUSCREEN;
+    }
 }
 
 void renderhowtoplay()
