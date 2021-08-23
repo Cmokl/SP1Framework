@@ -343,7 +343,7 @@ void update(double dt)
 
 void splashScreenWait()    // choose options in menu
 {
-    if (g_skKeyEvent[K_DOWN].keyDown && cb.Y<16)
+    if (g_skKeyEvent[K_DOWN].keyDown && cb.Y < 16)
     {
         cb.Y += 2;
     }
@@ -351,16 +351,31 @@ void splashScreenWait()    // choose options in menu
     {
         cb.Y -= 2;
     }
-    
+
     if (g_skKeyEvent[K_SPACE].keyDown)
     {
         if (cb.Y == 12)
         {
-            g_eGameState = S_GAME;
+            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
+            {
+                g_eGameState = S_GAME;
+
+            }
+        }
+        if (cb.Y == 14)
+        {
+            if (g_eGameState == S_GAMEPAUSE)
+            {
+                g_eGameState = S_MENUSCREEN;
+            }
         }
         if (cb.Y == 16)
         {
-            g_bQuitGame = true;
+            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
+            {
+                g_bQuitGame = true;
+
+            }
         }
     }
 
