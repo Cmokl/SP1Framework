@@ -1209,7 +1209,7 @@ void renderSplashScreen()  // renders the splash screen
     g_Console.writeToBuffer(ca, "1. Start", 0x09);
     ca.Y += 2;
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "2. Load", 0x09);
+    g_Console.writeToBuffer(ca, "2. How to play", 0x09);
     ca.Y += 2;
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
     g_Console.writeToBuffer(ca, "3. Quit", 0x09); // Main page
