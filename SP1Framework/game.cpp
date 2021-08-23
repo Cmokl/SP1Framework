@@ -6613,6 +6613,8 @@ void update(double dt)
             break;
         case S_GAME: updateGame(); // gameplay logic when we are in the game
             break;
+        case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
+            break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
         case S_BATTLETARGET: updateBattle2();
@@ -6664,16 +6666,20 @@ void updateGame()       // gameplay logic
 }
 void rendergamepause()
 {
-    COORD a=g_Console.getConsoleSize();
-    a.Y += 2;
-    a.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(a, "continue", 0x09);
-    a.Y += 2;
-    a.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(a, "main menu", 0x09);
-    a.Y += 2;
-    a.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(a, "quit", 0x09); // Main page
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 12;
+    //ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    //g_Console.writeToBuffer(ca, "Resume", 0x09);
+    //ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Resume", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Main menu", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
+    arrow();
 }
 
 void moveCharacter()
