@@ -211,7 +211,7 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_HOWTOPLAY: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
-    case S_GAME: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+    case S_MAP1: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
     case S_GAMEPAUSE: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
@@ -246,7 +246,7 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
         break;
     case S_HOWTOPLAY: gameplayMouseHandler(mouseEvent); // handle gameplay keyboard event
         break;
-    case S_GAME: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_MAP1: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -338,7 +338,7 @@ void update(double dt)
             break;
         case S_HOWTOPLAY: howtoplaybutton();
             break;
-        case S_GAME: updateGame(); // gameplay logic when we are in the game
+        case S_MAP1: updateGame(); // gameplay logic when we are in the game
             break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
@@ -366,7 +366,7 @@ void splashScreenWait()    // choose options in menu
         {
             if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
             {
-                g_eGameState = S_GAME;
+                g_eGameState = S_MAP1;
 
             }
         }
@@ -983,7 +983,7 @@ void render()
         break;
     case S_GAMEPAUSE: rendergamepause();
         break;
-    case S_GAME: renderGame();
+    case S_MAP1: renderGame();
         break;
     case S_BATTLE: renderBattle();
         break;
@@ -1024,7 +1024,7 @@ void EndBattle()
     CurrentTurn = 1;
     g_sChar.m_cLocation.X = PlayerTempCoordX;
     g_sChar.m_cLocation.Y = PlayerTempCoordY;
-    g_eGameState = S_GAME;
+    g_eGameState = S_MAP1;
 }
 
 
@@ -1048,7 +1048,7 @@ void inventoryOpened()
 }
 void inventoryClosed()
 {
-    g_eGameState = S_GAME;
+    g_eGameState = S_MAP1;
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
     SelectedItem = nullptr;
@@ -1149,7 +1149,7 @@ void ShopSelect()
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
     {
-        g_eGameState = S_GAME;
+        g_eGameState = S_MAP1;
     }
     //select use
     if (g_skKeyEvent[K_SPACE].keyReleased &&
