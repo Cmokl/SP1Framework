@@ -18,7 +18,7 @@ public:
     void DragonsCall(Class* NewEnemy);//a pointer has to be created for the summoned Oni
 
     //skill list
-    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
     std::string SkillNameList(int ListIndex);
 };
 

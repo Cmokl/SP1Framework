@@ -16,22 +16,39 @@ Cleric::Cleric()
 Cleric::~Cleric()
 {
 }
-void Cleric::HolyRestoration(Class* target)
-{
-	//mana cost 3
-	this->SetMana(GetMana() - 3);
 
-	target->SetHealth(target->GetHealth() + (GetFaith()/2)); 
-	if (target-> GetHealth() > target->GetMaxHealth())
+bool Cleric::HolyRestoration(Class* target)
+{
+	if (target->GetHealth() == target->GetMaxHealth())
 	{
-		target->SetMaxHealth(target->GetMaxHealth());
-	}
-}
-void Cleric::Resurrection(Class* target)
-{
-	this->SetMana(GetMana() - 5);
+		//mana cost 3
+		this->SetMana(GetMana() - 3);
 
-	target->SetMaxHealth(GetMaxHealth() * 0.1);
+		for (int i = 0; i < (this->GetFaith() / 2); i++)
+		{
+			if (target-> GetHealth() + 1 < target->GetMaxHealth())
+			{
+				target->SetHealth(this->GetHealth() + 1);
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
+bool Cleric::Resurrection(Class* target)
+{
+	if (target->GetHealth() < 1)
+	{
+		this->SetMana(GetMana() - 5);
+
+		target->SetMaxHealth(GetMaxHealth() * 0.1);
+
+		return true;
+	}
+
+	return false;
 }
 
 void Cleric::Protection(Class* TargetParty[])
@@ -47,20 +64,21 @@ void Cleric::Protection(Class* TargetParty[])
 	}
 }
 
-void Cleric::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Cleric::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
 	if (ListIndex == 0)
 	{
-		HolyRestoration(TargetParty[ClassIndex]);
+		return HolyRestoration(TargetParty[ClassIndex]);
 	}
 	else if (ListIndex == 1)
 	{
-		Resurrection(TargetParty[ClassIndex]);
+		return Resurrection(TargetParty[ClassIndex]);
 	}
 	else if (ListIndex == 2)
 	{
 		Protection(TargetParty);
 	}
+	return true;
 }
 
 int Cleric::SkillTargetType(int ListIndex)

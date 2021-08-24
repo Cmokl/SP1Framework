@@ -42,8 +42,9 @@ void Oni::RevertSoulLock(Class* Target)
 }
 
 //skill list
-void Oni::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Oni::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
+	return true;
 }
 
 std::string Oni::SkillNameList(int ListIndex)

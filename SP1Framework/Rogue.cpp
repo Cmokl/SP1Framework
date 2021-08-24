@@ -41,16 +41,21 @@ void Rogue::Attack(Class* Target)
 }
 
 //skills
-void Rogue::Stealth()
+bool Rogue::Stealth()
 {
-	//mana cost 2
-	this->SetMana(GetMana() - 2);
+	if (IsStealth == false)
+	{
+		//mana cost 2
+		this->SetMana(GetMana() - 2);
 
-	//effect
-	IsStealth = true;
+		//effect
+		IsStealth = true;
+		return true;
+	}
+	return true;
 }
 
-void Rogue::CheapShot(Class* Target)
+bool Rogue::CheapShot(Class* Target)
 {
 	if (IsStealth == true)
 	{
@@ -59,10 +64,12 @@ void Rogue::CheapShot(Class* Target)
 
 		//effect
 		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 0.9));
+		return true;
 	}
+	return false;
 }
 
-void Rogue::Lacerate(Class* Target)
+bool Rogue::Lacerate(Class* Target)
 {
 	if (IsStealth == true)
 	{
@@ -72,23 +79,26 @@ void Rogue::Lacerate(Class* Target)
 		//effect
 		Target->SetHealth(Target->GetHealth() - (this->GetStrength() * 1.2 + Target->GetDefence() * 0.5));
 		Target->SetIsBleed(true);
+		return true;
 	}
+	return false;
 }
 
-void Rogue::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Rogue::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
 	if (ListIndex == 0)
 	{
-		Stealth();
+		return Stealth();
 	}
 	else if (ListIndex == 1)
 	{
-		CheapShot(TargetParty[ClassIndex]);
+		return CheapShot(TargetParty[ClassIndex]);
 	}
 	else if (ListIndex == 2)
 	{
-		Lacerate(TargetParty[ClassIndex]);
+		return Lacerate(TargetParty[ClassIndex]);
 	}
+	return false;
 }
 
 int Rogue::SkillTargetType(int ListIndex)

@@ -22,10 +22,10 @@ public:
     //deals great damage to a target cast time of 2 in game logic
     void PyroBlast(Class* Target);
     //sets IsMirror to true
-    void MirrorImage();
+    bool MirrorImage();
 
     //skill list
-    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
     int SkillTargetType(int ListIndex);
     std::string SkillNameList(int ListIndex);
     int ManaCost(int ListIndex);

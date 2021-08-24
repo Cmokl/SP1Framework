@@ -10,9 +10,9 @@ public:
 
     //skills
     void Pierce(Class* target);
-    void Reassemble();
+    bool Reassemble();
 
     //skill list
-    void SkillList(int ListIndex, int ClassIndex, Class* TargetClass[]);
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetClass[]);
     std::string SkillNameList(int ListIndex);
 };

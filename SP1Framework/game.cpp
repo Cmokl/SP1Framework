@@ -33,6 +33,7 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
+bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -86,6 +87,7 @@ COORD cb;
 //--------------------------------------------------------------
 void init( void )
 {
+    playmusic;
     // Set precision for floating point output
     g_dElapsedTime = 0.0;    
 
@@ -5112,6 +5114,14 @@ void TurnStart()
         CurrentTurn = 1;
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
+        if (Maplevel == 1)
+        {
+            g_eGameState = S_MAP1;
+        }
+        if (Maplevel == 2)
+        {
+            g_eGameState = S_MAP2;
+        }
     }
 
     void EnemyAI()

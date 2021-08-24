@@ -72,16 +72,22 @@ void Wizard::PyroBlast(Class* Target)
 	}
 }
 
-void Wizard::MirrorImage()
+bool Wizard::MirrorImage()
 {
-	//mana cost 2
-	this->SetMana(GetMana() - 2);
+	if (IsMirror == false)
+	{
+		//mana cost 2
+		this->SetMana(GetMana() - 2);
 
-	//effect
-	IsMirror = true;
+		//effect
+		IsMirror = true;
+		return true;
+	}
+
+	return false;
 }
 
-void Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
 	if (ListIndex == 0)
 	{
@@ -93,8 +99,10 @@ void Wizard::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	}
 	else if (ListIndex == 2)
 	{
-		MirrorImage();
+		return MirrorImage();
 	}
+
+	return true;
 }
 
 int Wizard::SkillTargetType(int ListIndex)
