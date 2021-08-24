@@ -60,7 +60,7 @@ int PlayerTempCoordX;
 int PlayerTempCoordY;
 
 //player action indicator
-enum PlayerActions
+enum BattleActions
 {
     Main,
     Attack,
@@ -68,7 +68,8 @@ enum PlayerActions
     Skill,
     Item,
     Select,
-    FSelect
+    FSelect,
+    EnemyAttack
 };
 int Action;
 
@@ -548,11 +549,7 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    if ((CurrentClass == PlayerParty[0])||
-        (CurrentClass == PlayerParty[1]) ||
-        (CurrentClass == PlayerParty[2]) ||
-        (CurrentClass == PlayerParty[3]))
-
+    if (Action != EnemyAttack)
     {
         BattleMove();
     }
@@ -563,12 +560,7 @@ void updateBattle()
         TurnStart();
         BattleSelect();
         break;
-        if ((CurrentClass == PlayerParty[0]) ||
-            (CurrentClass == PlayerParty[1]) ||
-            (CurrentClass == PlayerParty[2]) ||
-            (CurrentClass == PlayerParty[3]))
 
-        {
     case Attack:
         SelectTarget(EnemyParty);
         if (Target[0] != nullptr)
@@ -576,9 +568,11 @@ void updateBattle()
             BattleAttack();
         }
         break;
+
     case Special:
         SelectSpecialAction();
         break;
+
     case Skill:
         SelectSkill();
         break;
@@ -590,7 +584,9 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
-        }
+    case EnemyAttack:
+        EnemyAI();
+        break;
     }
 
     VictoryCondition();
@@ -614,10 +610,29 @@ void TurnStart()
 
         TurnCount++;
         ResetCursorPosition();
-
-        CurrentClass = new EmptyClass;
         for (int i = 0; i < 4; i++)
         {
+            if (PlayerParty[i] != nullptr)
+            {
+                if (PlayerParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+
+            if (EnemyParty[i] != nullptr)
+            {
+                if (EnemyParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+
             //check player party first so that if a enemy and a player has the same speed the player would go first
             if (PlayerParty[i] != nullptr)
             {
@@ -649,6 +664,14 @@ void TurnStart()
                     }
                 }
             }
+        }
+
+        if ((CurrentClass != PlayerParty[0]) &&
+            (CurrentClass != PlayerParty[1]) &&
+            (CurrentClass != PlayerParty[2]) &&
+            (CurrentClass != PlayerParty[3]))
+        {
+            Action = EnemyAttack;
         }
 
         if (CurrentClass == PreviousClass)
@@ -954,8 +977,37 @@ void RoundEnd(void)
             PlayerParty[i]->SetTurn(true);
         }
     }
+
+    CurrentTurn++;
 }
 
+void VictoryCondition()
+{
+    if ((EnemyParty[0] == nullptr) &&
+        (EnemyParty[1] == nullptr) &&
+        (EnemyParty[2] == nullptr) &&
+        (EnemyParty[3] == nullptr))
+    {
+        EndBattle();
+    }
+}
+
+void EndBattle()
+{
+    RoundEnd();
+    TurnCount = 1;
+    CurrentTurn = 1;
+    g_sChar.m_cLocation.X = PlayerTempCoordX;
+    g_sChar.m_cLocation.Y = PlayerTempCoordY;
+    g_eGameState = S_GAME;
+}
+
+void EnemyAI()
+{
+    CurrentClass->SkillList(rand() % 4, rand() % 4, PlayerParty);
+    TurnEnd();
+    Action = Main;
+}
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
 //            At this point, you should know exactly what to draw onto the screen.
@@ -997,29 +1049,6 @@ void renderToScreen()
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
-
-void VictoryCondition()
-{
-    if ((EnemyParty[0] == nullptr) &&
-        (EnemyParty[1] == nullptr) &&
-        (EnemyParty[2] == nullptr) &&
-        (EnemyParty[3] == nullptr))
-    {
-        EndBattle();
-    }
-}
-
-void EndBattle()
-{
-    RoundEnd();
-    TurnCount = 1;
-    CurrentTurn = 1;
-    g_sChar.m_cLocation.X = PlayerTempCoordX;
-    g_sChar.m_cLocation.Y = PlayerTempCoordY;
-    g_eGameState = S_GAME;
-}
-
-
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
