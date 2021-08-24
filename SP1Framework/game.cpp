@@ -349,7 +349,7 @@ void update(double dt)
             break;
         case S_MAP1: updateGame(); // gameplay logic when we are in the game
             break;
-        case S_MAP2:
+        case S_MAP2: updateGame();
             break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
@@ -444,7 +444,7 @@ void updateGame()       // gameplay logic
     {
         Collision();
      moveCharacter();    // moves the character, collision detection, physics, etc
-                 // sound can be played here too.
+     changelevel();
 
     }
      //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
@@ -3773,7 +3773,7 @@ void render()
         break;
     case S_MAP1: renderGame();
         break;
-    case S_MAP2:
+    case S_MAP2: renderGame2();
         break;
     case S_BATTLE: renderBattle();
         break;
