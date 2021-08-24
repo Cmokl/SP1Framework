@@ -4501,6 +4501,13 @@ void updateBattle()
 
 void TurnStart()
 {
+    if ((PlayerParty[0]->GetHealth() < 1) &&
+        (PlayerParty[1]->GetHealth() < 1) &&
+        (PlayerParty[2]->GetHealth() < 1) &&
+        (PlayerParty[3]->GetHealth() < 1))
+    {
+        GameOver();
+    }
     if (CurrentTurn == TurnCount)
     {
         //set previous class
@@ -4946,6 +4953,11 @@ void TurnStart()
         CurrentClass->SkillList(rand() % 4, EnemyTarget, PlayerParty);
         TurnEnd();
         Action = Main;
+    }
+
+    void GameOver()
+    {
+        g_bQuitGame = true;
     }
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
