@@ -42,7 +42,7 @@ enum EGAMESTATES
     S_HOWTOPLAY,
     S_MENUSCREEN,
     S_GAMEPAUSE,
-    S_GAME,
+    S_MAP1,
     S_COUNT,
     S_BATTLE,
     S_INVENTORY,
