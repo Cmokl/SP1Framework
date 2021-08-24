@@ -536,7 +536,7 @@ void moveCharacter()
     }
     if (g_skKeyEvent[K_TAB].keyReleased)
     {
-        shopOpened();
+        inventoryOpened();
 
     }
   
@@ -4986,7 +4986,7 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-//----------------------------------------------------------------------------------
+///----------------------------------------------------------------------------------
 //Inventory function is coded here
 int SelectedItemNumber = -1;
 int SelectedPlayerNumber = -1;
