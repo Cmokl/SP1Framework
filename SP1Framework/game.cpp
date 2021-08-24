@@ -213,6 +213,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_MAP1: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
+    case S_MAP2: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+        break;
     case S_GAMEPAUSE: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
     case S_BATTLE: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
@@ -247,6 +249,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case S_HOWTOPLAY: gameplayMouseHandler(mouseEvent); // handle gameplay keyboard event
         break;
     case S_MAP1: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+        break;
+    case S_MAP2: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
@@ -340,6 +344,8 @@ void update(double dt)
         case S_HOWTOPLAY: howtoplaybutton();
             break;
         case S_MAP1: updateGame(); // gameplay logic when we are in the game
+            break;
+        case S_MAP2:
             break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
@@ -454,7 +460,16 @@ void rendergamepause()
     g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
     arrow();
 }
-
+void changelevel()
+{
+    if (g_sChar.m_cLocation.X > 9 && g_sChar.m_cLocation.X < 15)
+    {
+        if (g_sChar.m_cLocation.Y == 3)
+        {
+            g_eGameState=S_MAP2;
+        }
+    }
+}
 void moveCharacter()
 {  
     // Updating the location of the character based on the key release
@@ -3752,6 +3767,8 @@ void render()
         break;
     case S_MAP1: renderGame();
         break;
+    case S_MAP2:
+        break;
     case S_BATTLE: renderBattle();
         break;
     case S_INVENTORY: renderInventory();
@@ -4165,7 +4182,11 @@ void renderGame()
     renderMap1();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
-
+void renderGame2()
+{
+    renderMap2();        // renders the map to the buffer first
+    renderCharacter();  // renders the character into the buffer
+}
 void renderMap1()
 //---------------------------------------------------------------------------------------------------------------------------------------------
 {
@@ -5642,351 +5663,351 @@ void renderMap1()
 //===============================================================================================================================================
 //===============================================================================================================================================
 //2nd map
-//void renderMap1()
-//{
-//    
-//    const WORD colors[] = {
-//       0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-//       0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-//    };
-//    COORD c;
-//
-//    if (c.X = 0, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, " л", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, " л", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 3)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 4)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 5)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 6)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 7)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 8)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 9)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 10)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 11)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 12)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 13)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 14)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 15)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 16)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 17)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 18)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 19)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 20)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 21)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 22)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 23)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 24)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 25)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 26)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 28)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 2, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 3)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 4)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 5)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 6)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 7)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 8)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 9)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 10)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 11)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 12)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 13)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 14)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 15)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 16)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 17)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 18)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 19)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 20)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 21)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 22)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 23)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 24)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 25)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 26)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 28)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 28)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 1, c.Y = 4)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 8)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 2, c.Y = 13)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 17)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 1, c.Y = 21)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 24)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 142, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "      ", colors[3]); //boss
-//    }
-//    if (c.X = 2, c.Y = 17)
-//            {
-//                colour(colors[1]);
-//                g_Console.writeToBuffer(c, "ВВВВВ", colors[5]); //fountain
-//            }
-//}
+void renderMap2()
+{
+    
+    const WORD colors[] = {
+       0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+       0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+    };
+    COORD c;
+
+    if (c.X = 0, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, " л", colors[6]);
+    }
+    if (c.X = 0, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, " л", colors[6]);
+    }
+    if (c.X = 0, c.Y = 3)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 4)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 5)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 6)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 7)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 8)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 9)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 10)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 11)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 12)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 13)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 14)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 15)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 16)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 17)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 18)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 19)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 20)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 21)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 22)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 23)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 24)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 25)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 26)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 28)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 2, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 3)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 4)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 5)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 6)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 7)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 8)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 9)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 10)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 11)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 12)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 13)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 14)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 15)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 16)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 17)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 18)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 19)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 20)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 21)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 22)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 23)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 24)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 25)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 26)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 28)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 28)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 1, c.Y = 4)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 8)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 2, c.Y = 13)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 17)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 1, c.Y = 21)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 24)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 142, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "      ", colors[3]); //boss
+    }
+    if (c.X = 2, c.Y = 17)
+            {
+                colour(colors[1]);
+                g_Console.writeToBuffer(c, "ВВВВВ", colors[5]); //fountain
+            }
+}
 //===============================================================================================================================================
 //===============================================================================================================================================
 void renderCharacter()
