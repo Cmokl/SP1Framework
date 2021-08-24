@@ -5821,12 +5821,12 @@ void renderMap2()
     if (c.X = 0, c.Y = 1)
     {
         colour(colors[3]);
-        g_Console.writeToBuffer(c, " Û", colors[6]);
+        g_Console.writeToBuffer(c, "Û", colors[6]);
     }
     if (c.X = 0, c.Y = 2)
     {
         colour(colors[3]);
-        g_Console.writeToBuffer(c, " Û", colors[6]);
+        g_Console.writeToBuffer(c, "Û", colors[6]);
     }
     if (c.X = 0, c.Y = 3)
     {
