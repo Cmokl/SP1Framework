@@ -61,7 +61,7 @@ int PlayerTempCoordX;
 int PlayerTempCoordY;
 
 //player action indicator
-enum PlayerActions
+enum BattleActions
 {
     Main,
     Attack,
@@ -69,7 +69,8 @@ enum PlayerActions
     Skill,
     Item,
     Select,
-    FSelect
+    FSelect,
+    EnemyAttack
 };
 int Action;
 
@@ -214,11 +215,15 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_MAP1: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
         break;
+    case S_MAP2: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event 
+        break;
     case S_GAMEPAUSE: gameplayKBHandler(keyboardEvent); // handle gameplay keyboard event
         break;
     case S_BATTLE: gameplayKBHandler(keyboardEvent); // handle gameplay mouse event
         break;
     case S_INVENTORY: gameplayKBHandler(keyboardEvent);
+        break;
+    case S_SHOP : gameplayKBHandler(keyboardEvent);
         break;
     }
 }
@@ -249,11 +254,15 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
         break;
     case S_MAP1: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
+    case S_MAP2: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+        break;
     case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_INVENTORY: gameplayMouseHandler(mouseEvent);
+        break;
+    case S_SHOP: gameplayMouseHandler(mouseEvent);
         break;
     }
 }
@@ -342,11 +351,15 @@ void update(double dt)
             break;
         case S_MAP1: updateGame(); // gameplay logic when we are in the game
             break;
+        case S_MAP2: updateGame();
+            break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
         case S_INVENTORY: updateInventory();
+            break;
+        case S_SHOP: updateShop();
             break;
     }
 }
@@ -433,7 +446,7 @@ void updateGame()       // gameplay logic
     {
         Collision();
      moveCharacter();    // moves the character, collision detection, physics, etc
-                 // sound can be played here too.
+     changelevel();
 
     }
      //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
@@ -455,7 +468,16 @@ void rendergamepause()
     g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
     arrow();
 }
-
+void changelevel()
+{
+    if (g_sChar.m_cLocation.X > 9 && g_sChar.m_cLocation.X < 15)
+    {
+        if (g_sChar.m_cLocation.Y == 3)
+        {
+            g_eGameState=S_MAP2;
+        }
+    }
+}
 void moveCharacter()
 {  
     // Updating the location of the character based on the key release
@@ -3298,7 +3320,7 @@ void foundRandomEncounter(void)
         (--RandomDelay == 0))
     {
         RandomDelay = 3;
-        initEnemyGroup(rand() % 1);
+        initEnemyGroup(rand() % 2);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_eGameState = S_BATTLE;
@@ -3334,11 +3356,7 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    if ((CurrentClass == PlayerParty[0])||
-        (CurrentClass == PlayerParty[1]) ||
-        (CurrentClass == PlayerParty[2]) ||
-        (CurrentClass == PlayerParty[3]))
-
+    if (Action != EnemyAttack)
     {
         BattleMove();
     }
@@ -3347,14 +3365,11 @@ void updateBattle()
     {
     case Main:
         TurnStart();
-        BattleSelect();
-        break;
-        if ((CurrentClass == PlayerParty[0]) ||
-            (CurrentClass == PlayerParty[1]) ||
-            (CurrentClass == PlayerParty[2]) ||
-            (CurrentClass == PlayerParty[3]))
-
+        if (Action != EnemyAttack)
         {
+            BattleSelect();
+        }
+        break;
     case Attack:
         SelectTarget(EnemyParty);
         if (Target[0] != nullptr)
@@ -3376,11 +3391,13 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
-        }
+    case EnemyAttack:
+        EnemyAI();
+        break;
     }
-
     VictoryCondition();
 }
+
 
 void TurnStart()
 {
@@ -3400,8 +3417,26 @@ void TurnStart()
 
         TurnCount++;
         ResetCursorPosition();
-
-        CurrentClass = new EmptyClass;
+        for (int i = 0; i < 4; i++)
+        {
+            if ((PlayerParty[i] != nullptr) ||
+                !(PlayerParty[i]->GetHealth() <= 0))
+            {
+                if (PlayerParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+            if (EnemyParty[i] != nullptr)
+            {
+                if (EnemyParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+        }
         for (int i = 0; i < 4; i++)
         {
             //check player party first so that if a enemy and a player has the same speed the player would go first
@@ -3436,312 +3471,364 @@ void TurnStart()
                 }
             }
         }
+    }
 
-        if (CurrentClass == PreviousClass)
+    if ((PlayerParty[0] != CurrentClass) &&
+        (PlayerParty[1] != CurrentClass) &&
+        (PlayerParty[2] != CurrentClass) &&
+        (PlayerParty[3] != CurrentClass)
+        )
+    {
+        Action = EnemyAttack;
+    }
+    if (CurrentClass == PreviousClass)
+    {
+        RoundEnd();
+    }
+}
+
+
+    void BattleMove()
+    {
+        if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
         {
-            RoundEnd();
+            //move up
+            g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
+
+        }
+        if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+        {
+            //move left
+            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
+
+        }
+        if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
+        {
+            //move down
+            g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
+        }
+        if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            //move right
+            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        }
+
+
+    }
+
+    void BattleSelect()
+    {
+        //select button attack
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            //reset curosr position
+            ResetCursorPosition();
+
+            //set player action
+            Action = Attack;
+        }
+
+        //select defend
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            CurrentClass->Defend();
+        }
+
+        //select special
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+        {
+            //reset cursor position
+            ResetCursorPosition();
+
+            //set player action
+            Action = Special;
+        }
+
+        //select flee
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            EndBattle();
         }
     }
-}
 
-void BattleMove()
-{
-    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    void BattleAttack()
     {
-        //move up
-        g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
-
-    }
-    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
-    {
-        //move left
-        g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
-
-    }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
-    {
-        //move down
-        g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        //move right
-        g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        if (Target != nullptr)
+        {
+            CurrentClass->Attack(Target[0]);
+            TurnEnd();
+            Action = Main;
+        }
     }
 
-    
-}
-
-void BattleSelect()
-{
-    //select button attack
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    void SelectTarget(Class * TargetParty[])
     {
-        //reset curosr position
-        ResetCursorPosition();
+        //select target 1
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
+            (TargetParty[0] != nullptr))
+        {
+            Target[0] = TargetParty[0];
+        }
 
-        //set player action
-        Action = Attack;
+        //select target 2
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+            (TargetParty[1] != nullptr))
+        {
+            Target[0] = TargetParty[1];
+        }
+
+        //select target 3
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
+            (TargetParty[2] != nullptr))
+        {
+            Target[0] = TargetParty[2];
+        }
+
+        //select target 4
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+            (TargetParty[3] != nullptr))
+        {
+            Target[0] = TargetParty[3];
+        }
+
+        //go back if escape
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            //reset cursor position
+            g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+
+            //go back to previous menu
+            Action = Main;
+        }
     }
 
-    //select defend
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void SelectSpecialAction()
     {
-        CurrentClass->Defend();
+        //select Skill
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            Action = Skill;
+        }
+
+        //select Item
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            ResetCursorPosition();
+            Action = Item;
+        }
+
+        //return to previous menu
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            //reset cursor position
+            ResetCursorPosition();
+
+            //go back to previous menu
+            Action = Main;
+        }
     }
 
-    //select special
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+    void SelectSkill()
     {
-        //reset cursor position
-        ResetCursorPosition();
+        //select skill 1
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            if (CurrentClass->SkillNameList(0) != "")
+            {
+                EffectSelect = 0;
+                CheckTargetType(CurrentClass->SkillTargetType(0));
+            }
+        }
 
-        //set player action
-        Action = Special;
+        //select skill 2
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            if (CurrentClass->SkillNameList(1) != "")
+            {
+                EffectSelect = 1;
+                CheckTargetType(CurrentClass->SkillTargetType(1));
+            }
+        }
+
+        //select skill 3
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+        {
+            if (CurrentClass->SkillNameList(2) != "")
+            {
+                EffectSelect = 2;
+                CheckTargetType(CurrentClass->SkillTargetType(2));
+            }
+        }
+
+        //select skill 4
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            if (CurrentClass->SkillNameList(4) != "")
+            {
+                EffectSelect = 3;
+                CheckTargetType(CurrentClass->SkillTargetType(4));
+            }
+        }
+    }
+    void CheckTargetType(int type)
+    {
+        if (type == Class::Single)
+        {
+            ResetCursorPosition();
+            Action = Select;
+        }
+        else if (type == Class::AOE)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Target[i] = EnemyParty[i];
+            }
+            ExecuteSkill(EffectSelect);
+        }
+        else if (type == Class::Self)
+        {
+            Target[0] = PlayerParty[0];
+            ExecuteSkill(EffectSelect);
+        }
+        else if (type == Class::FSingle)
+        {
+            ResetCursorPosition();
+            Action = FSelect;
+        }
+        else if (type == Class::FAOE)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Target[i] = PlayerParty[i];
+            }
+            ExecuteSkill(EffectSelect);
+        }
     }
 
-    //select flee
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void ExecuteSkill(int SkillIndex)
     {
-        EndBattle();
-    }
-}
-
-void BattleAttack()
-{
-    if (Target != nullptr)
-    {
-        CurrentClass->Attack(Target[0]);
+        CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
         TurnEnd();
         Action = Main;
     }
-}
 
-void SelectTarget(Class* TargetParty[])
- {
-    //select target 1
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
-        (TargetParty[0] != nullptr)) 
-    {
-        Target[0] = TargetParty[0];
-    }
-
-    //select target 2
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
-        (TargetParty[1] != nullptr))
-    {
-        Target[0] = TargetParty[1];
-    }
-
-    //select target 3
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
-        (TargetParty[2] != nullptr))
-    {
-        Target[0] = TargetParty[2];
-    }
-
-    //select target 4
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
-        (TargetParty[3] != nullptr))
-    {
-        Target[0] = TargetParty[3];
-    }
-
-    //go back if escape
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    void ResetCursorPosition(void)
     {
         //reset cursor position
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-
-        //go back to previous menu
-        Action = Main;
-    }
-}
-
-void SelectSpecialAction()
-{
-    //select Skill
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
-    {
-        Action = Skill;
     }
 
-    //select Item
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void TurnEnd(void)
     {
-        ResetCursorPosition();
-        Action = Item;
-    }
-
-    //return to previous menu
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
-    {
-        //reset cursor position
-        ResetCursorPosition();
-
-        //go back to previous menu
-        Action = Main;
-    }
-}
-
-void SelectSkill()
-{
-    //select skill 1
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 )
-    {
-        if (CurrentClass->SkillNameList(0) != "")
-        {
-            EffectSelect = 0;
-            CheckTargetType(CurrentClass->SkillTargetType(0));
-        }
-    }
-
-    //select skill 2
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        if (CurrentClass->SkillNameList(1) != "")
-        {
-            EffectSelect = 1;
-            CheckTargetType(CurrentClass->SkillTargetType(1));
-        }
-    }
-
-    //select skill 3
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
-    {
-        if (CurrentClass->SkillNameList(2) != "")
-        {
-            EffectSelect = 2;
-            CheckTargetType(CurrentClass->SkillTargetType(2));
-        }
-    }
-
-    //select skill 4
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        if (CurrentClass->SkillNameList(4) != "")
-        {
-            EffectSelect = 3;
-            CheckTargetType(CurrentClass->SkillTargetType(4));
-        }
-    }
-}
-void CheckTargetType(int type)
-{
-    if (type == Class::Single)
-    {
-        ResetCursorPosition();
-        Action = Select;
-    }
-    else if (type == Class::AOE)
-    {
+        //check if an enemy is dead
         for (int i = 0; i < 4; i++)
         {
-            Target[i] = EnemyParty[i];
-        }
-        ExecuteSkill(EffectSelect);
-    }
-    else if (type == Class::Self)
-    {
-        Target[0] = PlayerParty[0];
-        ExecuteSkill(EffectSelect);
-    }
-    else if (type == Class::FSingle)
-    {
-        ResetCursorPosition();
-        Action = FSelect;
-    }
-    else if (type == Class::FAOE)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Target[i] = PlayerParty[i];
-        }
-        ExecuteSkill(EffectSelect);
-    }
-}
-
-void ExecuteSkill(int SkillIndex)
-{
-    CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
-    TurnEnd();
-    Action = Main;
-}
-
-void ResetCursorPosition(void)
-{
-    //reset cursor position
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-}
-
-void TurnEnd(void)
-{
-    //check if an enemy is dead
-    for (int i = 0; i < 4; i++)
-    {
-        if (EnemyParty[i] != nullptr)
-        {
-            if (EnemyParty[i]->GetHealth() <= 0)
+            if (EnemyParty[i] != nullptr)
             {
-                delete EnemyParty[i];
-                EnemyParty[i] = nullptr;
+                if (EnemyParty[i]->GetHealth() <= 0)
+                {
+                    delete EnemyParty[i];
+                    EnemyParty[i] = nullptr;
+                }
             }
         }
+        CurrentClass->SetTurn(false);
+        CurrentTurn++;
     }
-    CurrentClass->SetTurn(false);
-    CurrentTurn++;
-}
 
-void RoundEnd(void)
-{
-    for (int i = 0; i < 4; i++)
+    void RoundEnd(void)
     {
-        if (EnemyParty[i] != nullptr)
+        for (int i = 0; i < 4; i++)
         {
-            EnemyParty[i]->SetTurn(true);
+            if (EnemyParty[i] != nullptr)
+            {
+                EnemyParty[i]->SetTurn(true);
+            }
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if ((PlayerParty[i] != nullptr) ||
+                !(PlayerParty[i]->GetHealth() <= 0))
+            {
+                PlayerParty[i]->SetTurn(true);
+            }
+        }
+
+        CurrentTurn++;
+    }
+
+    void VictoryCondition()
+    {
+        if ((EnemyParty[0] == nullptr) &&
+            (EnemyParty[1] == nullptr) &&
+            (EnemyParty[2] == nullptr) &&
+            (EnemyParty[3] == nullptr))
+        {
+            EndBattle();
         }
     }
 
-    for (int i = 0; i < 4; i++)
+    void EndBattle()
     {
-        if ((PlayerParty[i] != nullptr) &&
-            !(PlayerParty[i]->GetHealth() <= 0))
+        RoundEnd();
+        for (int i = 0; i < 4; i++)
         {
-            PlayerParty[i]->SetTurn(true);
+            delete EnemyParty[i];
+            EnemyParty[i] = nullptr;
         }
+        TurnCount = 1;
+        CurrentTurn = 1;
+        g_sChar.m_cLocation.X = PlayerTempCoordX;
+        g_sChar.m_cLocation.Y = PlayerTempCoordY;
+        g_eGameState = S_MAP1;
     }
-}
 
+    void EnemyAI()
+    {
+        //enemy targeting
+        int EnemyTarget;
+        srand(static_cast<unsigned int>(time(0)));
+        EnemyTarget = rand() % 3;
+        while (PlayerParty[EnemyTarget]->GetHealth() <= 0)
+        {
+            EnemyTarget = rand() % 3;
+        }
+
+        CurrentClass->SkillList(rand() % 3, EnemyTarget, PlayerParty);
+        TurnEnd();
+        Action = Main;
+    }
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
 //            At this point, you should know exactly what to draw onto the screen.
@@ -3763,9 +3850,14 @@ void render()
         break;
     case S_MAP1: renderGame();
         break;
+    case S_MAP2: renderGame2();
+        break;
     case S_BATTLE: renderBattle();
         break;
     case S_INVENTORY: renderInventory();
+        break;
+    case S_SHOP: renderShop();
+        break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -3784,33 +3876,11 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-void VictoryCondition()
-{
-    if ((EnemyParty[0] == nullptr) &&
-        (EnemyParty[1] == nullptr) &&
-        (EnemyParty[2] == nullptr) &&
-        (EnemyParty[3] == nullptr))
-    {
-        EndBattle();
-    }
-}
-
-void EndBattle()
-{
-    RoundEnd();
-    TurnCount = 1;
-    CurrentTurn = 1;
-    g_sChar.m_cLocation.X = PlayerTempCoordX;
-    g_sChar.m_cLocation.Y = PlayerTempCoordY;
-    g_eGameState = S_MAP1;
-}
-
-
-
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
 Items* SelectedItem = nullptr;
 Class* SelectedPlayer = nullptr;
+EGAMESTATES SavedLocation = g_eGameState;
 //these store the player's original position on the map so they can return to it if after leaving inventories/shops
 int initialX = 0;
 int initialY = 0;
@@ -3818,6 +3888,7 @@ int InventoryPage = 1;
 
 void inventoryOpened()
 {
+    SavedLocation = g_eGameState;
     initialX = g_sChar.m_cLocation.X;
     initialY = g_sChar.m_cLocation.Y;
     g_sChar.m_cLocation.X = 29;
@@ -3830,12 +3901,9 @@ void inventoryClosed()
     g_sChar.m_cLocation.Y = initialY;
     SelectedItem = nullptr;
     SelectedPlayer = nullptr;
+    g_eGameState = SavedLocation;
 }
 
-void renderShop()
-{
-    renderShopScreen();
-}
 //Moving system for inventories and shops
 void InventoryMove()
 {
@@ -3911,72 +3979,13 @@ void updateInventory()
     InventoryMove();
     InventorySelection();
 }
-//selecting system for shops
-void ShopSelect()
-{
-    //select the item
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y <= (g_Console.getConsoleSize().Y / 10) * 8))
-    {
-
-    }
-
-    //select exit
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
-    {
-    }
-    //select use
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 9)
-    {
-
-    }
-}
 
 void renderInventory()
 {
     renderInventoryScreen();
     renderSelection();
 }
-void renderShopScreen()
-{
-    COORD c;
-    std::ostringstream ss;
 
-    //SHOP TITLE
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = g_Console.getConsoleSize().X / 2;
-    ss.str(" SHOP");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    /*Shop Items all displayed below*/
-    for (int i = 0; i < 5; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-        ss.str(ShopInventory.GetItem(i)->GetName());
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-        ss.str(ShopInventory.GetItem(i)->GetName());
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    ss.str("Exit");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    ss.str("Buy");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-}
 
 void renderInventoryScreen()
 {
@@ -3987,6 +3996,11 @@ void renderInventoryScreen()
         c.Y = 3;
         c.X = 67;
         ss.str(" YOUR BACKPACK");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+        c.X = 25;
+        c.Y = 4;
+        ss.str(" ");
+        ss << "GOLD : " << PlayerInventory.GetGold();
         g_Console.writeToBuffer(c, ss.str(), 0x07);
 
         /*Player's items all displayed below*/
@@ -4140,8 +4154,146 @@ void InventorySelection()
         }
     }
 }
+//SHOP IS PROGRAMMED HERE------------------------------------
+void renderShop()
+{
+    renderShopScreen();
+    renderSelection();
+}
+void updateShop()
+{
+    InventoryMove();
+    ShopSelect();
+}
+void shopOpened()
+{
+    SavedLocation = g_eGameState;
+    initialX = g_sChar.m_cLocation.X;
+    initialY = g_sChar.m_cLocation.Y;
+    g_sChar.m_cLocation.X = 29;
+    g_sChar.m_cLocation.Y = 9;
+    g_eGameState = S_SHOP;
+}
+void renderShopScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+    c.Y = 3;
+    c.X = 67;
+    ss.str("ADVENTURER'S SHOP");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.X = 25;
+    c.Y = 4;
+    ss.str("");
+    ss << "GOLD : " << PlayerInventory.GetGold();
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    ss.str("");
+
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = 9 + (3 * i);
+        c.X = 30;
+        if (ShopInventory.GetItem(i) == nullptr)
+        {
+            ss.str("-");
+        }
+        else
+        {
+            ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
+                << " Gold)";
+        }
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+        ss.str("");
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (3 * i) - 6;
+        c.X = 105;
+        if (ShopInventory.GetItem(i) == nullptr)
+        {
+            ss.str("-");
+        }
+        else
+        {
+            ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
+                << " Gold)";
+        }
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+        ss.str("");
+    }
+    c.Y = 27;
+    c.X = 33;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = 27;
+    c.X = 100;
+    ss.str(" Buy");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+//selecting system for shops
+void ShopSelect()
+{
+    //select item
+    for (int i = 0; i < 5; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 29 &&
+            g_sChar.m_cLocation.Y == 9 + (3 * i))
+        {
+            SelectedItem = ShopInventory.GetItem(i);
+        }
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 104 &&
+            g_sChar.m_cLocation.Y == (3 * i) - 6)
+        {
+            SelectedItem = ShopInventory.GetItem(i);
+        }
+    }
+    //select exit
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 32)
+    {
+        inventoryClosed();
+    }
+    //select use
+    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+        g_sChar.m_cLocation.Y == 27 &&
+        g_sChar.m_cLocation.X == 100 &&
+        SelectedItem != nullptr)
+    {
+        PlayerInventory.AddItem(SelectedItem);
+        PlayerInventory.SetGold(PlayerInventory.GetGold() - SelectedItem->GetCost());
+        g_sChar.m_cLocation.Y = 9;
+        g_sChar.m_cLocation.X = 29;
+        SelectedItem = nullptr;
+    }
+}
 
 //----------------------------------------------------------------------------
+
 
 
 
@@ -4176,7 +4328,11 @@ void renderGame()
     renderMap1();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
-
+void renderGame2()
+{
+    renderMap2();        // renders the map to the buffer first
+    renderCharacter();  // renders the character into the buffer
+}
 void renderMap1()
 //---------------------------------------------------------------------------------------------------------------------------------------------
 {
@@ -5653,351 +5809,351 @@ void renderMap1()
 //===============================================================================================================================================
 //===============================================================================================================================================
 //2nd map
-//void renderMap1()
-//{
-//    
-//    const WORD colors[] = {
-//       0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-//       0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-//    };
-//    COORD c;
-//
-//    if (c.X = 0, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, " л", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, " л", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 3)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 4)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 5)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 6)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 7)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 8)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 9)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 10)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 11)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 12)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 13)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 14)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 15)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 16)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 17)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 18)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 19)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 20)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 21)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 22)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 23)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 24)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 25)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 26)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 28)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 2, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 1)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 2)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 3)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 4)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 5)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 6)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 7)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 8)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 9)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 10)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 11)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 12)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 13)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 14)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 15)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 16)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 17)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 18)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 19)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 20)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 21)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 22)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 23)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 24)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 25)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 26)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 148, c.Y = 28)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "лл", colors[6]);
-//    }
-//    if (c.X = 0, c.Y = 28)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 1, c.Y = 4)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 8)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 2, c.Y = 13)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 17)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 1, c.Y = 21)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 25, c.Y = 24)
-//    {
-//        colour(colors[6]);
-//        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
-//    }
-//    if (c.X = 142, c.Y = 27)
-//    {
-//        colour(colors[3]);
-//        g_Console.writeToBuffer(c, "      ", colors[3]); //boss
-//    }
-//    if (c.X = 2, c.Y = 17)
-//            {
-//                colour(colors[1]);
-//                g_Console.writeToBuffer(c, "ВВВВВ", colors[5]); //fountain
-//            }
-//}
+void renderMap2()
+{
+    
+    const WORD colors[] = {
+       0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+       0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+    };
+    COORD c;
+
+    if (c.X = 0, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, " л", colors[6]);
+    }
+    if (c.X = 0, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, " л", colors[6]);
+    }
+    if (c.X = 0, c.Y = 3)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 4)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 5)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 6)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 7)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 8)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 9)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 10)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 11)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 12)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 13)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 14)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 15)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 16)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 17)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 18)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 19)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 20)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 21)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 22)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 23)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 24)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 25)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 26)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 28)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 2, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 1)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 2)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 3)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 4)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 5)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 6)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 7)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 8)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 9)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 10)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 11)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 12)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 13)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 14)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 15)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 16)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 17)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 18)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 19)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 20)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 21)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 22)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 23)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 24)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 25)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 26)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 148, c.Y = 28)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "лл", colors[6]);
+    }
+    if (c.X = 0, c.Y = 28)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "лллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 1, c.Y = 4)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 8)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 2, c.Y = 13)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 17)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 1, c.Y = 21)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 25, c.Y = 24)
+    {
+        colour(colors[6]);
+        g_Console.writeToBuffer(c, "ллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллллл", colors[6]);
+    }
+    if (c.X = 142, c.Y = 27)
+    {
+        colour(colors[3]);
+        g_Console.writeToBuffer(c, "      ", colors[3]); //boss
+    }
+    if (c.X = 2, c.Y = 17)
+            {
+                colour(colors[1]);
+                g_Console.writeToBuffer(c, "ВВВВВ", colors[5]); //fountain
+            }
+}
 //===============================================================================================================================================
 //===============================================================================================================================================
 void renderCharacter()
