@@ -1628,6 +1628,208 @@ void Colision2()
     {
         g_sChar.m_cLocation.Y -= 1;
     }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 2) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 3) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 2) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 3) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 4) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 5) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 6) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 7) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 4) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
 }
 //==========================================================================================================
 void Collision()
