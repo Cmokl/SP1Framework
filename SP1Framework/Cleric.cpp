@@ -1,4 +1,4 @@
-#include "Cleric.h"
+s#include "Cleric.h"
 Cleric::Cleric()
 {
 	this->SetName("Cleric");
@@ -21,10 +21,12 @@ void Cleric::HolyRestoration(Class* target)
 	//mana cost 3
 	this->SetMana(GetMana() - 3);
 
-	target->SetHealth(target->GetHealth() + (GetFaith()/2)); 
-	if (target-> GetHealth() > target->GetMaxHealth())
+	for (int i = 0; i < (this->GetFaith() / 2); i++)
 	{
-		target->SetMaxHealth(target->GetMaxHealth());
+		if (Targets->GetHealth() + 1 < Target->GetMaxHealth())
+		{
+			Target->SetHealth(this->GetHealth() + 1);
+		}
 	}
 }
 void Cleric::Resurrection(Class* target)
