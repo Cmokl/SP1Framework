@@ -43,6 +43,7 @@ enum EGAMESTATES
     S_MENUSCREEN,
     S_GAMEPAUSE,
     S_MAP1,
+    S_MAP2,
     S_COUNT,
     S_BATTLE,
     S_INVENTORY,
@@ -99,6 +100,7 @@ void ShopSelect();
 void updateShop();
 void renderGame();          // renders the game stuff
 void renderMap1();           // renders the map to the buffer first
+void renderMap2();
 void renderCharacter();     // renders the character into the buffer
 void renderFramerate();     // renders debug information, frame rate, elapsed time, etc
 void renderToScreen();      // dump the contents of the buffer to the screen, one frame worth of game
@@ -112,6 +114,8 @@ void arrow();
 void rendergamepause();
 void renderhowtoplay();
 void howtoplaybutton();
+void changelevel();
+void renderGame2();
 
 // keyboard and mouse input event managers
 void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent);  // define this function for the console to call when there are keyboard events
