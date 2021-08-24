@@ -33,6 +33,7 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
+bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -86,6 +87,7 @@ COORD cb;
 //--------------------------------------------------------------
 void init( void )
 {
+    playmusic;
     // Set precision for floating point output
     g_dElapsedTime = 0.0;    
 
@@ -1628,6 +1630,208 @@ void Colision2()
     {
         g_sChar.m_cLocation.Y -= 1;
     }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 2) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 3) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 2) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 3) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 4) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 5) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 6) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 7) // 1st hole right
+    {
+        g_sChar.m_cLocation.X -= 1;
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 4) // 1st hole left
+    {
+        g_sChar.m_cLocation.X += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 5) // 2nd hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+
 }
 //==========================================================================================================
 void Collision()
@@ -5008,10 +5212,10 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-//----------------------------------------------------------------------------------
+///----------------------------------------------------------------------------------
 //Inventory function is coded here
-Items* SelectedItem = nullptr;
-Class* SelectedPlayer = nullptr;
+int SelectedItemNumber = -1;
+int SelectedPlayerNumber = -1;
 EGAMESTATES SavedLocation = g_eGameState;
 //these store the player's original position on the map so they can return to it if after leaving inventories/shops
 int initialX = 0;
@@ -5031,8 +5235,8 @@ void inventoryClosed()
 {
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
-    SelectedItem = nullptr;
-    SelectedPlayer = nullptr;
+    SelectedItemNumber = -1;
+    SelectedItemNumber = -1;
     g_eGameState = SavedLocation;
 }
 
@@ -5149,8 +5353,7 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItem == PlayerInventory.GetItem(i) &&
-                SelectedItem != nullptr)
+            if (SelectedItemNumber == i)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
 
@@ -5173,8 +5376,7 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItem == PlayerInventory.GetItem(i) &&
-                SelectedItem != nullptr)
+            if (SelectedItemNumber == i)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
             }
@@ -5201,7 +5403,7 @@ void renderInventoryScreen()
         {
             c.X = 63;
             c.Y = 8 + (i * 3);
-            if (SelectedPlayer == PlayerParty[i])
+            if (SelectedPlayerNumber == i)
             {
                 ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -5230,7 +5432,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 29 &&
                 g_sChar.m_cLocation.Y == 9 + (3 * i))
             {
-                SelectedItem = PlayerInventory.GetItem(i);
+                SelectedItemNumber = i;
             }
         }
         for (int i = 5; i < 10; i++)
@@ -5239,7 +5441,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 104 &&
                 g_sChar.m_cLocation.Y == (3 * i) - 6)
             {
-                SelectedItem = PlayerInventory.GetItem(i);
+                SelectedItemNumber = i;
             }
         }
         //select exit
@@ -5253,7 +5455,7 @@ void InventorySelection()
         else if (g_skKeyEvent[K_SPACE].keyReleased &&
             g_sChar.m_cLocation.Y == 27 &&
             g_sChar.m_cLocation.X == 100 &&
-            SelectedItem != nullptr)
+            SelectedItemNumber != -1)
         {
             InventoryPage = 2;
             g_sChar.m_cLocation.X = 62;
@@ -5268,18 +5470,18 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 62 &&
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
-                SelectedPlayer = PlayerParty[i];
+                SelectedPlayerNumber = i;
             }
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
-            SelectedPlayer != nullptr)
+            SelectedPlayerNumber != -1)
         {
             //item is used on the player and removed from the inventory
-            SelectedItem->ItemEffect(SelectedPlayer);
-            PlayerInventory.DiscardItem(SelectedItem);
+            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
+            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
 
-            SelectedPlayer = nullptr;
-            SelectedItem = nullptr;
+            SelectedPlayerNumber = -1;
+            SelectedItemNumber = -1;
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
@@ -5334,8 +5536,7 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItem == ShopInventory.GetItem(i) &&
-            SelectedItem != nullptr)
+        if (SelectedItemNumber == i)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -5360,8 +5561,7 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItem == ShopInventory.GetItem(i) &&
-            SelectedItem != nullptr)
+        if (SelectedItemNumber == i)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -5391,7 +5591,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 29 &&
             g_sChar.m_cLocation.Y == 9 + (3 * i))
         {
-            SelectedItem = ShopInventory.GetItem(i);
+            SelectedItemNumber = i;
         }
     }
     for (int i = 5; i < 10; i++)
@@ -5400,7 +5600,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 104 &&
             g_sChar.m_cLocation.Y == (3 * i) - 6)
         {
-            SelectedItem = ShopInventory.GetItem(i);
+            SelectedItemNumber = i;
         }
     }
     //select exit
@@ -5414,17 +5614,20 @@ void ShopSelect()
     else if (g_skKeyEvent[K_SPACE].keyReleased &&
         g_sChar.m_cLocation.Y == 27 &&
         g_sChar.m_cLocation.X == 100 &&
-        SelectedItem != nullptr)
+        SelectedItemNumber != -1)
     {
-        PlayerInventory.AddItem(SelectedItem);
-        PlayerInventory.SetGold(PlayerInventory.GetGold() - SelectedItem->GetCost());
+        PlayerInventory.AddItem(PlayerInventory.GetItem(SelectedItemNumber));
+        PlayerInventory.SetGold(PlayerInventory.GetGold() -
+            PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
         g_sChar.m_cLocation.Y = 9;
         g_sChar.m_cLocation.X = 29;
-        SelectedItem = nullptr;
+        SelectedItemNumber = -1;
     }
 }
 
 //----------------------------------------------------------------------------
+
+
 
 
 
