@@ -3831,6 +3831,14 @@ void TurnStart()
         CurrentTurn = 1;
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
+        if (Maplevel == 1)
+        {
+            g_eGameState = S_MAP1;
+        }
+        if (Maplevel == 2)
+        {
+            g_eGameState = S_MAP2;
+        }
     }
 
     void EnemyAI()
