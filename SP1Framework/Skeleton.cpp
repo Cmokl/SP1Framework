@@ -20,19 +20,24 @@ void Skeleton::Pierce(Class* target)
 {
 	target->SetHealth(target->GetHealth() - 6 + 6 * (0.1 * (target->GetDefence() / 10)));
 }
-void Skeleton::Reassemble()
+bool Skeleton::Reassemble()
 {
-	for (int i = 0; i < 4; i++)
+	if (this->GetHealth() != this->GetMaxHealth())
 	{
-		if (this->GetHealth() + 1 < this->GetMaxHealth())
+		for (int i = 0; i < 4; i++)
 		{
-			this->SetHealth(this->GetHealth() + 1);
+			if (this->GetHealth() + 1 < this->GetMaxHealth())
+			{
+				this->SetHealth(this->GetHealth() + 1);
+			}
 		}
+		return true;
 	}
+	return false;
 }
 
 //skill list
-void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
+bool Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
 {
 	if (ListIndex == 0)
 	{
@@ -43,7 +48,7 @@ void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
 	}
 	else if (ListIndex == 1)
 	{
-		Reassemble();
+		return Reassemble();
 	}
 	else
 	{
@@ -52,6 +57,7 @@ void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
 			Pierce(TargetParty[ClassIndex]);
 		}
 	}
+	return true;
 }
 
 std::string Skeleton::SkillNameList(int ListIndex)

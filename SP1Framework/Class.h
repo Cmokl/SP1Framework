@@ -80,7 +80,7 @@ public:
 	void RevertDefend();
 
 	//skill list(mostly hardcoding)
-	virtual void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
+	virtual bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
 	virtual int SkillTargetType(int ListIndex);
 	virtual std::string SkillNameList(int ListIndex) = 0;
 	virtual int ManaCost(int ListIndex);

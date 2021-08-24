@@ -58,8 +58,9 @@ void Paladin::RevertInspiringAura(Class* Self[])
 	}
 }
 
-void Paladin::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Paladin::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
+	return true;
 }
 
 int Paladin::SkillTargetType(int ListIndex)

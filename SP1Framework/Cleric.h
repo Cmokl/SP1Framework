@@ -9,12 +9,12 @@ public:
     ~Cleric();
 
     //skills
-    void HolyRestoration(Class* target);
-    void Resurrection(Class* target);
+    bool HolyRestoration(Class* target);
+    bool Resurrection(Class* target);
     void Protection(Class* TargetParty[]);
 
     //skill list
-    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
     int SkillTargetType(int ListIndex);
     std::string SkillNameList(int ListIndex);
     int ManaCost(int ListIndex);

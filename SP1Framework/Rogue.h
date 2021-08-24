@@ -17,12 +17,12 @@ public:
     void Attack(Class* Target);
 
     //skills
-    void Stealth(); //party here is rogue's own party
-    void CheapShot(Class* Target);
-    void Lacerate(Class* Target);
+    bool Stealth(); //party here is rogue's own party
+    bool CheapShot(Class* Target);
+    bool Lacerate(Class* Target);
 
     //skill list
-    void SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);
     int SkillTargetType(int ListIndex);
     std::string SkillNameList(int ListIndex);
     int ManaCost(int ListIndex);

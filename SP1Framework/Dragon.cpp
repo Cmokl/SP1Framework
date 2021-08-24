@@ -48,7 +48,7 @@ void Dragon::DragonsCall(Class* NewEnemy)
 	}
 }
 
-void Dragon::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Dragon::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
 	if (ListIndex == 0)
 	{
@@ -66,6 +66,7 @@ void Dragon::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	{
 		DragonsCall(TargetParty[ClassIndex]);
 	}
+	return true;
 }
 
 std::string Dragon::SkillNameList(int ListIndex)

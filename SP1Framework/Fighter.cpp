@@ -56,7 +56,7 @@ void Fighter::BattleCryRevert()
 	this->SetStrength(this->GetStrength() *(100/110));
 }
 
-void Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
+bool Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
 	if (ListIndex == 0)
 	{
@@ -70,6 +70,7 @@ void Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	{
 		BattleCry();
 	}
+	return true;
 }
 
 int Fighter::SkillTargetType(int ListIndex)
