@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 #include <windows.ui.composition.scenes.h>
 
 
@@ -350,7 +351,7 @@ void update(double dt)
             break;
         case S_MAP1: updateGame(); // gameplay logic when we are in the game
             break;
-        case S_MAP2:
+        case S_MAP2: updateGame();
             break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
@@ -447,7 +448,7 @@ void updateGame()       // gameplay logic
     {
         Collision();
      moveCharacter();    // moves the character, collision detection, physics, etc
-                 // sound can be played here too.
+     changelevel();
 
     }
      //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
@@ -540,6 +541,16 @@ void moveCharacter()
     
 }
 
+//map2 collision(DELETE IT)
+//========================================================================================================
+void Colision2()
+{
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+}
+//==========================================================================================================
 void Collision()
 {
     if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
@@ -3850,7 +3861,7 @@ void render()
         break;
     case S_MAP1: renderGame();
         break;
-    case S_MAP2:
+    case S_MAP2: renderGame2();
         break;
     case S_BATTLE: renderBattle();
         break;
@@ -5823,12 +5834,12 @@ void renderMap2()
     if (c.X = 0, c.Y = 1)
     {
         colour(colors[3]);
-        g_Console.writeToBuffer(c, " Û", colors[6]);
+        g_Console.writeToBuffer(c, "Û", colors[6]);
     }
     if (c.X = 0, c.Y = 2)
     {
         colour(colors[3]);
-        g_Console.writeToBuffer(c, " Û", colors[6]);
+        g_Console.writeToBuffer(c, "Û", colors[6]);
     }
     if (c.X = 0, c.Y = 3)
     {

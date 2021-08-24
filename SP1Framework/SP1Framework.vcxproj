@@ -118,6 +118,9 @@
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Wizard.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\MAP2.xlsx" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
