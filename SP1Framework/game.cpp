@@ -73,7 +73,7 @@ enum BattleActions
     EnemyAttack
 };
 int Action;
-
+int Maplevel;
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
 COORD cb;
@@ -3566,7 +3566,16 @@ void TurnStart()
             (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
             g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
         {
-            EndBattle();
+            if (Maplevel == 1)
+            {
+                EndBattle();
+                g_eGameState = S_MAP1;
+            }
+            if (Maplevel==2)
+            {
+                EndBattle();
+                g_eGameState = S_MAP2;
+            }
         }
     }
 
@@ -3822,7 +3831,6 @@ void TurnStart()
         CurrentTurn = 1;
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
-        g_eGameState = S_MAP1;
     }
 
     void EnemyAI()
@@ -4338,11 +4346,13 @@ void arrow()
 
 void renderGame()
 {
+    Maplevel = 1;
     renderMap1();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
 void renderGame2()
 {
+    Maplevel = 2;
     renderMap2();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
