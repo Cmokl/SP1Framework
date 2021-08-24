@@ -3402,13 +3402,6 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
-    case FSelect:
-        SelectTarget(PlayerParty);
-        if (Target[0] != nullptr)
-        {
-            ExecuteSkill(EffectSelect);
-        }
-        break;
     case EnemyAttack:
         EnemyAI();
         break;
@@ -3725,11 +3718,6 @@ void TurnStart()
                 CheckTargetType(CurrentClass->SkillTargetType(4));
             }
         }
-
-        if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        {
-            Action = Special;
-        }
     }
     void CheckTargetType(int type)
     {
@@ -3911,8 +3899,8 @@ void renderToScreen()
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
-int SelectedItemNumber = -1;
-int SelectedPlayerNumber = -1;
+Items* SelectedItem = nullptr;
+Class* SelectedPlayer = nullptr;
 EGAMESTATES SavedLocation = g_eGameState;
 //these store the player's original position on the map so they can return to it if after leaving inventories/shops
 int initialX = 0;
@@ -3932,8 +3920,8 @@ void inventoryClosed()
 {
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
-    SelectedItemNumber = -1;
-    SelectedItemNumber = -1;
+    SelectedItem = nullptr;
+    SelectedPlayer = nullptr;
     g_eGameState = SavedLocation;
 }
 
@@ -4050,7 +4038,8 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItemNumber == i)
+            if (SelectedItem == PlayerInventory.GetItem(i) &&
+                SelectedItem != nullptr)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
 
@@ -4073,7 +4062,8 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItemNumber == i)
+            if (SelectedItem == PlayerInventory.GetItem(i) &&
+                SelectedItem != nullptr)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
             }
@@ -4100,7 +4090,7 @@ void renderInventoryScreen()
         {
             c.X = 63;
             c.Y = 8 + (i * 3);
-            if (SelectedPlayerNumber == i)
+            if (SelectedPlayer == PlayerParty[i])
             {
                 ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4129,7 +4119,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 29 &&
                 g_sChar.m_cLocation.Y == 9 + (3 * i))
             {
-                SelectedItemNumber = i;
+                SelectedItem = PlayerInventory.GetItem(i);
             }
         }
         for (int i = 5; i < 10; i++)
@@ -4138,7 +4128,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 104 &&
                 g_sChar.m_cLocation.Y == (3 * i) - 6)
             {
-                SelectedItemNumber = i;
+                SelectedItem = PlayerInventory.GetItem(i);
             }
         }
         //select exit
@@ -4152,7 +4142,7 @@ void InventorySelection()
         else if (g_skKeyEvent[K_SPACE].keyReleased &&
             g_sChar.m_cLocation.Y == 27 &&
             g_sChar.m_cLocation.X == 100 &&
-            SelectedItemNumber != -1)
+            SelectedItem != nullptr)
         {
             InventoryPage = 2;
             g_sChar.m_cLocation.X = 62;
@@ -4167,18 +4157,18 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 62 &&
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
-                SelectedPlayerNumber = i;
+                SelectedPlayer = PlayerParty[i];
             }
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
-            SelectedPlayerNumber != -1)
+            SelectedPlayer != nullptr)
         {
             //item is used on the player and removed from the inventory
-            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
-            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
+            SelectedItem->ItemEffect(SelectedPlayer);
+            PlayerInventory.DiscardItem(SelectedItem);
 
-            SelectedPlayerNumber = -1;
-            SelectedItemNumber = -1;
+            SelectedPlayer = nullptr;
+            SelectedItem = nullptr;
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
@@ -4233,7 +4223,8 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItemNumber == i)
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4258,7 +4249,8 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItemNumber == i)
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4288,7 +4280,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 29 &&
             g_sChar.m_cLocation.Y == 9 + (3 * i))
         {
-            SelectedItemNumber = i;
+            SelectedItem = ShopInventory.GetItem(i);
         }
     }
     for (int i = 5; i < 10; i++)
@@ -4297,7 +4289,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 104 &&
             g_sChar.m_cLocation.Y == (3 * i) - 6)
         {
-            SelectedItemNumber = i;
+            SelectedItem = ShopInventory.GetItem(i);
         }
     }
     //select exit
@@ -4311,19 +4303,17 @@ void ShopSelect()
     else if (g_skKeyEvent[K_SPACE].keyReleased &&
         g_sChar.m_cLocation.Y == 27 &&
         g_sChar.m_cLocation.X == 100 &&
-        SelectedItemNumber != -1)
+        SelectedItem != nullptr)
     {
-        PlayerInventory.AddItem(PlayerInventory.GetItem(SelectedItemNumber));
-        PlayerInventory.SetGold(PlayerInventory.GetGold() -
-            PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
+        PlayerInventory.AddItem(SelectedItem);
+        PlayerInventory.SetGold(PlayerInventory.GetGold() - SelectedItem->GetCost());
         g_sChar.m_cLocation.Y = 9;
         g_sChar.m_cLocation.X = 29;
-        SelectedItemNumber = -1;
+        SelectedItem = nullptr;
     }
 }
 
 //----------------------------------------------------------------------------
-
 
 
 
@@ -6389,53 +6379,6 @@ void renderBattleScreen()
 
             ss.str("");
             ss << " 4." << EnemyParty[3]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-    }
-    else if (Action == FSelect)
-    {
-        //target 1
-        if (PlayerParty[0] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-            c.X = (g_Console.getConsoleSize().X / 8);
-
-            ss.str("");
-            ss << " 1." << PlayerParty[0]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 2
-        if (PlayerParty[1] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-            ss.str("");
-            ss << " 2." << PlayerParty[1]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 3
-        if (PlayerParty[2] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-            c.X = (g_Console.getConsoleSize().X / 8);
-
-            ss.str("");
-            ss << " 3." << PlayerParty[2]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 4
-        if (PlayerParty[3] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-
-            ss.str("");
-            ss << " 4." << PlayerParty[3]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
