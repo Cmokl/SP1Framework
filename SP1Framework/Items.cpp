@@ -10,10 +10,9 @@ Items::~Items()
 {
 }
 //get and set functions
-
 void Items::SetCost(int cost)
 {
-	this->cost = cost;
+	cost = cost;
 }
 int Items::GetCost()
 {
@@ -34,4 +33,16 @@ void Items::SetDescription(std::string NewDescription)
 std::string Items::GetDescription()
 {
 	return description;
+}
+int Items::GetEffectValue()
+{
+	return EffectValue;
+}
+void Items::SetEffectValue(int EffectValue)
+{
+	this->EffectValue = EffectValue;
+}
+//Item's effect
+void Items::ItemEffect(Class* Player)
+{
 }
