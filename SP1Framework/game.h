@@ -48,6 +48,7 @@ enum EGAMESTATES
     S_BATTLE,
     S_INVENTORY,
     S_SHOP,
+    S_BATTLESPLASH
 };
 
 // struct for the game character
@@ -68,6 +69,8 @@ void splashScreenWait();    // waits for time to pass in splash screen
 void updateGame();          // gameplay logic
 void moveCharacter();       // moves the character, collision detection, physics, etc
 void foundRandomEncounter(); //function that handles if there is na random enounter or not
+void BattleSplash();
+void renderBattleSplash();
 void initEnemyGroup(int EnemyGroup); //initialize enemy groups
 void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
 void updateBattle(); //Battle logic
