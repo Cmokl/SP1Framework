@@ -3309,7 +3309,7 @@ void foundRandomEncounter(void)
         (--RandomDelay == 0))
     {
         RandomDelay = 3;
-        initEnemyGroup(rand() % 1);
+        initEnemyGroup(rand() % 2);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_eGameState = S_BATTLE;
