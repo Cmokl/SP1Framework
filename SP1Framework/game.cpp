@@ -3709,6 +3709,11 @@ void TurnStart()
                 CheckTargetType(CurrentClass->SkillTargetType(4));
             }
         }
+
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            Action = Special;
+        }
     }
     void CheckTargetType(int type)
     {
