@@ -33,7 +33,7 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
-bool playmusic = PlaySound(TEXT("Monkeys-Spinning-Monkeys.wav"), NULL, SND_LOOP | SND_ASYNC);
+bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
