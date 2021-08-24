@@ -73,7 +73,7 @@ enum BattleActions
     EnemyAttack
 };
 int Action;
-
+int Maplevel;
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
 COORD cb;
@@ -541,11 +541,1090 @@ void moveCharacter()
     
 }
 
+
 //map2 collision(DELETE IT)
 //========================================================================================================
 void Colision2()
 {
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
+
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 112 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 128 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 129 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 130 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 131 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 132 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 133 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 134 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 135 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 136 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 137 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 138 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 139 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 140 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 141 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 142 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 143 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 144 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 145 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 146 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.X == 147 && g_sChar.m_cLocation.Y == 2) // 1st hole up
+    {
+        g_sChar.m_cLocation.Y += 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 2 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 3 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 4 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 5 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 6 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 7 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 8 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 9 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 10 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 11 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 12 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 13 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 14 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 15 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 16 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 17 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 18 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 19 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 20 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 21 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 22 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 23 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 24 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 25 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 26 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 27 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 28 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 29 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 30 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 31 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 32 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 33 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 34 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 35 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 36 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 37 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 38 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 39 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 40 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 41 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 42 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 43 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 44 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 45 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 46 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 47 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 48 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 49 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 50 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 51 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 52 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 53 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 54 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 55 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 56 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 57 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 58 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 59 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 60 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 61 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 63 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 64 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 65 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 66 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 68 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 69 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 70 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 71 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 72 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 73 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 74 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 76 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 77 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 78 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 79 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 80 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 81 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 82 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 83 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 84 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 85 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 86 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 87 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 88 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 89 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 90 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 91 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 92 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 93 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 94 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 95 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 96 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 97 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 98 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 99 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 100 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 101 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 102 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 103 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 104 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 105 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 106 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 107 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 108 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 109 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 110 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 111 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 113 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 114 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 115 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 116 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 117 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 118 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 119 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 120 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 121 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 122 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 123 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 124 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 125 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 126 && g_sChar.m_cLocation.Y == 3) // 1st hole down
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 127 && g_sChar.m_cLocation.Y == 3) // 1st hole down
     {
         g_sChar.m_cLocation.Y -= 1;
     }
@@ -3402,13 +4481,6 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
-    case FSelect:
-        SelectTarget(PlayerParty);
-        if (Target[0] != nullptr)
-        {
-            ExecuteSkill(EffectSelect);
-        }
-        break;
     case EnemyAttack:
         EnemyAI();
         break;
@@ -3573,7 +4645,16 @@ void TurnStart()
             (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
             g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
         {
-            EndBattle();
+            if (Maplevel == 1)
+            {
+                EndBattle();
+                g_eGameState = S_MAP1;
+            }
+            if (Maplevel==2)
+            {
+                EndBattle();
+                g_eGameState = S_MAP2;
+            }
         }
     }
 
@@ -3716,11 +4797,6 @@ void TurnStart()
                 CheckTargetType(CurrentClass->SkillTargetType(4));
             }
         }
-
-        if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        {
-            Action = Special;
-        }
     }
     void CheckTargetType(int type)
     {
@@ -3834,7 +4910,14 @@ void TurnStart()
         CurrentTurn = 1;
         g_sChar.m_cLocation.X = PlayerTempCoordX;
         g_sChar.m_cLocation.Y = PlayerTempCoordY;
-        g_eGameState = S_MAP1;
+        if (Maplevel == 1)
+        {
+            g_eGameState = S_MAP1;
+        }
+        if (Maplevel == 2)
+        {
+            g_eGameState = S_MAP2;
+        }
     }
 
     void EnemyAI()
@@ -3903,8 +4986,8 @@ void renderToScreen()
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
-int SelectedItemNumber = -1;
-int SelectedPlayerNumber = -1;
+Items* SelectedItem = nullptr;
+Class* SelectedPlayer = nullptr;
 EGAMESTATES SavedLocation = g_eGameState;
 //these store the player's original position on the map so they can return to it if after leaving inventories/shops
 int initialX = 0;
@@ -3924,8 +5007,8 @@ void inventoryClosed()
 {
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
-    SelectedItemNumber = -1;
-    SelectedItemNumber = -1;
+    SelectedItem = nullptr;
+    SelectedPlayer = nullptr;
     g_eGameState = SavedLocation;
 }
 
@@ -4042,7 +5125,8 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItemNumber == i)
+            if (SelectedItem == PlayerInventory.GetItem(i) &&
+                SelectedItem != nullptr)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
 
@@ -4065,7 +5149,8 @@ void renderInventoryScreen()
                 ss.str(PlayerInventory.GetItem(i)->GetName());
             }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
-            if (SelectedItemNumber == i)
+            if (SelectedItem == PlayerInventory.GetItem(i) &&
+                SelectedItem != nullptr)
             {
                 g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
             }
@@ -4092,7 +5177,7 @@ void renderInventoryScreen()
         {
             c.X = 63;
             c.Y = 8 + (i * 3);
-            if (SelectedPlayerNumber == i)
+            if (SelectedPlayer == PlayerParty[i])
             {
                 ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4121,7 +5206,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 29 &&
                 g_sChar.m_cLocation.Y == 9 + (3 * i))
             {
-                SelectedItemNumber = i;
+                SelectedItem = PlayerInventory.GetItem(i);
             }
         }
         for (int i = 5; i < 10; i++)
@@ -4130,7 +5215,7 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 104 &&
                 g_sChar.m_cLocation.Y == (3 * i) - 6)
             {
-                SelectedItemNumber = i;
+                SelectedItem = PlayerInventory.GetItem(i);
             }
         }
         //select exit
@@ -4144,7 +5229,7 @@ void InventorySelection()
         else if (g_skKeyEvent[K_SPACE].keyReleased &&
             g_sChar.m_cLocation.Y == 27 &&
             g_sChar.m_cLocation.X == 100 &&
-            SelectedItemNumber != -1)
+            SelectedItem != nullptr)
         {
             InventoryPage = 2;
             g_sChar.m_cLocation.X = 62;
@@ -4159,18 +5244,18 @@ void InventorySelection()
                 g_sChar.m_cLocation.X == 62 &&
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
-                SelectedPlayerNumber = i;
+                SelectedPlayer = PlayerParty[i];
             }
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
-            SelectedPlayerNumber != -1)
+            SelectedPlayer != nullptr)
         {
             //item is used on the player and removed from the inventory
-            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
-            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
+            SelectedItem->ItemEffect(SelectedPlayer);
+            PlayerInventory.DiscardItem(SelectedItem);
 
-            SelectedPlayerNumber = -1;
-            SelectedItemNumber = -1;
+            SelectedPlayer = nullptr;
+            SelectedItem = nullptr;
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
@@ -4225,7 +5310,8 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItemNumber == i)
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4250,7 +5336,8 @@ void renderShopScreen()
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
                 << " Gold)";
         }
-        if (SelectedItemNumber == i)
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
         {
             ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
@@ -4280,7 +5367,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 29 &&
             g_sChar.m_cLocation.Y == 9 + (3 * i))
         {
-            SelectedItemNumber = i;
+            SelectedItem = ShopInventory.GetItem(i);
         }
     }
     for (int i = 5; i < 10; i++)
@@ -4289,7 +5376,7 @@ void ShopSelect()
             g_sChar.m_cLocation.X == 104 &&
             g_sChar.m_cLocation.Y == (3 * i) - 6)
         {
-            SelectedItemNumber = i;
+            SelectedItem = ShopInventory.GetItem(i);
         }
     }
     //select exit
@@ -4303,19 +5390,17 @@ void ShopSelect()
     else if (g_skKeyEvent[K_SPACE].keyReleased &&
         g_sChar.m_cLocation.Y == 27 &&
         g_sChar.m_cLocation.X == 100 &&
-        SelectedItemNumber != -1)
+        SelectedItem != nullptr)
     {
-        PlayerInventory.AddItem(PlayerInventory.GetItem(SelectedItemNumber));
-        PlayerInventory.SetGold(PlayerInventory.GetGold() -
-            PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
+        PlayerInventory.AddItem(SelectedItem);
+        PlayerInventory.SetGold(PlayerInventory.GetGold() - SelectedItem->GetCost());
         g_sChar.m_cLocation.Y = 9;
         g_sChar.m_cLocation.X = 29;
-        SelectedItemNumber = -1;
+        SelectedItem = nullptr;
     }
 }
 
 //----------------------------------------------------------------------------
-
 
 
 
@@ -4348,11 +5433,13 @@ void arrow()
 
 void renderGame()
 {
+    Maplevel = 1;
     renderMap1();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
 void renderGame2()
 {
+    Maplevel = 2;
     renderMap2();        // renders the map to the buffer first
     renderCharacter();  // renders the character into the buffer
 }
@@ -6379,53 +7466,6 @@ void renderBattleScreen()
 
             ss.str("");
             ss << " 4." << EnemyParty[3]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-    }
-    else if (Action == FSelect)
-    {
-        //target 1
-        if (PlayerParty[0] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-            c.X = (g_Console.getConsoleSize().X / 8);
-
-            ss.str("");
-            ss << " 1." << PlayerParty[0]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 2
-        if (PlayerParty[1] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-            ss.str("");
-            ss << " 2." << PlayerParty[1]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 3
-        if (PlayerParty[2] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-            c.X = (g_Console.getConsoleSize().X / 8);
-
-            ss.str("");
-            ss << " 3." << PlayerParty[2]->GetName();
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
-        }
-
-        //target 4
-        if (PlayerParty[3] != nullptr)
-        {
-            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
-            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
-
-
-            ss.str("");
-            ss << " 4." << PlayerParty[3]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }

@@ -34,12 +34,12 @@ void Inventory::AddItem(Items* item)
 
 void Inventory::DiscardItem(Items* item)
 {
-	for (int i = 9; i >= 0; i--)
+	for (int i = 0; i < 10; i++)
 	{
 		if (InventoryItems[i] == item)
 		{
 			InventoryItems[i] = nullptr;
-			i = -1;
+			i = 10;
 		}
 	}
 }
