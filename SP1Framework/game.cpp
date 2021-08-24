@@ -168,6 +168,14 @@ void init( void )
 //--------------------------------------------------------------
 void shutdown( void )
 {
+    for (int i = 0; i < 4; i++)
+    {
+        delete Target[i];
+        delete EnemyParty[i];
+        delete PlayerParty[i];
+    }
+    delete PreviousClass;
+    delete CurrentClass;
     // Reset to white text on black background
     colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 
@@ -4835,6 +4843,7 @@ void TurnStart()
             g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
         {
             CurrentClass->Defend();
+            CurrentTurn++;
         }
 
         //select special
@@ -5308,6 +5317,7 @@ void renderInventoryScreen()
 {
     COORD c;
     std::ostringstream ss;
+
     if (InventoryPage == 1)
     {
         c.Y = 3;
