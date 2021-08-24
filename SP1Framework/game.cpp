@@ -33,6 +33,7 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
+bool playmusic = PlaySound(TEXT("Monkeys-Spinning-Monkeys.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -86,6 +87,7 @@ COORD cb;
 //--------------------------------------------------------------
 void init( void )
 {
+    playmusic;
     // Set precision for floating point output
     g_dElapsedTime = 0.0;    
 
