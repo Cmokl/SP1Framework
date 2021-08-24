@@ -1048,7 +1048,6 @@ void inventoryOpened()
 }
 void inventoryClosed()
 {
-    g_eGameState = S_MAP1;
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
     SelectedItem = nullptr;
@@ -1149,7 +1148,6 @@ void ShopSelect()
         (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
     {
-        g_eGameState = S_MAP1;
     }
     //select use
     if (g_skKeyEvent[K_SPACE].keyReleased &&
@@ -1218,7 +1216,14 @@ void renderInventoryScreen()
         {
             c.Y = 9 + (3 * i);
             c.X = 30;
-            ss.str(PlayerInventory.GetItem(i)->GetName());
+            if (PlayerInventory.GetItem(i) == nullptr)
+            {
+                ss.str("-");
+            }
+            else
+            {
+                ss.str(PlayerInventory.GetItem(i)->GetName());
+            }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
             if (SelectedItem == PlayerInventory.GetItem(i) &&
                 SelectedItem != nullptr)
@@ -1235,7 +1240,14 @@ void renderInventoryScreen()
         {
             c.Y = (3 * i) - 6;
             c.X = 105;
-            ss.str(PlayerInventory.GetItem(i)->GetName());
+            if (PlayerInventory.GetItem(i) == nullptr)
+            {
+                ss.str("-");
+            }
+            else
+            {
+                ss.str(PlayerInventory.GetItem(i)->GetName());
+            }
             g_Console.writeToBuffer(c, ss.str(), 0x07);
             if (SelectedItem == PlayerInventory.GetItem(i) &&
                 SelectedItem != nullptr)
@@ -1263,7 +1275,7 @@ void renderInventoryScreen()
         g_Console.writeToBuffer(c, "Who would you like to give the item to?", 0x07);
         for (int i = 0; i < 4; i++)
         {
-            c.X = 68;
+            c.X = 63;
             c.Y = 8 + (i * 3);
             if (SelectedPlayer == PlayerParty[i])
             {
@@ -1278,7 +1290,7 @@ void renderInventoryScreen()
             ss.str(" ");
         }
         c.Y = 20;
-        c.X = 68;
+        c.X = 63;
         g_Console.writeToBuffer(c, "Use", 0x07);
     }
 }
@@ -1320,25 +1332,28 @@ void InventorySelection()
             SelectedItem != nullptr)
         {
             InventoryPage = 2;
-            g_sChar.m_cLocation.X = 67;
+            g_sChar.m_cLocation.X = 62;
             g_sChar.m_cLocation.Y = 8;
         }
     }
-    else if (InventoryPage == 2)
+    else if (InventoryPage == 2)//the player selects the player to use the item on
     {
         for (int i = 0; i < 4; i++)
         {
             if (g_skKeyEvent[K_SPACE].keyReleased &&
-                g_sChar.m_cLocation.X == 67 &&
+                g_sChar.m_cLocation.X == 62 &&
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
                 SelectedPlayer = PlayerParty[i];
             }
         }
-        if (g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
+        if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
             SelectedPlayer != nullptr)
         {
-            //item is used on the player
+            //item is used on the player and removed from the inventory
+            SelectedItem->ItemEffect(SelectedPlayer);
+            PlayerInventory.DiscardItem(SelectedItem);
+
             SelectedPlayer = nullptr;
             SelectedItem = nullptr;
             g_sChar.m_cLocation.X = 29;
@@ -1349,6 +1364,7 @@ void InventorySelection()
 }
 
 //----------------------------------------------------------------------------
+
 
 
 void renderSplashScreen()  // renders the splash screen
