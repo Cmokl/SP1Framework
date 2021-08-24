@@ -92,7 +92,11 @@ void inventoryOpened();
 void renderInventoryScreen();
 void InventorySelection();
 void renderInventory();
+void renderShop();
 void renderShopScreen();
+void shopOpened();
+void ShopSelect();
+void updateShop();
 void renderGame();          // renders the game stuff
 void renderMap1();           // renders the map to the buffer first
 void renderCharacter();     // renders the character into the buffer
