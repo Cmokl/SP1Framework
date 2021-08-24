@@ -1219,12 +1219,12 @@ void renderInventoryScreen()
             c.Y = 8 + (i * 3);
             if (SelectedPlayer == PlayerParty[i])
             {
-                ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
             }
             else
             {
-                ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x07);
             }
             ss.str(" ");
