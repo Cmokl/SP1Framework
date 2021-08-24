@@ -60,7 +60,7 @@ int PlayerTempCoordX;
 int PlayerTempCoordY;
 
 //player action indicator
-enum PlayerActions
+enum BattleActions
 {
     Main,
     Attack,
@@ -68,7 +68,8 @@ enum PlayerActions
     Skill,
     Item,
     Select,
-    FSelect
+    FSelect,
+    EnemyAttack
 };
 int Action;
 
@@ -3323,11 +3324,7 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    if ((CurrentClass == PlayerParty[0])||
-        (CurrentClass == PlayerParty[1]) ||
-        (CurrentClass == PlayerParty[2]) ||
-        (CurrentClass == PlayerParty[3]))
-
+    if (Action != EnemyAttack)
     {
         BattleMove();
     }
@@ -3336,14 +3333,11 @@ void updateBattle()
     {
     case Main:
         TurnStart();
-        BattleSelect();
-        break;
-        if ((CurrentClass == PlayerParty[0]) ||
-            (CurrentClass == PlayerParty[1]) ||
-            (CurrentClass == PlayerParty[2]) ||
-            (CurrentClass == PlayerParty[3]))
-
+        if (Action != EnemyAttack)
         {
+            BattleSelect();
+        }
+        break;
     case Attack:
         SelectTarget(EnemyParty);
         if (Target[0] != nullptr)
@@ -3365,11 +3359,13 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
-        }
+    case EnemyAttack:
+        EnemyAI();
+        break;
     }
-
     VictoryCondition();
 }
+
 
 void TurnStart()
 {
@@ -3389,8 +3385,26 @@ void TurnStart()
 
         TurnCount++;
         ResetCursorPosition();
-
-        CurrentClass = new EmptyClass;
+        for (int i = 0; i < 4; i++)
+        {
+            if ((PlayerParty[i] != nullptr) ||
+                !(PlayerParty[i]->GetHealth() <= 0))
+            {
+                if (PlayerParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+            if (EnemyParty[i] != nullptr)
+            {
+                if (EnemyParty[i]->GetTurn() == true)
+                {
+                    CurrentClass = new EmptyClass;
+                    break;
+                }
+            }
+        }
         for (int i = 0; i < 4; i++)
         {
             //check player party first so that if a enemy and a player has the same speed the player would go first
@@ -3425,312 +3439,364 @@ void TurnStart()
                 }
             }
         }
+    }
 
-        if (CurrentClass == PreviousClass)
+    if ((PlayerParty[0] != CurrentClass) &&
+        (PlayerParty[1] != CurrentClass) &&
+        (PlayerParty[2] != CurrentClass) &&
+        (PlayerParty[3] != CurrentClass)
+        )
+    {
+        Action = EnemyAttack;
+    }
+    if (CurrentClass == PreviousClass)
+    {
+        RoundEnd();
+    }
+}
+
+
+    void BattleMove()
+    {
+        if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
         {
-            RoundEnd();
+            //move up
+            g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
+
+        }
+        if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
+        {
+            //move left
+            g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
+
+        }
+        if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
+        {
+            //move down
+            g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
+        }
+        if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            //move right
+            g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        }
+
+
+    }
+
+    void BattleSelect()
+    {
+        //select button attack
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            //reset curosr position
+            ResetCursorPosition();
+
+            //set player action
+            Action = Attack;
+        }
+
+        //select defend
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            CurrentClass->Defend();
+        }
+
+        //select special
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+        {
+            //reset cursor position
+            ResetCursorPosition();
+
+            //set player action
+            Action = Special;
+        }
+
+        //select flee
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            EndBattle();
         }
     }
-}
 
-void BattleMove()
-{
-    if (g_skKeyEvent[K_UP].keyReleased && g_sChar.m_cLocation.Y > (g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)))
+    void BattleAttack()
     {
-        //move up
-        g_sChar.m_cLocation.Y -= ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
-
-    }
-    if (g_skKeyEvent[K_LEFT].keyReleased && g_sChar.m_cLocation.X > g_Console.getConsoleSize().X / 8)
-    {
-        //move left
-        g_sChar.m_cLocation.X -= g_Console.getConsoleSize().X / 2;
-
-    }
-    if (g_skKeyEvent[K_DOWN].keyReleased && g_sChar.m_cLocation.Y < (g_Console.getConsoleSize().Y - g_Console.getConsoleSize().Y / 8))
-    {
-        //move down
-        g_sChar.m_cLocation.Y += ((g_Console.getConsoleSize().Y / 4) / 2) + 1;
-    }
-    if (g_skKeyEvent[K_RIGHT].keyReleased && g_sChar.m_cLocation.X < (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        //move right
-        g_sChar.m_cLocation.X += g_Console.getConsoleSize().X / 2;
+        if (Target != nullptr)
+        {
+            CurrentClass->Attack(Target[0]);
+            TurnEnd();
+            Action = Main;
+        }
     }
 
-    
-}
-
-void BattleSelect()
-{
-    //select button attack
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    void SelectTarget(Class * TargetParty[])
     {
-        //reset curosr position
-        ResetCursorPosition();
+        //select target 1
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
+            (TargetParty[0] != nullptr))
+        {
+            Target[0] = TargetParty[0];
+        }
 
-        //set player action
-        Action = Attack;
+        //select target 2
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+            (TargetParty[1] != nullptr))
+        {
+            Target[0] = TargetParty[1];
+        }
+
+        //select target 3
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
+            (TargetParty[2] != nullptr))
+        {
+            Target[0] = TargetParty[2];
+        }
+
+        //select target 4
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
+            (TargetParty[3] != nullptr))
+        {
+            Target[0] = TargetParty[3];
+        }
+
+        //go back if escape
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            //reset cursor position
+            g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+
+            //go back to previous menu
+            Action = Main;
+        }
     }
 
-    //select defend
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void SelectSpecialAction()
     {
-        CurrentClass->Defend();
+        //select Skill
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            Action = Skill;
+        }
+
+        //select Item
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            ResetCursorPosition();
+            Action = Item;
+        }
+
+        //return to previous menu
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            //reset cursor position
+            ResetCursorPosition();
+
+            //go back to previous menu
+            Action = Main;
+        }
     }
 
-    //select special
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+    void SelectSkill()
     {
-        //reset cursor position
-        ResetCursorPosition();
+        //select skill 1
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            if (CurrentClass->SkillNameList(0) != "")
+            {
+                EffectSelect = 0;
+                CheckTargetType(CurrentClass->SkillTargetType(0));
+            }
+        }
 
-        //set player action
-        Action = Special;
+        //select skill 2
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            if (CurrentClass->SkillNameList(1) != "")
+            {
+                EffectSelect = 1;
+                CheckTargetType(CurrentClass->SkillTargetType(1));
+            }
+        }
+
+        //select skill 3
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
+        {
+            if (CurrentClass->SkillNameList(2) != "")
+            {
+                EffectSelect = 2;
+                CheckTargetType(CurrentClass->SkillTargetType(2));
+            }
+        }
+
+        //select skill 4
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
+            g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+        {
+            if (CurrentClass->SkillNameList(4) != "")
+            {
+                EffectSelect = 3;
+                CheckTargetType(CurrentClass->SkillTargetType(4));
+            }
+        }
+    }
+    void CheckTargetType(int type)
+    {
+        if (type == Class::Single)
+        {
+            ResetCursorPosition();
+            Action = Select;
+        }
+        else if (type == Class::AOE)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Target[i] = EnemyParty[i];
+            }
+            ExecuteSkill(EffectSelect);
+        }
+        else if (type == Class::Self)
+        {
+            Target[0] = PlayerParty[0];
+            ExecuteSkill(EffectSelect);
+        }
+        else if (type == Class::FSingle)
+        {
+            ResetCursorPosition();
+            Action = FSelect;
+        }
+        else if (type == Class::FAOE)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Target[i] = PlayerParty[i];
+            }
+            ExecuteSkill(EffectSelect);
+        }
     }
 
-    //select flee
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void ExecuteSkill(int SkillIndex)
     {
-        EndBattle();
-    }
-}
-
-void BattleAttack()
-{
-    if (Target != nullptr)
-    {
-        CurrentClass->Attack(Target[0]);
+        CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
         TurnEnd();
         Action = Main;
     }
-}
 
-void SelectTarget(Class* TargetParty[])
- {
-    //select target 1
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 &&
-        (TargetParty[0] != nullptr)) 
-    {
-        Target[0] = TargetParty[0];
-    }
-
-    //select target 2
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
-        (TargetParty[1] != nullptr))
-    {
-        Target[0] = TargetParty[1];
-    }
-
-    //select target 3
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) &&
-        (TargetParty[2] != nullptr))
-    {
-        Target[0] = TargetParty[2];
-    }
-
-    //select target 4
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2) &&
-        (TargetParty[3] != nullptr))
-    {
-        Target[0] = TargetParty[3];
-    }
-
-    //go back if escape
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
+    void ResetCursorPosition(void)
     {
         //reset cursor position
         g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
         g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-
-        //go back to previous menu
-        Action = Main;
-    }
-}
-
-void SelectSpecialAction()
-{
-    //select Skill
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
-    {
-        Action = Skill;
     }
 
-    //select Item
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
+    void TurnEnd(void)
     {
-        ResetCursorPosition();
-        Action = Item;
-    }
-
-    //return to previous menu
-    if (g_skKeyEvent[K_ESCAPE].keyReleased)
-    {
-        //reset cursor position
-        ResetCursorPosition();
-
-        //go back to previous menu
-        Action = Main;
-    }
-}
-
-void SelectSkill()
-{
-    //select skill 1
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8 )
-    {
-        if (CurrentClass->SkillNameList(0) != "")
-        {
-            EffectSelect = 0;
-            CheckTargetType(CurrentClass->SkillTargetType(0));
-        }
-    }
-
-    //select skill 2
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        if (CurrentClass->SkillNameList(1) != "")
-        {
-            EffectSelect = 1;
-            CheckTargetType(CurrentClass->SkillTargetType(1));
-        }
-    }
-
-    //select skill 3
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8))
-    {
-        if (CurrentClass->SkillNameList(2) != "")
-        {
-            EffectSelect = 2;
-            CheckTargetType(CurrentClass->SkillTargetType(2));
-        }
-    }
-
-    //select skill 4
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
-    {
-        if (CurrentClass->SkillNameList(4) != "")
-        {
-            EffectSelect = 3;
-            CheckTargetType(CurrentClass->SkillTargetType(4));
-        }
-    }
-}
-void CheckTargetType(int type)
-{
-    if (type == Class::Single)
-    {
-        ResetCursorPosition();
-        Action = Select;
-    }
-    else if (type == Class::AOE)
-    {
+        //check if an enemy is dead
         for (int i = 0; i < 4; i++)
         {
-            Target[i] = EnemyParty[i];
-        }
-        ExecuteSkill(EffectSelect);
-    }
-    else if (type == Class::Self)
-    {
-        Target[0] = PlayerParty[0];
-        ExecuteSkill(EffectSelect);
-    }
-    else if (type == Class::FSingle)
-    {
-        ResetCursorPosition();
-        Action = FSelect;
-    }
-    else if (type == Class::FAOE)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            Target[i] = PlayerParty[i];
-        }
-        ExecuteSkill(EffectSelect);
-    }
-}
-
-void ExecuteSkill(int SkillIndex)
-{
-    CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
-    TurnEnd();
-    Action = Main;
-}
-
-void ResetCursorPosition(void)
-{
-    //reset cursor position
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
-}
-
-void TurnEnd(void)
-{
-    //check if an enemy is dead
-    for (int i = 0; i < 4; i++)
-    {
-        if (EnemyParty[i] != nullptr)
-        {
-            if (EnemyParty[i]->GetHealth() <= 0)
+            if (EnemyParty[i] != nullptr)
             {
-                delete EnemyParty[i];
-                EnemyParty[i] = nullptr;
+                if (EnemyParty[i]->GetHealth() <= 0)
+                {
+                    delete EnemyParty[i];
+                    EnemyParty[i] = nullptr;
+                }
             }
         }
+        CurrentClass->SetTurn(false);
+        CurrentTurn++;
     }
-    CurrentClass->SetTurn(false);
-    CurrentTurn++;
-}
 
-void RoundEnd(void)
-{
-    for (int i = 0; i < 4; i++)
+    void RoundEnd(void)
     {
-        if (EnemyParty[i] != nullptr)
+        for (int i = 0; i < 4; i++)
         {
-            EnemyParty[i]->SetTurn(true);
+            if (EnemyParty[i] != nullptr)
+            {
+                EnemyParty[i]->SetTurn(true);
+            }
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if ((PlayerParty[i] != nullptr) ||
+                !(PlayerParty[i]->GetHealth() <= 0))
+            {
+                PlayerParty[i]->SetTurn(true);
+            }
+        }
+
+        CurrentTurn++;
+    }
+
+    void VictoryCondition()
+    {
+        if ((EnemyParty[0] == nullptr) &&
+            (EnemyParty[1] == nullptr) &&
+            (EnemyParty[2] == nullptr) &&
+            (EnemyParty[3] == nullptr))
+        {
+            EndBattle();
         }
     }
 
-    for (int i = 0; i < 4; i++)
+    void EndBattle()
     {
-        if ((PlayerParty[i] != nullptr) &&
-            !(PlayerParty[i]->GetHealth() <= 0))
+        RoundEnd();
+        for (int i = 0; i < 4; i++)
         {
-            PlayerParty[i]->SetTurn(true);
+            delete EnemyParty[i];
+            EnemyParty[i] = nullptr;
         }
+        TurnCount = 1;
+        CurrentTurn = 1;
+        g_sChar.m_cLocation.X = PlayerTempCoordX;
+        g_sChar.m_cLocation.Y = PlayerTempCoordY;
+        g_eGameState = S_MAP1;
     }
-}
 
+    void EnemyAI()
+    {
+        //enemy targeting
+        int EnemyTarget;
+        srand(static_cast<unsigned int>(time(0)));
+        EnemyTarget = rand() % 3;
+        while (PlayerParty[EnemyTarget]->GetHealth() <= 0)
+        {
+            EnemyTarget = rand() % 3;
+        }
+
+        CurrentClass->SkillList(rand() % 3, EnemyTarget, PlayerParty);
+        TurnEnd();
+        Action = Main;
+    }
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
 //            At this point, you should know exactly what to draw onto the screen.
@@ -3772,29 +3838,6 @@ void renderToScreen()
     // Writes the buffer to the console, hence you will see what you have written
     g_Console.flushBufferToConsole();
 }
-
-void VictoryCondition()
-{
-    if ((EnemyParty[0] == nullptr) &&
-        (EnemyParty[1] == nullptr) &&
-        (EnemyParty[2] == nullptr) &&
-        (EnemyParty[3] == nullptr))
-    {
-        EndBattle();
-    }
-}
-
-void EndBattle()
-{
-    RoundEnd();
-    TurnCount = 1;
-    CurrentTurn = 1;
-    g_sChar.m_cLocation.X = PlayerTempCoordX;
-    g_sChar.m_cLocation.Y = PlayerTempCoordY;
-    g_eGameState = S_MAP1;
-}
-
-
 
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
