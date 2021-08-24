@@ -10,6 +10,7 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "HealingItems.h"
+#include "EmptyClass.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -33,6 +34,7 @@ float RandomDelay;
 bool timescale = true;
 
 //classes
+Class* PreviousClass; //used to denote the end of the round
 Class* CurrentClass;
 Class* Target[4];
 Class* PlayerParty[4];
@@ -554,13 +556,27 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    BattleMove();
+    if ((CurrentClass == PlayerParty[0])||
+        (CurrentClass == PlayerParty[1]) ||
+        (CurrentClass == PlayerParty[2]) ||
+        (CurrentClass == PlayerParty[3]))
+
+    {
+        BattleMove();
+    }
+
     switch (Action)
     {
     case Main:
         TurnStart();
         BattleSelect();
         break;
+        if ((CurrentClass == PlayerParty[0]) ||
+            (CurrentClass == PlayerParty[1]) ||
+            (CurrentClass == PlayerParty[2]) ||
+            (CurrentClass == PlayerParty[3]))
+
+        {
     case Attack:
         SelectTarget(EnemyParty);
         if (Target[0] != nullptr)
@@ -582,6 +598,7 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
+        }
     }
 
     VictoryCondition();
@@ -591,6 +608,12 @@ void TurnStart()
 {
     if (CurrentTurn == TurnCount)
     {
+        //set previous class
+        if ((CurrentClass != nullptr) &&
+            (CurrentClass->GetTurn() == false))
+        {
+            PreviousClass = CurrentClass;
+        }
         //reset target pointers
         for (int i = 0; i < 4; i++)
         {
@@ -600,30 +623,45 @@ void TurnStart()
         TurnCount++;
         ResetCursorPosition();
 
-        CurrentClass = PlayerParty[0];
+        CurrentClass = new EmptyClass;
         for (int i = 0; i < 4; i++)
         {
             //check player party first so that if a enemy and a player has the same speed the player would go first
             if (PlayerParty[i] != nullptr)
             {
-                if (PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed())
+                if (PlayerParty[i]->GetTurn() == true)
                 {
-                    if (PlayerParty[i]->GetTurn() == true)
+                    if (PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed())
                     {
+                        if (i == 0)
+                        {
+                            delete CurrentClass;
+                            CurrentClass = nullptr;
+                        }
                         CurrentClass = PlayerParty[i];
                     }
                 }
             }
             if (EnemyParty[i] != nullptr)
             {
-                if (EnemyParty[i]->GetSpeed() > CurrentClass->GetSpeed())
+                if (EnemyParty[i]->GetTurn() == true)
                 {
-                    if (EnemyParty[i]->GetTurn() == true)
+                    if (EnemyParty[i]->GetSpeed() > CurrentClass->GetSpeed())
                     {
+                        if (i == 0)
+                        {
+                            delete CurrentClass;
+                            CurrentClass = nullptr;
+                        }
                         CurrentClass = EnemyParty[i];
                     }
                 }
             }
+        }
+
+        if (CurrentClass == PreviousClass)
+        {
+            RoundEnd();
         }
     }
 }
@@ -918,7 +956,8 @@ void RoundEnd(void)
 
     for (int i = 0; i < 4; i++)
     {
-        if (PlayerParty[i] != nullptr)
+        if ((PlayerParty[i] != nullptr) &&
+            !(PlayerParty[i]->GetHealth() <= 0))
         {
             PlayerParty[i]->SetTurn(true);
         }
@@ -980,6 +1019,7 @@ void VictoryCondition()
 
 void EndBattle()
 {
+    RoundEnd();
     TurnCount = 1;
     CurrentTurn = 1;
     g_sChar.m_cLocation.X = PlayerTempCoordX;
@@ -1227,12 +1267,12 @@ void renderInventoryScreen()
             c.Y = 8 + (i * 3);
             if (SelectedPlayer == PlayerParty[i])
             {
-                ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
             }
             else
             {
-                ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x07);
             }
             ss.str(" ");
