@@ -289,227 +289,6 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
         g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
         g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
     }
-    
-}   
-
-
-//--------------------------------------------------------------
-// Purpose  : This is the mouse handler in the game state. Whenever there is a mouse event in the game state, this function will be called.
-//            
-//            If mouse clicks are detected, the corresponding bit for that mouse button will be set.
-//            mouse wheel, 
-//            
-// Input    : const KEY_EVENT_RECORD& keyboardEvent
-// Output   : void
-//--------------------------------------------------------------
-void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
-{
-    if (mouseEvent.dwEventFlags & MOUSE_MOVED) // update the mouse position if there are no events
-    {
-        g_mouseEvent.mousePosition = mouseEvent.dwMousePosition;
-    }
-    g_mouseEvent.buttonState = mouseEvent.dwButtonState;
-    g_mouseEvent.eventFlags = mouseEvent.dwEventFlags;
-}
-
-//--------------------------------------------------------------
-// Purpose  : Update function
-//            This is the update function
-//            double dt - This is the amount of time in seconds since the previous call was made
-//
-//            Game logic should be done here.
-//            Such as collision checks, determining the position of your game characters, status updates, etc
-//            If there are any calls to write to the console here, then you are doing it wrong.
-//
-//            If your game has multiple states, you should determine the current state, and call the relevant function here.
-//
-// Input    : dt = deltatime
-// Output   : void
-//--------------------------------------------------------------
-void update(double dt)
-{
-    // get the delta time
-    g_dElapsedTime += dt;
-    g_dDeltaTime = dt;
-
-    switch (g_eGameState)
-    {
-        case S_MENUSCREEN: splashScreenWait(); // game logic for the splash screen
-            break;
-        case S_HOWTOPLAY: howtoplaybutton();
-            break;
-        case S_MAP1: updateGame(); // gameplay logic when we are in the game
-            break;
-        case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
-            break;
-        case S_BATTLE: updateBattle(); // handle gameplay mouse event
-            break;
-        case S_INVENTORY: updateInventory();
-            break;
-    }
-}
-
-void splashScreenWait()    // choose options in menu
-{
-    if (g_skKeyEvent[K_DOWN].keyDown && cb.Y < 16)
-    {
-        cb.Y += 2;
-    }
-    if (g_skKeyEvent[K_UP].keyDown && cb.Y > 12)
-    {
-        cb.Y -= 2;
-    }
-
-    if (g_skKeyEvent[K_SPACE].keyDown)
-    {
-        if (cb.Y == 12)
-        {
-            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
-            {
-                g_eGameState = S_MAP1;
-
-            }
-        }
-        if (cb.Y == 14)
-        {
-            if (g_eGameState == S_GAMEPAUSE)
-            {
-                g_eGameState = S_MENUSCREEN;
-            }
-            else
-            {
-                g_eGameState = S_HOWTOPLAY;
-            }
-        }
-        if (cb.Y == 16)
-        {
-            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
-            {
-                g_bQuitGame = true;
-
-            }
-        }
-    }
-
-}
-void howtoplaybutton()
-{
-    if (g_skKeyEvent[K_ESCAPE].keyDown)
-    {
-        g_eGameState = S_MENUSCREEN;
-    }
-}
-
-void renderhowtoplay()
-{
-    COORD ca = g_Console.getConsoleSize();
-    ca.Y = 10;
-    ca.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(ca, "Explore the map and encouter random enemies", 0x05);
-    ca.Y += 3;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Use WASD for movement", 0x06);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 13;
-    g_Console.writeToBuffer(ca, "Press esc in game to pause", 0x06);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(ca, "Spacebar to enter", 0x06);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 17;
-    g_Console.writeToBuffer(ca, "Press esc to go back to main menu", 0x09);
-}
-
-void updateGame()       // gameplay logic
-{
-    if (g_skKeyEvent[K_ESCAPE].keyDown)
-    {
-        timescale = false;
-        g_eGameState = S_GAMEPAUSE;
-    }
-    else
-    {
-     moveCharacter();    // moves the character, collision detection, physics, etc
-                       // sound can be played here too.
-
-    }
-     //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
-}
-void rendergamepause()
-{
-    COORD ca = g_Console.getConsoleSize();
-    ca.Y = 12;
-    //ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    //g_Console.writeToBuffer(ca, "Resume", 0x09);
-    //ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Resume", 0x09);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Main menu", 0x09);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
-    arrow();
-}
-
-void moveCharacter()
-{  
-    // Updating the location of the character based on the key release
-    // providing a beep sound whenver we shift the character
-    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > 0)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y--;   
-
-        //setup seed for random encounter every move
-        srand(static_cast<unsigned int>(time(0)));
-
-        //random encounter
-        foundRandomEncounter();
-    }
-    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > 0)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X--;    
-
-        //setup seed for random encounter every move
-        srand(static_cast<unsigned int>(time(0)));
-
-        //random encounter
-        foundRandomEncounter();
-    }
-    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.Y++;
-
-        //setup seed for random endcounter every move
-        srand(static_cast<unsigned int>(time(0)));
-
-        //random encounter
-        foundRandomEncounter();
-    }
-    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
-    {
-        //Beep(1440, 30);
-        g_sChar.m_cLocation.X++; 
-
-        //setup seed for random endcounter every move
-        srand(static_cast<unsigned int>(time(0)));
-
-        //random encounter
-        foundRandomEncounter();
-    }
-    if (g_skKeyEvent[K_SPACE].keyReleased)
-    {
-    g_sChar.m_bActive = !g_sChar.m_bActive;
-    }
-    if (g_skKeyEvent[K_TAB].keyReleased)
-    {
-        inventoryOpened();
-
-    }
     if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
     {
         g_sChar.m_cLocation.Y -= 1;
@@ -3271,7 +3050,228 @@ void moveCharacter()
         g_sChar.m_cLocation.Y += 1;
     }
 
+}   
 
+
+//--------------------------------------------------------------
+// Purpose  : This is the mouse handler in the game state. Whenever there is a mouse event in the game state, this function will be called.
+//            
+//            If mouse clicks are detected, the corresponding bit for that mouse button will be set.
+//            mouse wheel, 
+//            
+// Input    : const KEY_EVENT_RECORD& keyboardEvent
+// Output   : void
+//--------------------------------------------------------------
+void gameplayMouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
+{
+    if (mouseEvent.dwEventFlags & MOUSE_MOVED) // update the mouse position if there are no events
+    {
+        g_mouseEvent.mousePosition = mouseEvent.dwMousePosition;
+    }
+    g_mouseEvent.buttonState = mouseEvent.dwButtonState;
+    g_mouseEvent.eventFlags = mouseEvent.dwEventFlags;
+}
+
+//--------------------------------------------------------------
+// Purpose  : Update function
+//            This is the update function
+//            double dt - This is the amount of time in seconds since the previous call was made
+//
+//            Game logic should be done here.
+//            Such as collision checks, determining the position of your game characters, status updates, etc
+//            If there are any calls to write to the console here, then you are doing it wrong.
+//
+//            If your game has multiple states, you should determine the current state, and call the relevant function here.
+//
+// Input    : dt = deltatime
+// Output   : void
+//--------------------------------------------------------------
+void update(double dt)
+{
+    // get the delta time
+    g_dElapsedTime += dt;
+    g_dDeltaTime = dt;
+
+    switch (g_eGameState)
+    {
+        case S_MENUSCREEN: splashScreenWait(); // game logic for the splash screen
+            break;
+        case S_HOWTOPLAY: howtoplaybutton();
+            break;
+        case S_MAP1: updateGame(); // gameplay logic when we are in the game
+            break;
+        case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
+            break;
+        case S_BATTLE: updateBattle(); // handle gameplay mouse event
+            break;
+        case S_INVENTORY: updateInventory();
+            break;
+    }
+}
+
+void splashScreenWait()    // choose options in menu
+{
+    if (g_skKeyEvent[K_DOWN].keyDown && cb.Y < 16)
+    {
+        cb.Y += 2;
+    }
+    if (g_skKeyEvent[K_UP].keyDown && cb.Y > 12)
+    {
+        cb.Y -= 2;
+    }
+
+    if (g_skKeyEvent[K_SPACE].keyDown)
+    {
+        if (cb.Y == 12)
+        {
+            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
+            {
+                g_eGameState = S_MAP1;
+
+            }
+        }
+        if (cb.Y == 14)
+        {
+            if (g_eGameState == S_GAMEPAUSE)
+            {
+                g_eGameState = S_MENUSCREEN;
+            }
+            else
+            {
+                g_eGameState = S_HOWTOPLAY;
+            }
+        }
+        if (cb.Y == 16)
+        {
+            if (g_eGameState == S_MENUSCREEN || g_eGameState == S_GAMEPAUSE)
+            {
+                g_bQuitGame = true;
+
+            }
+        }
+    }
+
+}
+void howtoplaybutton()
+{
+    if (g_skKeyEvent[K_ESCAPE].keyDown)
+    {
+        g_eGameState = S_MENUSCREEN;
+    }
+}
+
+void renderhowtoplay()
+{
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 10;
+    ca.X = g_Console.getConsoleSize().X / 2 - 20;
+    g_Console.writeToBuffer(ca, "Explore the map and encouter random enemies", 0x05);
+    ca.Y += 3;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Use WASD for movement", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 13;
+    g_Console.writeToBuffer(ca, "Press esc in game to pause", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 9;
+    g_Console.writeToBuffer(ca, "Spacebar to enter", 0x06);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 17;
+    g_Console.writeToBuffer(ca, "Press esc to go back to main menu", 0x09);
+}
+
+void updateGame()       // gameplay logic
+{
+    if (g_skKeyEvent[K_ESCAPE].keyDown)
+    {
+        timescale = false;
+        g_eGameState = S_GAMEPAUSE;
+    }
+    else
+    {
+     moveCharacter();    // moves the character, collision detection, physics, etc
+                       // sound can be played here too.
+
+    }
+     //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
+}
+void rendergamepause()
+{
+    COORD ca = g_Console.getConsoleSize();
+    ca.Y = 12;
+    //ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    //g_Console.writeToBuffer(ca, "Resume", 0x09);
+    //ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Resume", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Main menu", 0x09);
+    ca.Y += 2;
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
+    arrow();
+}
+
+void moveCharacter()
+{  
+    // Updating the location of the character based on the key release
+    // providing a beep sound whenver we shift the character
+    if (g_skKeyEvent[K_UP].keyDown && g_sChar.m_cLocation.Y > 0)
+    {
+        //Beep(1440, 30);
+        g_sChar.m_cLocation.Y--;   
+
+        //setup seed for random encounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        foundRandomEncounter();
+    }
+    if (g_skKeyEvent[K_LEFT].keyDown && g_sChar.m_cLocation.X > 0)
+    {
+        //Beep(1440, 30);
+        g_sChar.m_cLocation.X--;    
+
+        //setup seed for random encounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        foundRandomEncounter();
+    }
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.Y < g_Console.getConsoleSize().Y - 1)
+    {
+        //Beep(1440, 30);
+        g_sChar.m_cLocation.Y++;
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        foundRandomEncounter();
+    }
+    if (g_skKeyEvent[K_RIGHT].keyDown && g_sChar.m_cLocation.X < g_Console.getConsoleSize().X - 1)
+    {
+        //Beep(1440, 30);
+        g_sChar.m_cLocation.X++; 
+
+        //setup seed for random endcounter every move
+        srand(static_cast<unsigned int>(time(0)));
+
+        //random encounter
+        foundRandomEncounter();
+    }
+    if (g_skKeyEvent[K_SPACE].keyReleased)
+    {
+    g_sChar.m_bActive = !g_sChar.m_bActive;
+    }
+    if (g_skKeyEvent[K_TAB].keyReleased)
+    {
+        inventoryOpened();
+
+    }
+  
+    
 }
 
 void foundRandomEncounter(void)
