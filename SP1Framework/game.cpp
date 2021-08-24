@@ -399,21 +399,15 @@ void howtoplaybutton()
 void renderhowtoplay()
 {
     COORD ca = g_Console.getConsoleSize();
-    ca.Y = 10;
-    ca.X = g_Console.getConsoleSize().X / 2 - 20;
-    g_Console.writeToBuffer(ca, "Explore the map and encouter random enemies", 0x05);
-    ca.Y += 3;
+    ca.Y = 12;
     ca.X = g_Console.getConsoleSize().X / 2 - 10;
-    g_Console.writeToBuffer(ca, "Use WASD for movement", 0x06);
+    g_Console.writeToBuffer(ca, "Resume", 0x06);
     ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 13;
-    g_Console.writeToBuffer(ca, "Press esc in game to pause", 0x06);
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Main menu", 0x09);
     ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 9;
-    g_Console.writeToBuffer(ca, "Spacebar to enter", 0x06);
-    ca.Y += 2;
-    ca.X = g_Console.getConsoleSize().X / 2 - 17;
-    g_Console.writeToBuffer(ca, "Press esc to go back to main menu", 0x09);
+    ca.X = g_Console.getConsoleSize().X / 2 - 10;
+    g_Console.writeToBuffer(ca, "Quit", 0x09); // Main page
 }
 
 void updateGame()       // gameplay logic
@@ -504,6 +498,7 @@ void moveCharacter()
     if (g_skKeyEvent[K_TAB].keyReleased)
     {
         inventoryOpened();
+
     }
 
 
@@ -986,7 +981,6 @@ void EndBattle()
 
 
 
-
 //----------------------------------------------------------------------------------
 //Inventory function is coded here
 Items* SelectedItem = nullptr;
@@ -1003,7 +997,14 @@ void inventoryOpened()
     g_sChar.m_cLocation.X = 29;
     g_sChar.m_cLocation.Y = 9;
     g_eGameState = S_INVENTORY;
-    InventoryPage = 1;
+}
+void inventoryClosed()
+{
+    g_eGameState = S_GAME;
+    g_sChar.m_cLocation.X = initialX;
+    g_sChar.m_cLocation.Y = initialY;
+    SelectedItem = nullptr;
+    SelectedPlayer = nullptr;
 }
 
 void renderShop()
@@ -1226,6 +1227,7 @@ void renderInventoryScreen()
                 ss << PlayerParty[i]->GetName() << " : " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
                 g_Console.writeToBuffer(c, ss.str(), 0x07);
             }
+            ss.str(" ");
         }
         c.Y = 20;
         c.X = 68;
@@ -1261,16 +1263,13 @@ void InventorySelection()
             (g_sChar.m_cLocation.Y == 27) &&
             g_sChar.m_cLocation.X == 32)
         {
-            g_eGameState = S_GAME;
-            g_sChar.m_cLocation.X = initialX;
-            g_sChar.m_cLocation.Y = initialY;
-            SelectedItem = nullptr;
-            SelectedPlayer = nullptr;
+            inventoryClosed();
         }
         //select use
         else if (g_skKeyEvent[K_SPACE].keyReleased &&
-            (g_sChar.m_cLocation.Y == 27) &&
-            g_sChar.m_cLocation.X == 100)
+            g_sChar.m_cLocation.Y == 27 &&
+            g_sChar.m_cLocation.X == 100 &&
+            SelectedItem != nullptr)
         {
             InventoryPage = 2;
             g_sChar.m_cLocation.X = 67;
@@ -1286,7 +1285,6 @@ void InventorySelection()
                 g_sChar.m_cLocation.Y == 8 + (3 * i))
             {
                 SelectedPlayer = PlayerParty[i];
-
             }
         }
         if (g_sChar.m_cLocation.X == 67 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
@@ -1294,6 +1292,7 @@ void InventorySelection()
         {
             //item is used on the player
             SelectedPlayer = nullptr;
+            SelectedItem = nullptr;
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
@@ -1302,6 +1301,7 @@ void InventorySelection()
 }
 
 //----------------------------------------------------------------------------
+
 
 void renderSplashScreen()  // renders the splash screen
 {
