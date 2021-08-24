@@ -14,6 +14,7 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <fstream>
 #include <windows.ui.composition.scenes.h>
 
 
@@ -516,6 +517,16 @@ void moveCharacter()
     
 }
 
+//map2 collision(DELETE IT)
+//========================================================================================================
+void Colision2()
+{
+    if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
+    {
+        g_sChar.m_cLocation.Y -= 1;
+    }
+}
+//==========================================================================================================
 void Collision()
 {
     if (g_skKeyEvent[K_DOWN].keyDown && g_sChar.m_cLocation.X == 75 && g_sChar.m_cLocation.Y == 15)
