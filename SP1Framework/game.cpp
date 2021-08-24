@@ -354,6 +354,8 @@ void update(double dt)
             break;
         case S_GAMEPAUSE: splashScreenWait(); // game logic for the splash screen
             break;
+        case S_BATTLESPLASH: BattleSplash();
+            break;
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
         case S_INVENTORY: updateInventory();
@@ -3312,6 +3314,15 @@ void foundRandomEncounter(void)
         initEnemyGroup(rand() % 2);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
+        g_dElapsedTime = 0;
+        g_eGameState = S_BATTLESPLASH;
+    }
+}
+
+void BattleSplash()
+{
+    if (g_dElapsedTime > 1.5)
+    {
         g_eGameState = S_BATTLE;
     }
 }
@@ -3842,6 +3853,8 @@ void render()
     case S_MAP2:
         break;
     case S_BATTLE: renderBattle();
+        break;
+    case S_BATTLESPLASH: renderBattleSplash();
         break;
     case S_INVENTORY: renderInventory();
         break;
@@ -6476,3 +6489,14 @@ void renderStatuses()
     }
 }
 
+void renderBattleSplash(void)
+{
+    COORD c;
+    std::ostringstream ss;
+
+    c.X = g_Console.getConsoleSize().X / 2 - 7;
+    c.Y = g_Console.getConsoleSize().Y / 2;
+
+    ss.str("BATTLE!");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
