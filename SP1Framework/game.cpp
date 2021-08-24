@@ -4857,7 +4857,7 @@ void TurnStart()
             g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
         {
             CurrentClass->Defend();
-            TurnCount++;
+            CurrentTurn++;
         }
 
         //select special
