@@ -45,6 +45,13 @@ void Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
 	{
 		Reassemble();
 	}
+	else
+	{
+		if (TargetParty[ClassIndex] != nullptr)
+		{
+			Pierce(TargetParty[ClassIndex]);
+		}
+	}
 }
 
 std::string Skeleton::SkillNameList(int ListIndex)

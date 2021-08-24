@@ -83,6 +83,7 @@ void TurnEnd();
 void RoundEnd();
 void VictoryCondition();
 void EndBattle();
+void EnemyAI();
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void updateInventory();
