@@ -446,7 +446,7 @@ void updateGame()       // gameplay logic
     }
     else
     {
-        Collision();
+     Collision();
      moveCharacter();    // moves the character, collision detection, physics, etc
      changelevel();
 
@@ -4446,6 +4446,16 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
+    if (TurnCount == 1)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (PlayerParty[i]->GetHealth() <= 0)
+            {
+                PlayerParty[i]->SetTurn(false);
+            }
+        }
+    }
     if (Action != EnemyAttack)
     {
         BattleMove();
@@ -4509,8 +4519,8 @@ void TurnStart()
         ResetCursorPosition();
         for (int i = 0; i < 4; i++)
         {
-            if ((PlayerParty[i] != nullptr) ||
-                !(PlayerParty[i]->GetHealth() <= 0))
+            if ((PlayerParty[i] != nullptr) &&
+                (PlayerParty[i]->GetHealth() > 0))
             {
                 if (PlayerParty[i]->GetTurn() == true)
                 {
@@ -4527,10 +4537,12 @@ void TurnStart()
                 }
             }
         }
+
         for (int i = 0; i < 4; i++)
         {
             //check player party first so that if a enemy and a player has the same speed the player would go first
-            if (PlayerParty[i] != nullptr)
+            if ((PlayerParty[i] != nullptr) &&
+                (PlayerParty[i]->GetHealth() > 0))
             {
                 if (PlayerParty[i]->GetTurn() == true)
                 {
@@ -4877,8 +4889,8 @@ void TurnStart()
 
         for (int i = 0; i < 4; i++)
         {
-            if ((PlayerParty[i] != nullptr) ||
-                !(PlayerParty[i]->GetHealth() <= 0))
+            if ((PlayerParty[i] != nullptr) &&
+                (PlayerParty[i]->GetHealth() > 0))
             {
                 PlayerParty[i]->SetTurn(true);
             }
@@ -4928,10 +4940,10 @@ void TurnStart()
         EnemyTarget = rand() % 3;
         while (PlayerParty[EnemyTarget]->GetHealth() <= 0)
         {
-            EnemyTarget = rand() % 3;
+            EnemyTarget = rand() % 4;
         }
 
-        CurrentClass->SkillList(rand() % 3, EnemyTarget, PlayerParty);
+        CurrentClass->SkillList(rand() % 4, EnemyTarget, PlayerParty);
         TurnEnd();
         Action = Main;
     }
