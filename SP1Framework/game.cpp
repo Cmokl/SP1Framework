@@ -3402,6 +3402,13 @@ void updateBattle()
             ExecuteSkill(EffectSelect);
         }
         break;
+    case FSelect:
+        SelectTarget(PlayerParty);
+        if (Target[0] != nullptr)
+        {
+            ExecuteSkill(EffectSelect);
+        }
+        break;
     case EnemyAttack:
         EnemyAI();
         break;
@@ -6372,6 +6379,53 @@ void renderBattleScreen()
 
             ss.str("");
             ss << " 4." << EnemyParty[3]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+    }
+    else if (Action == FSelect)
+    {
+        //target 1
+        if (PlayerParty[0] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 1." << PlayerParty[0]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 2
+        if (PlayerParty[1] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+            ss.str("");
+            ss << " 2." << PlayerParty[1]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 3
+        if (PlayerParty[2] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 3." << PlayerParty[2]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 4
+        if (PlayerParty[3] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+
+            ss.str("");
+            ss << " 4." << PlayerParty[3]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
