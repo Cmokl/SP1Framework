@@ -221,6 +221,8 @@ void keyboardHandler(const KEY_EVENT_RECORD& keyboardEvent)
         break;
     case S_INVENTORY: gameplayKBHandler(keyboardEvent);
         break;
+    case S_SHOP : gameplayKBHandler(keyboardEvent);
+        break;
     }
 }
 
@@ -257,6 +259,8 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
     case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
         break;
     case S_INVENTORY: gameplayMouseHandler(mouseEvent);
+        break;
+    case S_SHOP: gameplayMouseHandler(mouseEvent);
         break;
     }
 }
@@ -352,6 +356,8 @@ void update(double dt)
         case S_BATTLE: updateBattle(); // handle gameplay mouse event
             break;
         case S_INVENTORY: updateInventory();
+            break;
+        case S_SHOP: updateShop();
             break;
     }
 }
@@ -3772,6 +3778,9 @@ void render()
     case S_BATTLE: renderBattle();
         break;
     case S_INVENTORY: renderInventory();
+        break;
+    case S_SHOP: renderShop();
+        break;
     }
     renderFramerate();      // renders debug information, frame rate, elapsed time, etc
     renderInputEvents();    // renders status of input events
@@ -3817,6 +3826,7 @@ void EndBattle()
 //Inventory function is coded here
 Items* SelectedItem = nullptr;
 Class* SelectedPlayer = nullptr;
+EGAMESTATES SavedLocation = g_eGameState;
 //these store the player's original position on the map so they can return to it if after leaving inventories/shops
 int initialX = 0;
 int initialY = 0;
@@ -3824,6 +3834,7 @@ int InventoryPage = 1;
 
 void inventoryOpened()
 {
+    SavedLocation = g_eGameState;
     initialX = g_sChar.m_cLocation.X;
     initialY = g_sChar.m_cLocation.Y;
     g_sChar.m_cLocation.X = 29;
@@ -3836,12 +3847,9 @@ void inventoryClosed()
     g_sChar.m_cLocation.Y = initialY;
     SelectedItem = nullptr;
     SelectedPlayer = nullptr;
+    g_eGameState = SavedLocation;
 }
 
-void renderShop()
-{
-    renderShopScreen();
-}
 //Moving system for inventories and shops
 void InventoryMove()
 {
@@ -3917,72 +3925,13 @@ void updateInventory()
     InventoryMove();
     InventorySelection();
 }
-//selecting system for shops
-void ShopSelect()
-{
-    //select the item
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y <= (g_Console.getConsoleSize().Y / 10) * 8))
-    {
-
-    }
-
-    //select exit
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 3)
-    {
-    }
-    //select use
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == (g_Console.getConsoleSize().Y / 10) * 9) &&
-        g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 13) * 9)
-    {
-
-    }
-}
 
 void renderInventory()
 {
     renderInventoryScreen();
     renderSelection();
 }
-void renderShopScreen()
-{
-    COORD c;
-    std::ostringstream ss;
 
-    //SHOP TITLE
-    c.Y = g_Console.getConsoleSize().Y / 10;
-    c.X = g_Console.getConsoleSize().X / 2;
-    ss.str(" SHOP");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    /*Shop Items all displayed below*/
-    for (int i = 0; i < 5; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i + 3);
-        c.X = (g_Console.getConsoleSize().X / 10) * 2;
-        ss.str(ShopInventory.GetItem(i)->GetName());
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    for (int i = 5; i < 10; i++)
-    {
-        c.Y = (g_Console.getConsoleSize().Y / 10) * (i - 2);
-        c.X = (g_Console.getConsoleSize().X / 10) * 7;
-        ss.str(ShopInventory.GetItem(i)->GetName());
-        g_Console.writeToBuffer(c, ss.str(), 0x07);
-    }
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 3;
-    ss.str("Exit");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-
-    c.Y = (g_Console.getConsoleSize().Y / 10) * 9;
-    c.X = (g_Console.getConsoleSize().X / 13) * 9;
-    ss.str("Buy");
-    g_Console.writeToBuffer(c, ss.str(), 0x07);
-}
 
 void renderInventoryScreen()
 {
@@ -3993,6 +3942,11 @@ void renderInventoryScreen()
         c.Y = 3;
         c.X = 67;
         ss.str(" YOUR BACKPACK");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+        c.X = 25;
+        c.Y = 4;
+        ss.str(" ");
+        ss << "GOLD : " << PlayerInventory.GetGold();
         g_Console.writeToBuffer(c, ss.str(), 0x07);
 
         /*Player's items all displayed below*/
@@ -4146,8 +4100,146 @@ void InventorySelection()
         }
     }
 }
+//SHOP IS PROGRAMMED HERE------------------------------------
+void renderShop()
+{
+    renderShopScreen();
+    renderSelection();
+}
+void updateShop()
+{
+    InventoryMove();
+    ShopSelect();
+}
+void shopOpened()
+{
+    SavedLocation = g_eGameState;
+    initialX = g_sChar.m_cLocation.X;
+    initialY = g_sChar.m_cLocation.Y;
+    g_sChar.m_cLocation.X = 29;
+    g_sChar.m_cLocation.Y = 9;
+    g_eGameState = S_SHOP;
+}
+void renderShopScreen()
+{
+    COORD c;
+    std::ostringstream ss;
+    c.Y = 3;
+    c.X = 67;
+    ss.str("ADVENTURER'S SHOP");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.X = 25;
+    c.Y = 4;
+    ss.str("");
+    ss << "GOLD : " << PlayerInventory.GetGold();
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    ss.str("");
+
+    for (int i = 0; i < 5; i++)
+    {
+        c.Y = 9 + (3 * i);
+        c.X = 30;
+        if (ShopInventory.GetItem(i) == nullptr)
+        {
+            ss.str("-");
+        }
+        else
+        {
+            ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
+                << " Gold)";
+        }
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+        ss.str("");
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        c.Y = (3 * i) - 6;
+        c.X = 105;
+        if (ShopInventory.GetItem(i) == nullptr)
+        {
+            ss.str("-");
+        }
+        else
+        {
+            ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
+                << " Gold)";
+        }
+        if (SelectedItem == ShopInventory.GetItem(i) &&
+            SelectedItem != nullptr)
+        {
+            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
+            g_Console.writeToBuffer(c, ss.str(), 0x5E);
+        }
+        else
+        {
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+        ss.str("");
+    }
+    c.Y = 27;
+    c.X = 33;
+    ss.str("Exit");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+    c.Y = 27;
+    c.X = 100;
+    ss.str(" Buy");
+    g_Console.writeToBuffer(c, ss.str(), 0x07);
+}
+//selecting system for shops
+void ShopSelect()
+{
+    //select item
+    for (int i = 0; i < 5; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 29 &&
+            g_sChar.m_cLocation.Y == 9 + (3 * i))
+        {
+            SelectedItem = ShopInventory.GetItem(i);
+        }
+    }
+    for (int i = 5; i < 10; i++)
+    {
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            g_sChar.m_cLocation.X == 104 &&
+            g_sChar.m_cLocation.Y == (3 * i) - 6)
+        {
+            SelectedItem = ShopInventory.GetItem(i);
+        }
+    }
+    //select exit
+    if (g_skKeyEvent[K_SPACE].keyReleased &&
+        (g_sChar.m_cLocation.Y == 27) &&
+        g_sChar.m_cLocation.X == 32)
+    {
+        inventoryClosed();
+    }
+    //select use
+    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+        g_sChar.m_cLocation.Y == 27 &&
+        g_sChar.m_cLocation.X == 100 &&
+        SelectedItem != nullptr)
+    {
+        PlayerInventory.AddItem(SelectedItem);
+        PlayerInventory.SetGold(PlayerInventory.GetGold() - SelectedItem->GetCost());
+        g_sChar.m_cLocation.Y = 9;
+        g_sChar.m_cLocation.X = 29;
+        SelectedItem = nullptr;
+    }
+}
 
 //----------------------------------------------------------------------------
+
 
 
 
