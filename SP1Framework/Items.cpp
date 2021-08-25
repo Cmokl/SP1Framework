@@ -12,7 +12,7 @@ Items::~Items()
 //get and set functions
 void Items::SetCost(int cost)
 {
-	cost = cost;
+	this->cost = cost;
 }
 int Items::GetCost()
 {

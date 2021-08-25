@@ -91,6 +91,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ManaItems.cpp" />
     <ClCompile Include="Medusa.cpp" />
     <ClCompile Include="Oni.cpp" />
     <ClCompile Include="Paladin.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="HealingItems.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Items.h" />
+    <ClInclude Include="ManaItems.h" />
     <ClInclude Include="Medusa.h" />
     <ClInclude Include="Oni.h" />
     <ClInclude Include="Paladin.h" />
