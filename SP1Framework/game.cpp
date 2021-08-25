@@ -14995,15 +14995,15 @@ void EnemyAI(int EnemyPartyType)
                     }
                     break;
                 }
-            }
-            else
-            {
-                while (Target[TargetIndex] == nullptr)
+                else
                 {
-                    srand(static_cast<unsigned int>(time(0)));
-                    TargetIndex = rand() % 4;
+                    while (Target[TargetIndex] == nullptr)
+                    {
+                        srand(static_cast<unsigned int>(time(0)));
+                        TargetIndex = rand() % 4;
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
@@ -15013,21 +15013,28 @@ void EnemyAI(int EnemyPartyType)
     }
     if (EnemyPartyType == Dragon)
     {
-        if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
-            (temp == 0))
+        if (CurrentClass == EnemyParty[0])
         {
-            EffectSelect = 2;
-            temp++;
-        }
-        else if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.25) &&
-            (temp == 1))
-        {
-            EffectSelect = 3;
-            temp++;
-        }
-        else if (Target[TargetIndex]->GetIsBurn() == true)
-        {
-            EffectSelect = 1;
+            if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
+                (temp == 0))
+            {
+                EffectSelect = 2;
+                temp++;
+            }
+            else if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.25) &&
+                (temp == 1))
+            {
+                EffectSelect = 3;
+                temp++;
+            }
+            else if (Target[TargetIndex]->GetIsBurn() == true)
+            {
+                EffectSelect = 1;
+            }
+            else
+            {
+                EffectSelect = rand() % 2;
+            }
         }
         else
         {

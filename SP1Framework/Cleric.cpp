@@ -43,7 +43,7 @@ bool Cleric::Resurrection(Class* target)
 	{
 		this->SetMana(GetMana() - 5);
 
-		target->SetMaxHealth(GetMaxHealth() * 0.1);
+		target->SetHealth(GetMaxHealth() * 0.1);
 
 		return true;
 	}
