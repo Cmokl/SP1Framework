@@ -24,5 +24,4 @@ void Medusa::SerpentBite(Class* target)
 {
 	target->SetHealth(target->GetHealth() - 6 + (6 * 0.1*(target->GetDefence() / 10)));
 
-	target->SetIsPoison(true);
 }
