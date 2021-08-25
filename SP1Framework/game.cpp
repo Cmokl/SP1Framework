@@ -41,6 +41,7 @@ Class* CurrentClass;
 Class* Target[4];
 Class* PlayerParty[4];
 Class* EnemyParty[4];
+int PartyType;
 
 //creating the player inventory, the shop inventory and the items in it
 Inventory PlayerInventory;
@@ -60,6 +61,7 @@ int BleedTime[8];
 //Selection for battles
 int EffectSelect;
 int TargetIndex;
+int temp;
 
 //coordinates of player when battle is entered
 int PlayerTempCoordX;
@@ -80,6 +82,14 @@ enum BattleActions
     FSelect,
     EnemyAttack
 };
+
+//will change the enemy ai based on this
+enum EnemyPartyType
+{
+    Regular,
+    Dragon
+};
+
 int Action;
 int PreviousAction;
 int Maplevel;
@@ -130,11 +140,14 @@ void init(void)
     {
         PlayerParty[i] = nullptr;
     }
-    //is temporary for testing purposes
+    //init player classes
     PlayerParty[0] = new Fighter;
     PlayerParty[1] = new Rogue;
     PlayerParty[2] = new Cleric;
     PlayerParty[3] = new Wizard;
+
+    //init EnemyPartyType
+    PartyType = Regular;
 
     //Adds items and gold to the player and shop inventories
     GoldApple->SetDescription(": Heals 8 hp");
@@ -14315,6 +14328,8 @@ void foundRandomEncounter(void)
     if (((rand() % RandomRate) == 0) &&
         (--RandomDelay == 0))
     {
+        PartyType = Regular;
+        temp = 0;
         RandomDelay = 3;
         initEnemyGroup(rand() % 2);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
@@ -14407,7 +14422,7 @@ void updateBattle()
         }
         break;
     case EnemyAttack:
-        EnemyAI();
+        EnemyAI(PartyType);
         break;
     }
     VictoryCondition(); //checks if player win
@@ -14840,6 +14855,34 @@ void TurnEnd(void)
         }
     }
 
+    //check if is burning
+    for (int i = 0; i < 4; i++)
+    {
+        if ((PlayerParty[i]->GetIsBurn() == true) &&
+            (CurrentClass == PlayerParty[i]))
+        {
+            BleedTime[i]++;
+            PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+            if (BleedTime[i] == 3)
+            {
+                PlayerParty[i]->SetIsBurn(false);
+                BleedTime[i] = 0;
+            }
+        }
+
+        if ((EnemyParty[i]->GetIsBurn() == true) &&
+            (CurrentClass == EnemyParty[i]))
+        {
+            BleedTime[i + 4]++;
+            EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+            if (BleedTime[i + 4] == 3)
+            {
+                EnemyParty[i]->SetIsBurn(false);
+                BleedTime[i + 4] = 0;
+            }
+        }
+    }
+
     CurrentClass->SetTurn(false);
     CurrentTurn++;
 }
@@ -14906,7 +14949,7 @@ void EndBattle()
     }
 }
 
-void EnemyAI()
+void EnemyAI(int EnemyPartyType)
 {
     for (int i = 0; i < 4; i++)
     {
@@ -14943,16 +14986,42 @@ void EnemyAI()
                     }
                     break;
                 }
-                else
-                {
-                    while (Target[TargetIndex] == nullptr)
-                    {
-                        srand(static_cast<unsigned int>(time(0)));
-                        TargetIndex = rand() % 4;
-                    }
-                    break;
-                }
             }
+            else
+            {
+                while (Target[TargetIndex] == nullptr)
+                {
+                    srand(static_cast<unsigned int>(time(0)));
+                    TargetIndex = rand() % 4;
+                }
+                break;
+            }
+        }
+    }
+    if (EnemyPartyType = Regular)
+    {
+        EffectSelect = rand() % 2;
+    }
+    if (EnemyPartyType = Dragon)
+    {
+        if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
+            (temp == 0))
+        {
+            EffectSelect = 2;
+            temp++;
+        }
+        else if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.25) &&
+            (temp == 1))
+        {
+            EffectSelect = 3;
+            temp++;
+        }
+        else if (Target[TargetIndex]->GetIsBurn() == true)
+        {
+            EffectSelect = 1;
+        }
+        else
+        {
             EffectSelect = rand() % 2;
         }
     }
@@ -14973,7 +15042,6 @@ void GameOver()
         g_bQuitGame = true;
     }
 }
-
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
 //            At this point, you should know exactly what to draw onto the screen.

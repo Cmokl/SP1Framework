@@ -9,7 +9,7 @@ public:
     ~Oni();
 
     //skills
-    void InfenalBlast(Class* Target);
+    void InfernalBlast(Class* Target);
     void SoulLock(Class* Target);
     void RevertSoulLock(Class* Target);
 

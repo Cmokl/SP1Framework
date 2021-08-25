@@ -5,8 +5,8 @@ Oni::Oni()
 	this->SetHealth(48);
 	this->SetMaxHealth(48);
 	this->SetMana(45);
-	this->SetStrength(16);
-	this->SetIntelligence(15);
+	this->SetStrength(12);
+	this->SetIntelligence(14);
 	this->SetFaith(15);
 	this->SetSpeed(15);
 	this->SetDefence(15);
@@ -16,7 +16,7 @@ Oni::~Oni()
 {
 }
 
-void Oni::InfenalBlast(Class* Target)
+void Oni::InfernalBlast(Class* Target)
 {
 	int damage = (this->GetIntelligence() * 1.0 + Target->GetResistance() * 0.5);
 	//damage
@@ -44,7 +44,20 @@ void Oni::RevertSoulLock(Class* Target)
 //skill list
 bool Oni::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 {
-	return true;
+	if (ListIndex == 0)
+	{
+		if (TargetParty[ClassIndex] != nullptr)
+		{
+			InfernalBlast(TargetParty[ClassIndex]);
+		}
+	}
+	else if (ListIndex == 1)
+	{
+		if (TargetParty[ClassIndex] != nullptr)
+		{
+			SoulLock(TargetParty[ClassIndex]);
+		}
+	}
 }
 
 std::string Oni::SkillNameList(int ListIndex)
