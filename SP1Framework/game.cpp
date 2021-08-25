@@ -78,6 +78,7 @@ enum BattleActions
     EnemyAttack
 };
 int Action;
+int PreviousAction;
 int Maplevel;
 // Console object
 Console g_Console(150, 30, "SP1 Framework");
@@ -159,6 +160,7 @@ void init( void )
 
     //initialize player action indicator
     Action = Main;
+    PreviousAction = Main;
 
     cb = g_Console.getConsoleSize();
     cb.Y = 12;
@@ -6729,6 +6731,7 @@ void updateBattle()
         }
         break;
     case Attack:
+        PreviousAction = Main;
         SelectTarget(EnemyParty);
         if (Target[0] != nullptr)
         {
@@ -6742,8 +6745,16 @@ void updateBattle()
         SelectSkill();
         break;
     case Select:
-
+        PreviousAction = Skill;
         SelectTarget(EnemyParty);
+        if (Target[0] != nullptr)
+        {
+            ExecuteSkill(EffectSelect);
+        }
+        break;
+    case FSelect:
+        PreviousAction = Skill;
+        SelectTarget(PlayerParty);
         if (Target[0] != nullptr)
         {
             ExecuteSkill(EffectSelect);
@@ -6981,11 +6992,10 @@ void TurnStart()
         if (g_skKeyEvent[K_ESCAPE].keyReleased)
         {
             //reset cursor position
-            g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
-            g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 8;
+            ResetCursorPosition;
 
             //go back to previous menu
-            Action = Main;
+            Action = PreviousAction;
         }
     }
 
@@ -7068,12 +7078,20 @@ void TurnStart()
                 CheckTargetType(CurrentClass->SkillTargetType(4));
             }
         }
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            ResetCursorPosition();
+
+            Action = Special;
+        }
     }
+   
     void CheckTargetType(int type)
     {
         if (type == Class::Single)
         {
             ResetCursorPosition();
+            TargetIndex = 0;
             Action = Select;
         }
         else if (type == Class::AOE)
@@ -7092,6 +7110,7 @@ void TurnStart()
         else if (type == Class::FSingle)
         {
             ResetCursorPosition();
+            TargetIndex = 0;
             Action = FSelect;
         }
         else if (type == Class::FAOE)
@@ -7226,7 +7245,7 @@ void TurnStart()
                     if (static_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true)
                     {
                         while ((Target[TargetIndex] == nullptr) &&
-                            (static_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true))
+                            (TargetIndex == i))
                         {
                             srand(static_cast<unsigned int>(time(0)));
                             TargetIndex = rand() % 4;
@@ -9788,6 +9807,53 @@ void renderBattleScreen()
 
             ss.str("");
             ss << " 4." << EnemyParty[3]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+    }
+    else if (Action == FSelect)
+    {
+        //target 1
+        if (PlayerParty[0] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 1." << PlayerParty[0]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 2
+        if (PlayerParty[1] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+            ss.str("");
+            ss << " 2." << PlayerParty[1]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 3
+        if (PlayerParty[2] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = (g_Console.getConsoleSize().X / 8);
+
+            ss.str("");
+            ss << " 3." << PlayerParty[2]->GetName();
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
+
+        //target 4
+        if (PlayerParty[3] != nullptr)
+        {
+            c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8);
+            c.X = ((g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2));
+
+
+            ss.str("");
+            ss << " 4." << PlayerParty[3]->GetName();
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
