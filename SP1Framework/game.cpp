@@ -469,7 +469,7 @@ void updateGame()       // gameplay logic
     else
     {
         //playbtmusic=false;
-        playmusic;
+        //playmusic; 
         Collision();
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
@@ -9121,14 +9121,19 @@ void updateShop()
 }
 void shopOpened()
 {
-    if (g_sChar.m_cLocation.X == 0 && g_sChar.m_cLocation.Y == 0)
+    if (g_eGameState == S_MAP1)
     {
-        SavedLocation = g_eGameState;
-        initialX = g_sChar.m_cLocation.X;
-        initialY = g_sChar.m_cLocation.Y;
-        g_sChar.m_cLocation.X = 29;
-        g_sChar.m_cLocation.Y = 9;
-        g_eGameState = S_SHOP;
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (((g_sChar.m_cLocation.X >= 91 && g_sChar.m_cLocation.X <= 95) && (g_sChar.m_cLocation.Y == 2)) ||
+                ((g_sChar.m_cLocation.X >= 64 && g_sChar.m_cLocation.X <= 69) && (g_sChar.m_cLocation.Y == 22))))
+        {
+            SavedLocation = g_eGameState;
+            initialX = g_sChar.m_cLocation.X;
+            initialY = g_sChar.m_cLocation.Y;
+            g_sChar.m_cLocation.X = 29;
+            g_sChar.m_cLocation.Y = 9;
+            g_eGameState = S_SHOP;
+        }
     }
 }
 void renderShopScreen()
