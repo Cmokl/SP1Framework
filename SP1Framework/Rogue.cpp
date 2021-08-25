@@ -43,17 +43,15 @@ void Rogue::Attack(Class* Target)
 //skills
 bool Rogue::Stealth()
 {
-	//if (IsStealth == false)
-	//{
-	//	//mana cost 2
-	//	this->SetMana(GetMana() - 2);
+	if (IsStealth == false)
+	{
+		//mana cost 2
+		this->SetMana(GetMana() - 2);
 
-	//	//effect
-	//	IsStealth = true;
-	//	return true;
-	//}
-	this->SetHealth(-1);
-	return true;
+		//effect
+		IsStealth = true;
+		return true;
+	}
 }
 
 bool Rogue::CheapShot(Class* Target)

@@ -112,7 +112,6 @@ void renderInputEvents();   // renders the status of input events
 void renderBattle();
 void renderSelection();
 void renderBattleScreen();
-void renderSelectScreen();
 void renderStatuses();
 void arrow();
 void rendergamepause();
