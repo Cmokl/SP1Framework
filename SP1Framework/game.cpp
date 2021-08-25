@@ -545,7 +545,7 @@ void moveCharacter()
     {
     g_sChar.m_bActive = !g_sChar.m_bActive;
     }
-    if (g_skKeyEvent[K_TAB].keyDown)
+    if (g_skKeyEvent[K_TAB].keyDown && (g_eGameState != S_MENUSCREEN || g_eGameState != S_HOWTOPLAY))
     {
         inventoryOpened();
     }
