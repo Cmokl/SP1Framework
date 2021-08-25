@@ -55,6 +55,7 @@ int CurrentTurn;
 
 //counters for turns passed for statuses
 int BattleCryTime;
+int BleedTime[8];
 
 //Selection for battles
 int EffectSelect;
@@ -150,7 +151,10 @@ void init( void )
 
     //counters for turns passed for statuses
     BattleCryTime = 0;
-
+    for (int i = 0; i < 8; i++)
+    {
+        BleedTime[i] = 0;
+    }
     //initialize player coord when entering battle
     PlayerTempCoordX = 0;
     PlayerTempCoordY = 0;
@@ -8657,6 +8661,35 @@ void TurnStart()
                 }
             }
         }
+
+        //check if is bleeding
+        for (int i = 0; i < 4; i++)
+        {
+            if ((PlayerParty[i]->GetIsBleed() == true)&&
+                (CurrentClass == PlayerParty[i]))
+            {
+                BleedTime[i]++;
+                PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                if (BleedTime[i] == 3)
+                {
+                    PlayerParty[i]->SetIsBleed(false);
+                    BleedTime[i] = 0;
+                }
+            }
+            
+            if ((EnemyParty[i]->GetIsBleed() == true) &&
+                (CurrentClass == EnemyParty[i]))
+            {
+                BleedTime[i + 4]++;
+                EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                if (BleedTime[i + 4] == 3)
+                {
+                    EnemyParty[i]->SetIsBleed(false);
+                    BleedTime[i + 4] = 0;
+                }
+            }
+        }
+
         CurrentClass->SetTurn(false);
         CurrentTurn++;
     }
@@ -8695,6 +8728,8 @@ void TurnStart()
             (EnemyParty[2] == nullptr) &&
             (EnemyParty[3] == nullptr))
         {
+
+            PlayerInventory.SetGold(PlayerInventory.GetGold() + rand() % 5 + 3);
             EndBattle();
         }
     }
