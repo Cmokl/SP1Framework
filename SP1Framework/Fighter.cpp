@@ -21,6 +21,11 @@ Fighter::~Fighter()
 {
 }
 
+bool Fighter::GetIsBattleCry()
+{
+	return IsBattleCry;
+}
+
 //skills
 void Fighter::Cleave(Class* Target[4])
 {
@@ -46,12 +51,15 @@ void Fighter::Smash(Class* Target)
 
 void Fighter::BattleCry(void)
 {
-	//mana cost 3
-	this->SetMana(this->GetMana() - 3);
+	if (IsBattleCry == false)
+	{
+		//mana cost 3
+		this->SetMana(this->GetMana() - 3);
 
-	this->SetStrength(this->GetStrength() * 1.1);
+		this->SetStrength(this->GetStrength() * 1.1);
 
-	IsBattleCry = true;
+		IsBattleCry = true;
+	}
 }
 
 void Fighter::BattleCryRevert()

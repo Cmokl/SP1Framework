@@ -9,6 +9,8 @@ public:
 	Fighter();
 	~Fighter();
 
+	bool GetIsBattleCry();
+
 	//skills
 	//deals damage to everyone in the enemy party
 	void Cleave(Class* Target[4]);

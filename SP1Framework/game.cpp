@@ -53,6 +53,9 @@ Items* Bandage = new HealingItems("Bandage", 1, 2);
 int TurnCount;
 int CurrentTurn;
 
+//counters for turns passed for statuses
+int BattleCryTime;
+
 //Selection for battles
 int EffectSelect;
 int TargetIndex;
@@ -144,6 +147,9 @@ void init( void )
     //initialize turn count for battles
     TurnCount = 1;
     CurrentTurn = 1;
+
+    //counters for turns passed for statuses
+    BattleCryTime = 0;
 
     //initialize player coord when entering battle
     PlayerTempCoordX = 0;
@@ -8635,6 +8641,19 @@ void TurnStart()
                 {
                     delete EnemyParty[i];
                     EnemyParty[i] = nullptr;
+                }
+            }
+        }
+        //check if fighter
+        if (dynamic_cast<Fighter*>(CurrentClass) != NULL)
+        {
+            if (static_cast<Fighter*>(CurrentClass)->GetIsBattleCry() == true)
+            {
+                BattleCryTime++;
+                if (BattleCryTime == 3)
+                {
+                    BattleCryTime = 0;
+                    static_cast<Fighter*>(CurrentClass)->BattleCryRevert();
                 }
             }
         }
