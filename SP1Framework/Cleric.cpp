@@ -24,7 +24,7 @@ bool Cleric::HolyRestoration(Class* target)
 		//mana cost 3
 		this->SetMana(GetMana() - 3);
 
-		for (int i = 0; i < (this->GetFaith() / 2); i++)
+		for (int i = 0; i < (this->GetFaith() * 0.8); i++)
 		{
 			if (target-> GetHealth() + 1 < target->GetMaxHealth())
 			{

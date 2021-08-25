@@ -2,50 +2,44 @@
 
 Dragon::Dragon()
 {
-	this->SetHealth(55);
-	this->SetMaxHealth(55);
-	this->SetMana(40);
+	this->SetHealth(80);
+	this->SetMaxHealth(80);
 	this->SetStrength(16);
-	this->SetIntelligence(10);
+	this->SetIntelligence(16);
 	this->SetFaith(8);
 	this->SetSpeed(16);
 	this->SetDefence(15);
 	this->SetResistance(15);
-	DragonsCallUsed = 0;
 }
 Dragon::~Dragon()
 {
 }
 void Dragon::FireBreath(Class* target)
 {
-	target->SetHealth(target->GetHealth() - 10 + 10 * (0.1 * (target->GetResistance() / 10)));
+	target->SetHealth(target->GetHealth() - this->GetIntelligence() * 0.9 + (this->GetIntelligence() * 1.0) * (0.01 * (target->GetResistance())));
 	target->SetIsBurn(true);
 	//to add the player burning for 3 turns
 }
 
 void Dragon::TalonTear(Class* target)
 {
-	target->SetHealth(target->GetHealth() - 9 + 9 * (0.1 * (target->GetDefence() / 10)));
+	target->SetHealth(target->GetHealth() - this->GetStrength() * 1.1 + (this->GetStrength() * 1.1) * (0.01 * (target->GetResistance())));
 }
 
 void Dragon::FlameBurst(Class* target[4])
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (target[i] != nullptr)
+		if (target[i]->GetHealth() > 0)
 		{
-			target[i]->SetHealth(target[i]->GetHealth() - 9 + 9 * (0.1 * (target[i]->GetDefence() / 10)));
+			target[i]->SetHealth(target[i]->GetHealth() - this->GetStrength() * 1.8 + (this->GetStrength() * 1.8) * (0.01 * (target[i]->GetResistance())));
 		}
 	}
 }
 
-void Dragon::DragonsCall(Class* NewEnemy)
+void Dragon::DragonsCall(Class* OwnParty[4])
 {
-	if (DragonsCallUsed == 0 && (GetHealth() <= (GetMaxHealth() * 0.25)))
-	{
-		NewEnemy = new Oni;
-		DragonsCallUsed = 1;
-	}
+	OwnParty[1] = new Oni;
 }
 
 bool Dragon::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
@@ -62,9 +56,9 @@ bool Dragon::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 	{
 		FlameBurst(TargetParty);
 	}
-	else if (ListIndex == 2)
+	else if (ListIndex == 3)
 	{
-		DragonsCall(TargetParty[ClassIndex]);
+		DragonsCall(TargetParty);
 	}
 	return true;
 }
