@@ -15302,6 +15302,10 @@ void InventorySelection()
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
         }
+        if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            g_eGameState = SavedLocation;
+        }
     }
 }
 //SHOP IS PROGRAMMED HERE------------------------------------
@@ -15475,6 +15479,7 @@ void ShopSelect()
 }
 
 //----------------------------------------------------------------------------
+
 
 
 void renderSplashScreen()  // renders the splash screen
