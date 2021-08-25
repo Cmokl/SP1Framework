@@ -10,7 +10,6 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "HealingItems.h"
-#include "ManaItems.h"
 #include "EmptyClass.h"
 #include <iostream>
 #include <iomanip>
@@ -47,15 +46,8 @@ int PartyType;
 //creating the player inventory, the shop inventory and the items in it
 Inventory PlayerInventory;
 Inventory ShopInventory;
-//hp restoring items created
-Items* ElvenBread = new HealingItems("Elven Bread", 1, 3);
-Items* SunCake = new HealingItems("Sun Cake", 3, 6);
-Items* BeefStew = new HealingItems("Beef Stew", 5, 9);
-//mana restoring items created
-Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
-Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
-Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
-
+Items* GoldApple = new HealingItems("Gold Apple", 4, 8);
+Items* Bandage = new HealingItems("Bandage", 1, 2);
 
 
 //turn count for battles
@@ -157,26 +149,14 @@ void init(void)
     //init EnemyPartyType
     PartyType = Regular;
 
-    //creates item descriptions
-    ElvenBread->SetDescription(": Heals 3 hp");
-    SunCake->SetDescription(": Heals 6 hp");
-    BeefStew->SetDescription(": Heals 9 hp");
-    PurpleElixir->SetDescription(": Restores 4 mana");
-    GoldApple->SetDescription(": Restores 8 mana");
-    PixieTeardrops->SetDescription(": Restores 12 mana");
-
-    //adds items into the shops
-    ShopInventory.AddItem(ElvenBread);
-    ShopInventory.AddItem(SunCake);
-    ShopInventory.AddItem(BeefStew);
-    ShopInventory.AddItem(PurpleElixir);
+    //Adds items and gold to the player and shop inventories
+    GoldApple->SetDescription(": Heals 8 hp");
     ShopInventory.AddItem(GoldApple);
-    ShopInventory.AddItem(PixieTeardrops);
-    //adds the player's starting items
-    PlayerInventory.AddItem(ElvenBread);
-    PlayerInventory.AddItem(PurpleElixir);
-
-
+    ShopInventory.AddItem(Bandage);
+    for (int i = 0; i < 10; i++)
+    {
+        PlayerInventory.AddItem(GoldApple);
+    }
 
     //initialize turn count for battles
     TurnCount = 1;
@@ -15362,11 +15342,6 @@ void InventorySelection()
             g_sChar.m_cLocation.X = 62;
             g_sChar.m_cLocation.Y = 8;
         }
-        //escape button pressed
-        else if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        {
-            inventoryClosed();
-        }
     }
     else if (InventoryPage == 2)//the player selects the player to use the item on
     {
@@ -15391,10 +15366,6 @@ void InventorySelection()
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
-        }
-        if (g_skKeyEvent[K_ESCAPE].keyReleased)
-        {
-            inventoryClosed();
         }
     }
 }
@@ -15569,7 +15540,6 @@ void ShopSelect()
 }
 
 //----------------------------------------------------------------------------
-
 
 
 void renderSplashScreen()  // renders the splash screen
