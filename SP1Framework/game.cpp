@@ -14846,27 +14846,33 @@ void TurnEnd(void)
     //check if is bleeding
     for (int i = 0; i < 4; i++)
     {
-        if ((PlayerParty[i]->GetIsBleed() == true) &&
-            (CurrentClass == PlayerParty[i]))
+        if (PlayerParty[i] != nullptr)
         {
-            BleedTime[i]++;
-            PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
-            if (BleedTime[i] == 3)
+            if ((PlayerParty[i]->GetIsBleed() == true) &&
+                (CurrentClass == PlayerParty[i]))
             {
-                PlayerParty[i]->SetIsBleed(false);
-                BleedTime[i] = 0;
+                BleedTime[i]++;
+                PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                if (BleedTime[i] == 3)
+                {
+                    PlayerParty[i]->SetIsBleed(false);
+                    BleedTime[i] = 0;
+                }
             }
         }
 
-        if ((EnemyParty[i]->GetIsBleed() == true) &&
-            (CurrentClass == EnemyParty[i]))
+        if (EnemyParty[i] != nullptr)
         {
-            BleedTime[i + 4]++;
-            EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
-            if (BleedTime[i + 4] == 3)
+            if ((EnemyParty[i]->GetIsBleed() == true) &&
+                (CurrentClass == EnemyParty[i]))
             {
-                EnemyParty[i]->SetIsBleed(false);
-                BleedTime[i + 4] = 0;
+                BleedTime[i + 4]++;
+                EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                if (BleedTime[i + 4] == 3)
+                {
+                    EnemyParty[i]->SetIsBleed(false);
+                    BleedTime[i + 4] = 0;
+                }
             }
         }
     }
@@ -14874,27 +14880,33 @@ void TurnEnd(void)
     //check if is burning
     for (int i = 0; i < 4; i++)
     {
-        if ((PlayerParty[i]->GetIsBurn() == true) &&
-            (CurrentClass == PlayerParty[i]))
+        if (PlayerParty[i] != nullptr)
         {
-            BleedTime[i]++;
-            PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
-            if (BleedTime[i] == 3)
+            if ((PlayerParty[i]->GetIsBurn() == true) &&
+                (CurrentClass == PlayerParty[i]))
             {
-                PlayerParty[i]->SetIsBurn(false);
-                BleedTime[i] = 0;
+                BleedTime[i]++;
+                PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+                if (BleedTime[i] == 3)
+                {
+                    PlayerParty[i]->SetIsBurn(false);
+                    BleedTime[i] = 0;
+                }
             }
         }
 
-        if ((EnemyParty[i]->GetIsBurn() == true) &&
-            (CurrentClass == EnemyParty[i]))
+        if (EnemyParty[i] != nullptr)
         {
-            BleedTime[i + 4]++;
-            EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
-            if (BleedTime[i + 4] == 3)
+            if ((EnemyParty[i]->GetIsBurn() == true) &&
+                (CurrentClass == EnemyParty[i]))
             {
-                EnemyParty[i]->SetIsBurn(false);
-                BleedTime[i + 4] = 0;
+                BleedTime[i + 4]++;
+                EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+                if (BleedTime[i + 4] == 3)
+                {
+                    EnemyParty[i]->SetIsBurn(false);
+                    BleedTime[i + 4] = 0;
+                }
             }
         }
     }
