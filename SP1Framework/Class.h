@@ -21,9 +21,9 @@ private:
 	//statuses
 	bool IsBleed;
 	bool IsBurn;
-	bool IsPoison;
 	bool IsImmune;
 	bool IsSilenced;
+	bool IsDefend;
 
 	//class has taken it's turn or no
 	bool Turn;
@@ -59,12 +59,12 @@ public:
 	void SetIsBleed(bool Boolean);
 	bool GetIsBurn(void);
 	void SetIsBurn(bool Boolean);
-	bool GetIsPoison(void);
-	void SetIsPoison(bool Boolean);
 	bool GetIsImmune(void);
 	void SetIsImmune(bool Boolean);
 	bool GetIsSilenced(void);
 	void SetIsSilenced(bool Boolean);
+	bool GetIsDefend(void);
+	void SetIsDefend(bool Boolean);
 
 	//setter/getters for turn
 	bool GetTurn(void);

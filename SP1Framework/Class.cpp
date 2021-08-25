@@ -15,9 +15,9 @@ Class::Class()
 
 	IsBleed = false;
 	IsBurn = false;
-	IsPoison = false;
 	IsImmune = false;
 	IsSilenced = false;
+	IsDefend = false;
 
 	Turn = true;
 }
@@ -144,14 +144,6 @@ void Class::SetIsBurn(bool Boolean)
 {
 	IsBurn = Boolean;
 }
-bool Class::GetIsPoison(void)
-{
-	return IsPoison;
-}
-void Class::SetIsPoison(bool Boolean)
-{
-	IsPoison = Boolean;
-}
 bool Class::GetIsImmune(void)
 {
 	return IsImmune;
@@ -169,6 +161,16 @@ bool Class::GetIsSilenced(void)
 void Class::SetIsSilenced(bool Boolean)
 {
 	IsSilenced = Boolean;
+}
+
+bool Class::GetIsDefend(void)
+{
+	return IsDefend;
+}
+
+void Class::SetIsDefend(bool Boolean)
+{
+	IsDefend = Boolean;
 }
 
 bool Class::GetTurn(void)
@@ -202,12 +204,14 @@ void Class::Defend()
 {
 	this->SetDefence(static_cast<int>(this->GetDefence() * 1.5));
 	this->SetResistance(static_cast<int>(this->GetResistance() * 1.5));
+	IsDefend = true;
 }
 
 void Class::RevertDefend()
 {
 	this->SetDefence(static_cast<int>(this->GetDefence() * 0.5/1.5));
 	this->SetResistance(static_cast<int>(this->GetResistance() * 0.5/1.5));
+	IsDefend = false;
 }
 
 int Class::SkillTargetType(int ListIndex)

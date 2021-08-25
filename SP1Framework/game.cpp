@@ -62,6 +62,9 @@ int TargetIndex;
 int PlayerTempCoordX;
 int PlayerTempCoordY;
 
+//to check if a skill allows it to be executed
+bool IsAllowed;
+
 //player action indicator
 enum BattleActions
 {
@@ -150,6 +153,9 @@ void init( void )
     //Selection for battles
     EffectSelect = -1;
     TargetIndex = -1;
+
+    //init IsAllowed
+    IsAllowed = true;
 
     //initialize player action indicator
     Action = Main;
