@@ -33,7 +33,7 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
-//bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
+bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -486,7 +486,7 @@ void updateGame()       // gameplay logic
     else
     {
        
-            /*playmusic;*/
+            playmusic;
             if (g_eGameState == S_MAP1)
             {
                 Collision();
@@ -497,11 +497,7 @@ void updateGame()       // gameplay logic
             }
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
-
-        
-            //playbtmusic=false;
-            //playmusic; 
-            Collision();
+        Collision();
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
         inventoryOpened();
