@@ -21,6 +21,7 @@ private:
 	//statuses
 	bool IsBleed;
 	bool IsBurn;
+	bool IsPoison;
 	bool IsImmune;
 	bool IsSilenced;
 	bool IsDefend;
@@ -59,6 +60,8 @@ public:
 	void SetIsBleed(bool Boolean);
 	bool GetIsBurn(void);
 	void SetIsBurn(bool Boolean);
+	bool GetIsPoison(void);
+	void SetIsPoison(bool Boolean);
 	bool GetIsImmune(void);
 	void SetIsImmune(bool Boolean);
 	bool GetIsSilenced(void);
