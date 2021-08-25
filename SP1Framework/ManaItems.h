@@ -9,4 +9,3 @@ public:
     ~ManaItems();
     void ItemEffect(Class* Player);
 };
-

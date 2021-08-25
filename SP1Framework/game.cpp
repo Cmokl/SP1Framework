@@ -15277,6 +15277,11 @@ void InventorySelection()
             g_sChar.m_cLocation.X = 62;
             g_sChar.m_cLocation.Y = 8;
         }
+        //escape button pressed
+        else if (g_skKeyEvent[K_ESCAPE].keyReleased)
+        {
+            inventoryClosed();
+        }
     }
     else if (InventoryPage == 2)//the player selects the player to use the item on
     {
@@ -15304,7 +15309,7 @@ void InventorySelection()
         }
         if (g_skKeyEvent[K_ESCAPE].keyReleased)
         {
-            g_eGameState = SavedLocation;
+            inventoryClosed();
         }
     }
 }
