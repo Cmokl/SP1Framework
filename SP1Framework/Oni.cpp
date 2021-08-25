@@ -58,6 +58,7 @@ bool Oni::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])
 			SoulLock(TargetParty[ClassIndex]);
 		}
 	}
+	return true;
 }
 
 std::string Oni::SkillNameList(int ListIndex)
