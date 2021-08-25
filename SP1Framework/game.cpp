@@ -14361,6 +14361,7 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
+    GameOver(); //checks if player lose
     if (Action != EnemyAttack)
     {
         BattleMove();
@@ -14409,7 +14410,7 @@ void updateBattle()
         EnemyAI();
         break;
     }
-    VictoryCondition();
+    VictoryCondition(); //checks if player win
 }
 
 
@@ -14961,6 +14962,18 @@ void EnemyAI()
     TurnEnd();
     Action = Main;
 }
+
+void GameOver()
+{
+    if ((PlayerParty[0]->GetHealth() < 1) &&
+        (PlayerParty[1]->GetHealth() < 1) &&
+        (PlayerParty[2]->GetHealth() < 1) &&
+        (PlayerParty[3]->GetHealth() < 1))
+    {
+        g_bQuitGame = true;
+    }
+}
+
 //--------------------------------------------------------------
 // Purpose  : Render function is to update the console screen
 //            At this point, you should know exactly what to draw onto the screen.
