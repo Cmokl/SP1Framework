@@ -34,7 +34,6 @@ float RandomDelay;
 //pause menu variable
 bool timescale = true;
 bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
-//bool playbtmusic = PlaySound(TEXT("BattleMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -92,7 +91,6 @@ COORD cb;
 //--------------------------------------------------------------
 void init( void )
 {
-    //playbtmusic = false;
     // Set precision for floating point output
     g_dElapsedTime = 0.0;    
 
@@ -465,7 +463,6 @@ void updateGame()       // gameplay logic
     }
     else
     {
-        //playbtmusic=false;
         playmusic;
         Collision();
      moveCharacter();    // moves the character, collision detection, physics, etc
@@ -8163,8 +8160,6 @@ void foundRandomEncounter(void)
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_dElapsedTime = 0;
         g_eGameState = S_BATTLESPLASH;
-        playmusic=false;
-        //playbtmusic;
     }
 }
 
