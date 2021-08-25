@@ -2,6 +2,7 @@
 
 Dragon::Dragon()
 {
+	this->SetName("Dragon");
 	this->SetHealth(80);
 	this->SetMaxHealth(80);
 	this->SetStrength(16);

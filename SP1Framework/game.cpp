@@ -7,6 +7,7 @@
 #include "Rogue.h"
 #include "Cleric.h"
 #include "Skeleton.h"
+#include "Dragon.h"
 #include "Inventory.h"
 #include "Items.h"
 #include "HealingItems.h"
@@ -88,7 +89,7 @@ enum BattleActions
 enum EnemyPartyType
 {
     Regular,
-    Dragon
+    Boss
 };
 
 int Action;
@@ -589,6 +590,26 @@ void moveCharacter()
     }
 
 
+}
+
+//check boss
+void CheckBoss()
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if ((g_sChar.m_cLocation.Y == 27) &&
+            (g_sChar.m_cLocation.X == 142 + i))
+        {
+            PartyType = Boss;
+            temp = 0;
+            RandomDelay = 3;
+            EnemyParty[0] = new Dragon;
+            PlayerTempCoordX = g_sChar.m_cLocation.X;
+            PlayerTempCoordY = g_sChar.m_cLocation.Y;
+            g_dElapsedTime = 0;
+            g_eGameState = S_BATTLESPLASH;
+        }
+    }
 }
 
 
@@ -15011,7 +15032,7 @@ void EnemyAI(int EnemyPartyType)
     {
         EffectSelect = rand() % 2;
     }
-    if (EnemyPartyType == Dragon)
+    if (EnemyPartyType == Boss)
     {
         if (CurrentClass == EnemyParty[0])
         {
@@ -17727,6 +17748,13 @@ void renderBattleSplash(void)
     c.X = g_Console.getConsoleSize().X / 2 - 7;
     c.Y = g_Console.getConsoleSize().Y / 2;
 
-    ss.str("BATTLE!");
+    if (PartyType = Regular)
+    {
+        ss.str("BATTLE!");
+    }
+    else
+    {
+        ss.str("BOSS BATTLE!");
+    }
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
