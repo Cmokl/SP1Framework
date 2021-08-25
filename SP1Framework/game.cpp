@@ -7209,7 +7209,6 @@ void TurnStart()
             {
                 Target[i] = PlayerParty[i];
             }
-            
         }
 
         //enemy targeting
@@ -7220,12 +7219,32 @@ void TurnStart()
             (Target[2] == nullptr) &&
             (Target[3] == nullptr)))
         {
-            while (Target[TargetIndex] == nullptr)
+            for (int i = 0; i < 4; i++)
             {
-                srand(static_cast<unsigned int>(time(0)));
-                TargetIndex = rand() % 4;
+                if (dynamic_cast<Rogue*>(PlayerParty[i]) != NULL)
+                {
+                    if (static_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true)
+                    {
+                        while ((Target[TargetIndex] == nullptr) &&
+                            (static_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true))
+                        {
+                            srand(static_cast<unsigned int>(time(0)));
+                            TargetIndex = rand() % 4;
+                        }
+                        break;
+                    }
+                    else
+                    {
+                        while (Target[TargetIndex] == nullptr)
+                        {
+                            srand(static_cast<unsigned int>(time(0)));
+                            TargetIndex = rand() % 4;
+                        }
+                        break;
+                    }
+                }
+                EffectSelect = rand() % 2;
             }
-            EffectSelect = rand() % 2;
         }
         
 
