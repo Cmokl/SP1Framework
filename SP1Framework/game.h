@@ -23,7 +23,6 @@ struct SMouseEvent
     DWORD eventFlags;
 };
 
-// Enumeration to store the control keys that your game will have
 enum EKEYS
 {
     K_UP,
@@ -32,9 +31,10 @@ enum EKEYS
     K_RIGHT,
     K_ESCAPE,
     K_SPACE,
-    K_COUNT,
-    K_TAB
+    K_TAB,
+    K_COUNT
 };
+
 
 // Enumeration for the different screen states
 enum EGAMESTATES
