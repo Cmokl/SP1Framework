@@ -7205,15 +7205,20 @@ void TurnStart()
         for (int i = 0; i < 4; i++)
         {
             Target[i] = PlayerParty[i];
+            if (dynamic_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true)
+            {
+                Target[i] = nullptr;
+            }
         }
 
         //enemy targeting
         srand(static_cast<unsigned int>(time(0)));
-        TargetIndex = rand() % 3;
-        while (PlayerParty[TargetIndex]->GetHealth() <= 0)
+        TargetIndex = rand() % 4;
+        while ((PlayerParty[TargetIndex]->GetHealth() <= 0) || 
+            (Target[TargetIndex] == nullptr))
         {
             srand(static_cast<unsigned int>(time(0)));
-            TargetIndex = rand() % 3;
+            TargetIndex = rand() % 4;
         }
         EffectSelect = rand() % 2;
         

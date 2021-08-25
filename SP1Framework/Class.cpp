@@ -15,6 +15,7 @@ Class::Class()
 
 	IsBleed = false;
 	IsBurn = false;
+	IsPoison = false;
 	IsImmune = false;
 	IsSilenced = false;
 	IsDefend = false;
@@ -135,6 +136,14 @@ bool Class::GetIsBleed(void)
 void Class::SetIsBleed(bool Boolean)
 {
 	IsBleed = Boolean;
+}
+bool Class::GetIsPoison(void)
+{
+	return IsPoison;
+}
+void Class::SetIsPoison(bool Boolean)
+{
+	IsPoison = Boolean;
 }
 bool Class::GetIsBurn(void)
 {
