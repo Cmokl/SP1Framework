@@ -148,8 +148,8 @@ void init( void )
     PlayerTempCoordY = 0;
 
     //Selection for battles
-    EffectSelect = 0;
-    TargetIndex = 0;
+    EffectSelect = -1;
+    TargetIndex = -1;
 
     //initialize player action indicator
     Action = Main;
@@ -4707,6 +4707,8 @@ void updateBattle()
 
 void TurnStart()
 {
+    EffectSelect = -1;
+    TargetIndex = -1;
     if (CurrentTurn == TurnCount)
     {
         //set previous class
@@ -5139,16 +5141,23 @@ void TurnStart()
 
     void EnemyAI()
     {
-        //enemy targeting
-        int EnemyTarget;
-        srand(static_cast<unsigned int>(time(0)));
-        EnemyTarget = rand() % 3;
-        while (PlayerParty[EnemyTarget]->GetHealth() <= 0)
+        for (int i = 0; i < 4; i++)
         {
-            EnemyTarget = rand() % 3;
+            Target[i] = PlayerParty[i];
         }
 
-        CurrentClass->SkillList(rand() % 3, EnemyTarget, PlayerParty);
+        //enemy targeting
+        srand(static_cast<unsigned int>(time(0)));
+        TargetIndex = rand() % 3;
+        while (PlayerParty[TargetIndex]->GetHealth() <= 0)
+        {
+            srand(static_cast<unsigned int>(time(0)));
+            TargetIndex = rand() % 3;
+        }
+        EffectSelect = rand() % 2;
+        
+
+        CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
         TurnEnd();
         Action = Main;
     }
@@ -7612,7 +7621,8 @@ void renderBattleScreen()
 {
     COORD c;
     std::ostringstream ss;
-    if (Action == Main)
+    if ((Action == Main) ||
+        (Action == EnemyAttack))
     {
         //fight button
         c.Y = g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4);
@@ -7755,12 +7765,6 @@ void renderBattleScreen()
     }
 }
 
-void renderSelectScreen()
-{
-    COORD c;
-    std::ostringstream ss;
-    
-}
 
 void renderStatuses()
 {
