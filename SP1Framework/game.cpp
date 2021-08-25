@@ -5107,6 +5107,11 @@ void TurnStart()
             {
                 PlayerParty[i]->SetTurn(true);
             }
+
+            if (PlayerParty[i]->GetIsDefend() == true)
+            {
+                PlayerParty[i]->RevertDefend();
+            }
         }
 
         CurrentTurn++;
