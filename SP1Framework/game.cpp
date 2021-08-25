@@ -545,10 +545,9 @@ void moveCharacter()
     {
     g_sChar.m_bActive = !g_sChar.m_bActive;
     }
-    if (g_skKeyEvent[K_TAB].keyReleased)
+    if (g_skKeyEvent[K_TAB].keyDown)
     {
         inventoryOpened();
-
     }
   
     
