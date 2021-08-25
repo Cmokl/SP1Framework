@@ -15014,11 +15014,11 @@ void EnemyAI(int EnemyPartyType)
             }
         }
     }
-    if (EnemyPartyType = Regular)
+    if (EnemyPartyType == Regular)
     {
         EffectSelect = rand() % 2;
     }
-    if (EnemyPartyType = Dragon)
+    if (EnemyPartyType == Dragon)
     {
         if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
             (temp == 0))
@@ -15118,7 +15118,8 @@ int InventoryPage = 1;
 
 void inventoryOpened()
 {
-    if (g_skKeyEvent[K_TAB].keyDown && (g_eGameState != S_MENUSCREEN || g_eGameState != S_HOWTOPLAY))
+    if ((g_skKeyEvent[K_TAB].keyDown) &&
+        ((g_eGameState == S_MAP1) || (g_eGameState == S_MAP2)))
     {
         SavedLocation = g_eGameState;
         initialX = g_sChar.m_cLocation.X;
