@@ -303,8 +303,8 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
     case 0x53: key = K_DOWN; break;
     case 0x41: key = K_LEFT; break;
     case 0x44: key = K_RIGHT; break;
-    case VK_SPACE: key = K_SPACE; break;
     case VK_ESCAPE: key = K_ESCAPE; break;
+    case VK_SPACE: key = K_SPACE; break;
     case VK_TAB: key = K_TAB; break;
     }
     // a key pressed event would be one with bKeyDown == true
@@ -316,9 +316,8 @@ void gameplayKBHandler(const KEY_EVENT_RECORD& keyboardEvent)
         g_skKeyEvent[key].keyDown = keyboardEvent.bKeyDown;
         g_skKeyEvent[key].keyReleased = !keyboardEvent.bKeyDown;
     }
-   
+}
 
-}   
 
 
 //--------------------------------------------------------------
@@ -463,14 +462,17 @@ void updateGame()       // gameplay logic
     }
     else
     {
+        //playbtmusic=false;
         playmusic;
         Collision();
-     moveCharacter();    // moves the character, collision detection, physics, etc
-     changelevel();
-
+        moveCharacter();    // moves the character, collision detection, physics, etc
+        changelevel();
+        inventoryOpened();
+        shopOpened();
     }
-     //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
+    //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
 }
+
 void rendergamepause()
 {
     COORD ca = g_Console.getConsoleSize();
@@ -8817,12 +8819,15 @@ int InventoryPage = 1;
 
 void inventoryOpened()
 {
-    SavedLocation = g_eGameState;
-    initialX = g_sChar.m_cLocation.X;
-    initialY = g_sChar.m_cLocation.Y;
-    g_sChar.m_cLocation.X = 29;
-    g_sChar.m_cLocation.Y = 9;
-    g_eGameState = S_INVENTORY;
+    if (g_skKeyEvent[K_TAB].keyDown && (g_eGameState != S_MENUSCREEN || g_eGameState != S_HOWTOPLAY))
+    {
+        SavedLocation = g_eGameState;
+        initialX = g_sChar.m_cLocation.X;
+        initialY = g_sChar.m_cLocation.Y;
+        g_sChar.m_cLocation.X = 29;
+        g_sChar.m_cLocation.Y = 9;
+        g_eGameState = S_INVENTORY;
+    }
 }
 void inventoryClosed()
 {
@@ -9024,7 +9029,7 @@ void InventorySelection()
         {
             if (g_skKeyEvent[K_SPACE].keyReleased &&
                 g_sChar.m_cLocation.X == 29 &&
-                g_sChar.m_cLocation.Y == 9 + (3 * i)&&
+                g_sChar.m_cLocation.Y == 9 + (3 * i) &&
                 PlayerInventory.GetItem(i) != nullptr)
             {
                 SelectedItemNumber = i;
@@ -9097,12 +9102,15 @@ void updateShop()
 }
 void shopOpened()
 {
-    SavedLocation = g_eGameState;
-    initialX = g_sChar.m_cLocation.X;
-    initialY = g_sChar.m_cLocation.Y;
-    g_sChar.m_cLocation.X = 29;
-    g_sChar.m_cLocation.Y = 9;
-    g_eGameState = S_SHOP;
+    if (g_sChar.m_cLocation.X == 0 && g_sChar.m_cLocation.Y == 0)
+    {
+        SavedLocation = g_eGameState;
+        initialX = g_sChar.m_cLocation.X;
+        initialY = g_sChar.m_cLocation.Y;
+        g_sChar.m_cLocation.X = 29;
+        g_sChar.m_cLocation.Y = 9;
+        g_eGameState = S_SHOP;
+    }
 }
 void renderShopScreen()
 {
@@ -9224,11 +9232,6 @@ void ShopSelect()
 }
 
 //----------------------------------------------------------------------------
-
-
-
-
-
 
 void renderSplashScreen()  // renders the splash screen
 {
