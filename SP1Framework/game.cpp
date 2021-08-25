@@ -8861,7 +8861,7 @@ void renderToScreen()
     g_Console.flushBufferToConsole();
 }
 
-///----------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
 //Inventory function is coded here
 int SelectedItemNumber = -1;
 int SelectedPlayerNumber = -1;
@@ -9144,6 +9144,7 @@ void InventorySelection()
     }
 }
 //SHOP IS PROGRAMMED HERE------------------------------------
+bool itemBought = false;
 void renderShop()
 {
     renderShopScreen();
@@ -9185,7 +9186,14 @@ void renderShopScreen()
     ss << "GOLD : " << PlayerInventory.GetGold();
     g_Console.writeToBuffer(c, ss.str(), 0x07);
     ss.str("");
-
+    if (PlayerInventory.CheckIsFull() == true)
+    {
+        c.Y = 25;
+        c.X = 44;
+        ss.str("Your backpack is full. Clear items to buy new ones");
+        g_Console.writeToBuffer(c, ss.str(), 0x07);
+    }
+    ss.str("");
     for (int i = 0; i < 5; i++)
     {
         c.Y = 9 + (3 * i);
@@ -9234,6 +9242,14 @@ void renderShopScreen()
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
         ss.str("");
+
+        if (itemBought == true)
+        {
+            c.Y = 29;
+            c.X = 97;
+            ss.str("Item bought!");
+            g_Console.writeToBuffer(c, ss.str(), 0x07);
+        }
     }
     c.Y = 27;
     c.X = 33;
@@ -9256,6 +9272,7 @@ void ShopSelect()
             ShopInventory.GetItem(i) != nullptr)
         {
             SelectedItemNumber = i;
+            itemBought = false;
         }
     }
     for (int i = 5; i < 10; i++)
@@ -9266,6 +9283,7 @@ void ShopSelect()
             ShopInventory.GetItem(i) != nullptr)
         {
             SelectedItemNumber = i;
+            itemBought = false;
         }
     }
     //select exit
@@ -9274,16 +9292,21 @@ void ShopSelect()
         g_sChar.m_cLocation.X == 32)
     {
         inventoryClosed();
+        itemBought = false;
     }
-    //select use
+    //select buy
     else if (g_skKeyEvent[K_SPACE].keyReleased &&
         g_sChar.m_cLocation.Y == 27 &&
         g_sChar.m_cLocation.X == 100 &&
         SelectedItemNumber != -1)
     {
-        PlayerInventory.AddItem(PlayerInventory.GetItem(SelectedItemNumber));
-        PlayerInventory.SetGold(PlayerInventory.GetGold() -
-            PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
+        if (PlayerInventory.CheckIsFull() == false)
+        {
+            PlayerInventory.AddItem(ShopInventory.GetItem(SelectedItemNumber));
+            PlayerInventory.SetGold(PlayerInventory.GetGold() -
+                PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
+            itemBought = true;
+        }
         g_sChar.m_cLocation.Y = 9;
         g_sChar.m_cLocation.X = 29;
         SelectedItemNumber = -1;
@@ -9291,6 +9314,7 @@ void ShopSelect()
 }
 
 //----------------------------------------------------------------------------
+
 
 void renderSplashScreen()  // renders the splash screen
 {

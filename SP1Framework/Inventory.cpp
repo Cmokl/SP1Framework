@@ -2,6 +2,7 @@
 
 Inventory::Inventory()
 {
+	IsFull = false;
 	gold = 5;
 	for (int i = 0; i < 10; i++)
 	{
@@ -22,13 +23,24 @@ int Inventory::GetGold()
 }
 void Inventory::AddItem(Items* item)
 {
+	int ItemAdded = 0;
+	int ItemNumber = 0;
+	//first loop finds an empty slot to put the new item in
 	for (int i = 0; i < 10; i++)
 	{
-		if (InventoryItems[i] == nullptr)
+		if (InventoryItems[i] == nullptr && ItemAdded == 0)
 		{
 			InventoryItems[i] = item;
-			i = 10;
+			ItemAdded = 1;
 		}
+		if (InventoryItems[i] != nullptr)
+		{
+			ItemNumber++;
+		}
+	}
+	if (ItemNumber == 10)
+	{
+		IsFull = true;
 	}
 }
 
@@ -42,9 +54,15 @@ void Inventory::DiscardItem(Items* item)
 			i = -1;
 		}
 	}
+	IsFull = false;
 }
 
 Items* Inventory::GetItem(int ItemIndex)
 {
 	return InventoryItems[ItemIndex];
+}
+
+bool Inventory::CheckIsFull()
+{
+	return IsFull;
 }
