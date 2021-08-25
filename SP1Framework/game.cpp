@@ -8301,7 +8301,8 @@ void TurnStart()
             {
                 if (PlayerParty[i]->GetTurn() == true)
                 {
-                    if (PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed())
+                    if ((PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed()) &&
+                        (PlayerParty[i]->GetHealth() > 0))
                     {
                         if (i == 0)
                         {

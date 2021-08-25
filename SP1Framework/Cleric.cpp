@@ -28,7 +28,7 @@ bool Cleric::HolyRestoration(Class* target)
 		{
 			if (target-> GetHealth() + 1 < target->GetMaxHealth())
 			{
-				target->SetHealth(this->GetHealth() + 1);
+				target->SetHealth(target->GetHealth() + 1);
 			}
 		}
 		return true;
