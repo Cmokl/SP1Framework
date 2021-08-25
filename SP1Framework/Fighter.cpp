@@ -14,6 +14,7 @@ Fighter::Fighter()
 	this->SetSpeed(13);
 	this->SetDefence(12);
 	this->SetResistance(10);
+	IsBattleCry = false;
 }
 
 Fighter::~Fighter()
@@ -49,11 +50,15 @@ void Fighter::BattleCry(void)
 	this->SetMana(this->GetMana() - 3);
 
 	this->SetStrength(this->GetStrength() * 1.1);
+
+	IsBattleCry = true;
 }
 
 void Fighter::BattleCryRevert()
 {
 	this->SetStrength(this->GetStrength() *(100/110));
+
+	IsBattleCry = false;
 }
 
 bool Fighter::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4])

@@ -4,13 +4,14 @@
 class Fighter : public Class
 {
 private:
+	bool IsBattleCry;
 public:
 	Fighter();
 	~Fighter();
 
 	//skills
 	//deals damage to everyone in the enemy party
-	void Cleave(Class* Target[]);
+	void Cleave(Class* Target[4]);
 	//deals heavy damage to one target
 	void Smash(Class* Target);
 	//increases the Fighter's strength by 10%

@@ -33,7 +33,14 @@ void Wizard::MagicMissile(Class* Target[])
 	
 	for (int i = 0; i < 3; i++)
 	{
-		Targeted = rand() % 3; //random number from 0 to 3
+		Targeted = rand() % 4; //random number from 0 to 3
+
+		while (Target[Targeted] == nullptr)
+		{
+			srand(static_cast<unsigned int>(time(0)));
+			Targeted = rand() % 4;
+		}
+
 		Target[Targeted]->SetHealth(Target[Targeted]->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Target[Targeted]->GetResistance() * 0.05))));
 	}
 
@@ -42,7 +49,14 @@ void Wizard::MagicMissile(Class* Target[])
 		srand(static_cast<unsigned int>(time(0)));
 		for (int i = 0; i < 3; i++)
 		{
-			Targeted = rand() % 3; //random number from 0 to 3
+			Targeted = rand() % 4; //random number from 0 to 3
+
+			while (Target[Targeted] == nullptr)
+			{
+				srand(static_cast<unsigned int>(time(0)));
+				Targeted = rand() % 4;
+			}
+
 			Target[Targeted]->SetHealth(Target[Targeted]->GetHealth() - (this->GetIntelligence() * 0.8 + ((this->GetIntelligence() * 0.8) * (Target[Targeted]->GetResistance() * 0.05))));
 		}
 		IsMirror = false;
