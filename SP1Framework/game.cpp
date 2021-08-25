@@ -10,6 +10,7 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "HealingItems.h"
+#include "ManaItems.h"
 #include "EmptyClass.h"
 #include <iostream>
 #include <iomanip>
