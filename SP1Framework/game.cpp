@@ -7200,23 +7200,34 @@ void TurnStart()
     {
         for (int i = 0; i < 4; i++)
         {
-            Target[i] = PlayerParty[i];
-            if (dynamic_cast<Rogue*>(PlayerParty[i])->GetIsStealth() == true)
+            if((PlayerParty[i]->GetHealth() <= 0) ||
+                (PlayerParty[i]->GetIsImmune() == true))
             {
                 Target[i] = nullptr;
             }
+            else
+            {
+                Target[i] = PlayerParty[i];
+            }
+            
         }
 
         //enemy targeting
         srand(static_cast<unsigned int>(time(0)));
         TargetIndex = rand() % 4;
-        while ((PlayerParty[TargetIndex]->GetHealth() <= 0) || 
-            (Target[TargetIndex] == nullptr))
+        if (!((Target[0] == nullptr) &&
+            (Target[1] == nullptr) &&
+            (Target[2] == nullptr) &&
+            (Target[3] == nullptr)))
         {
-            srand(static_cast<unsigned int>(time(0)));
-            TargetIndex = rand() % 4;
+            while ((Target[TargetIndex] == nullptr) ||
+                (dynamic_cast<Rogue*>(PlayerParty[TargetIndex])->GetIsStealth() == true))
+            {
+                srand(static_cast<unsigned int>(time(0)));
+                TargetIndex = rand() % 4;
+            }
+            EffectSelect = rand() % 2;
         }
-        EffectSelect = rand() % 2;
         
 
         CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
