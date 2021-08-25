@@ -19,7 +19,7 @@ Cleric::~Cleric()
 
 bool Cleric::HolyRestoration(Class* target)
 {
-	if (target->GetHealth() == target->GetMaxHealth())
+	if (target->GetHealth() != target->GetMaxHealth())
 	{
 		//mana cost 3
 		this->SetMana(GetMana() - 3);
