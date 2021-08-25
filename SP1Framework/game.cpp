@@ -7220,8 +7220,7 @@ void TurnStart()
             (Target[2] == nullptr) &&
             (Target[3] == nullptr)))
         {
-            while ((Target[TargetIndex] == nullptr) ||
-                (dynamic_cast<Rogue*>(PlayerParty[TargetIndex])->GetIsStealth() == true))
+            while (Target[TargetIndex] == nullptr)
             {
                 srand(static_cast<unsigned int>(time(0)));
                 TargetIndex = rand() % 4;
