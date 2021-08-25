@@ -275,21 +275,21 @@ void mouseHandler(const MOUSE_EVENT_RECORD& mouseEvent)
 {
     switch (g_eGameState)
     {
-    case S_MENUSCREEN: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_MENUSCREEN: 
         break;
-    case S_HOWTOPLAY: gameplayMouseHandler(mouseEvent); // handle gameplay keyboard event
+    case S_HOWTOPLAY: 
         break;
-    case S_MAP1: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_MAP1: 
         break;
-    case S_MAP2: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_MAP2: 
         break;
-    case S_GAMEPAUSE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_GAMEPAUSE: 
         break;
-    case S_BATTLE: gameplayMouseHandler(mouseEvent); // handle gameplay mouse event
+    case S_BATTLE: 
         break;
-    case S_INVENTORY: gameplayMouseHandler(mouseEvent);
+    case S_INVENTORY: 
         break;
-    case S_SHOP: gameplayMouseHandler(mouseEvent);
+    case S_SHOP: 
         break;
     }
 }
