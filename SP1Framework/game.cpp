@@ -472,7 +472,7 @@ void updateGame()       // gameplay logic
     }
     else
     {
-        <<<<<< < HEAD
+       
             /*playmusic;*/
             if (g_eGameState == S_MAP1)
             {
@@ -485,7 +485,7 @@ void updateGame()       // gameplay logic
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
 
-        ====== =
+        
             //playbtmusic=false;
             //playmusic; 
             Collision();
@@ -493,7 +493,7 @@ void updateGame()       // gameplay logic
         changelevel();
         inventoryOpened();
         shopOpened();
-        >>>>>> > 79f27f58c515476ae93e7ecb736d8a19818e3159
+        
     }
     //processUserInput(); // checks if you should change states or do something else with the game, e.g. pause, exit
 }
