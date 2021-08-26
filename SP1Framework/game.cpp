@@ -66,6 +66,7 @@ int CurrentTurn;
 //counters for turns passed for statuses
 int BattleCryTime;
 int BleedTime[8];
+int SilenceTime[4];
 
 //Selection for battles
 int EffectSelect;
@@ -187,6 +188,10 @@ void init(void)
     for (int i = 0; i < 8; i++)
     {
         BleedTime[i] = 0;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        SilenceTime[i] = 0;
     }
     //initialize player coord when entering battle
     PlayerTempCoordX = 0;
@@ -14695,12 +14700,15 @@ void SelectTarget(Class* TargetParty[])
 
 void SelectSpecialAction()
 {
-    //select Skill
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
-        (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
-        g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+    if (CurrentClass->GetIsSilenced() == false)
     {
-        Action = Skill;
+        //select Skill
+        if (g_skKeyEvent[K_SPACE].keyReleased &&
+            (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 4)) &&
+            g_sChar.m_cLocation.X == g_Console.getConsoleSize().X / 8)
+        {
+            Action = Skill;
+        }
     }
 
     //select Item
@@ -14927,8 +14935,26 @@ void TurnEnd(void)
         }
     }
 
-    CurrentClass->SetTurn(false);
-    CurrentTurn++;
+    //check is silenced
+    for (int i = 0; i < 4; i++)
+    {
+        if (PlayerParty[i] != nullptr)
+        {
+            if ((PlayerParty[i]->GetIsSilenced() == true) &&
+                (CurrentClass == PlayerParty[i]))
+            {
+                SilenceTime[i]++;
+                if (SilenceTime[i] == 1)
+                {
+                    PlayerParty[i]->SetIsSilenced(false);
+                    SilenceTime[i] = 0;
+                }
+            }
+        }
+
+        CurrentClass->SetTurn(false);
+        CurrentTurn++;
+    }
 }
 
 void RoundEnd(void)
