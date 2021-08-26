@@ -88,7 +88,7 @@ void ResetCursorPosition();
 void TurnEnd();
 void RoundEnd();
 void VictoryCondition();
-void DelayVictory();
+void VictorySplash();
 void EndBattle();
 void EnemyAI(int EnemyPartyType);
 void GameOver();

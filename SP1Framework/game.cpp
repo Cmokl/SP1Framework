@@ -14422,7 +14422,6 @@ void initEnemyGroup(int EnemyGroup)
 void updateBattle()
 {
     GameOver(); //checks if player lose
-    VictoryCondition(); //checks if player win
 
     if (Action != EnemyAttack)
     {
@@ -14473,9 +14472,11 @@ void updateBattle()
         EnemyAI(PartyType);
         break;
     case Victory:
-        DelayVictory();
+        VictorySplash();
         break;
     }
+
+    VictoryCondition(); //checks if player win(needs to be at bottom since main needs to run first for gold to work)
 }
 
 
@@ -15005,9 +15006,12 @@ void VictoryCondition()
         (EnemyParty[3] == nullptr) &&
         (PartyType == Regular))
     {
-        GoldGained = PlayerInventory.GetGold() + rand() % 10 + 5; //gold gained is here instead of delay victory because gold gained will change based on condition
-        g_dElapsedTime = 0;
-        Action = Victory;
+        if (IsExecuted == false)
+        {
+            GoldGained = PlayerInventory.GetGold() + rand() % 5 + 10; //gold gained is here instead of delay victory because gold gained will change based on condition
+            Action = Victory;
+            IsExecuted = true;
+        }
     }
     else if ((EnemyParty[0] == nullptr) &&
         (EnemyParty[1] == nullptr) &&
@@ -15021,9 +15025,9 @@ void VictoryCondition()
     }
 }
 
-void DelayVictory()
+void VictorySplash()
 {
-    if (g_dElapsedTime > 1)
+    if (g_skKeyEvent[K_SPACE].keyReleased)
     {
         PlayerInventory.SetGold(GoldGained);
         EndBattle();
@@ -15042,6 +15046,7 @@ void EndBattle()
     CurrentTurn = 1;
     g_sChar.m_cLocation.X = PlayerTempCoordX;
     g_sChar.m_cLocation.Y = PlayerTempCoordY;
+    Action = Main;
     if (Maplevel == 1)
     {
         g_eGameState = S_MAP1;
@@ -17741,6 +17746,29 @@ void renderBattleScreen()
             ss << " " << CurrentClass->SkillNameList(3) << " MP(" << CurrentClass->ManaCost(3) << ")";
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
+    }
+    else if (Action == Victory)
+    {
+    COORD c;
+    std::ostringstream ss;
+
+    c.Y = 12;
+    c.X = g_Console.getConsoleSize().X / 2 - 10;
+
+    ss.str("Victory");
+    g_Console.writeToBuffer(c, ss.str(), 0x09);
+
+    c.Y += 2;
+
+    ss.str("");
+    ss << "You got " << GoldGained << " Gold";
+    g_Console.writeToBuffer(c, ss.str() , 0x09);
+
+
+    c.Y += 2;
+
+    ss.str("Press space to continue");
+    g_Console.writeToBuffer(c, ss.str(), 0x09); // Main page
     }
 }
 
