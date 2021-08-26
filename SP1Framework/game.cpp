@@ -37,7 +37,6 @@ float RandomDelay;
 
 //pause menu variable
 bool timescale = true;
-bool playmusic = PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 
 //classes
 Class* PreviousClass; //used to denote the end of the round
@@ -517,8 +516,6 @@ void updateGame()       // gameplay logic
     }
     else
     {
-       
-            playmusic;
             if (g_eGameState == S_MAP1)
             {
                 Collision();
@@ -638,7 +635,6 @@ void CheckBoss()
             PlayerTempCoordX = g_sChar.m_cLocation.X;
             PlayerTempCoordY = g_sChar.m_cLocation.Y;
             g_dElapsedTime = 0;
-            PlaySound(TEXT("BossTheme.wav"), NULL, SND_LOOP | SND_ASYNC);
             g_eGameState = S_BATTLESPLASH;
         }
     }
@@ -14385,7 +14381,6 @@ void foundRandomEncounter(void)
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_dElapsedTime = 0;
-        PlaySound(TEXT("EnemyTheme.wav"), NULL, SND_LOOP | SND_ASYNC);
         g_eGameState = S_BATTLESPLASH;
     }
 }
@@ -15074,10 +15069,12 @@ void VictorySplash()
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
         (PartyType == Boss))
     {
+        PlaySound(NULL, 0, 0);
         g_bQuitGame = true;
     }
     else if (g_skKeyEvent[K_SPACE].keyReleased)
     {
+        PlaySound(NULL, 0, 0);
         EndBattle();
     }
 }
@@ -15132,7 +15129,6 @@ void EndBattle()
     {
         g_eGameState = S_MAP2;
     }
-    PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 }
 
 void EnemyAI(int EnemyPartyType)
