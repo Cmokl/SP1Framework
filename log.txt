@@ -1,0 +1,572 @@
+Author : Cmokl Commit : added a readme
+Author : Cmokl Commit : Create HowToPlay.txt
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : fixed audio issue and an issue with the turns during boss fight
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : fixed some bugs
+Author : Cmokl Commit : fixed some bugs
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : abilities that cost mana now can't be casted if manacost - current mana is < 0
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : added ghoul enemy
+Author : Rxyyxxn Commit : victory sound
+Author : Trina-Rachelle-Tee Commit : adjusted the lucky charm price
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : added battle music
+Author : Cmokl Commit : updated ghoul class
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : added lose screen
+Author : Trina-Rachelle-Tee Commit : minor bug fix for mana items
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : fixed a bug
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Player selection screen when using items now show mana points
+Author : Cmokl Commit : reverted check boss
+Author : Cmokl Commit : Update Oni.cpp
+Author : Cmokl Commit : can now summon oni also fixed some bugs
+Author : Trina-Rachelle-Tee Commit : items are buffed
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed a few bugs
+Author : Trina-Rachelle-Tee Commit : Shortened the items description so it isnt cut off
+Author : Trina-Rachelle-Tee Commit : A new shop item is created which gives players immunity
+Author : Trina-Rachelle-Tee Commit : added the code in the class file
+Author : Trina-Rachelle-Tee Commit : new subclass of items, immunityitems
+Author : Cmokl Commit : Update Oni.cpp
+Author : Cmokl Commit : fixed defend and oni now doesnt move when spawn
+Author : Cmokl Commit : fixed defend
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : updated victory screen
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : victory screen now displays
+Author : Trina-Rachelle-Tee Commit : escape button works in the inventory if the player wants to go back from player selection
+Author : Cmokl Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : forgot to change starting position of the player back after testing
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : added some new victory conditions
+Author : Trina-Rachelle-Tee Commit : game items are deleted during the shutdown
+Author : Trina-Rachelle-Tee Commit : shop glitches are fixed, and all descriptions are now automatically shown
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : changed some stats on boss
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : whatt??
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : can now use items in battle
+Author : Cmokl Commit : implemented silence
+Author : Cmokl Commit : fixed an issue where the game would produce a error when enemy goes first
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : can now fight boss?
+Author : Cmokl Commit : fixed error
+Author : Trina-Rachelle-Tee Commit : fixed a glitch that prevented item costs from being set
+Author : Trina-Rachelle-Tee Commit : readded some of my lost changes
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : readded mana class
+Author : Rxyyxxn Commit : Revert "Merge branch 'master' of https://github.com/Cmokl/SP1Framework"
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : added back music
+Author : Cmokl Commit : Revert "Revert "Revert "Revert "merged stuff""""
+Author : Cmokl Commit : Revert "Revert "Revert "merged stuff"""
+Author : Cmokl Commit : Revert "Revert "merged stuff""
+Author : Cmokl Commit : Update Oni.cpp
+Author : Cmokl Commit : Revert "merged stuff"
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : merged stuff
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : There are now 6 different items in the game
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Added a new subclass to items : mana items
+Author : Rxyyxxn Commit : place back music
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : mana
+Author : Trina-Rachelle-Tee Commit : You can now press escape to exit inventories
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : you can now lose
+Author : Trina-Rachelle-Tee Commit : new class : mana items
+Author : Cmokl Commit : game now doesnt handle mouse for all game states
+Author : Cmokl Commit : removed the mouse display event
+Author : SShura04 Commit : bug fix
+Author : SShura04 Commit : collision and map complete
+Author : Cmokl Commit : Changed dragon class
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : bleed sort of works now
+Author : Trina-Rachelle-Tee Commit : the shop will no longer add items if the inventory is full
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : made changes to battle system
+Author : Trina-Rachelle-Tee Commit : The shop now opens if you press space when on the fountain spaces
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed some player class issues
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Tried to fix the inventory
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed cleric healing
+Author : Rxyyxxn Commit : removed battle music
+Author : Cmokl Commit : random encounter function got renamed
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update Medusa.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : I'll remove the inventory function until I fix it
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Tried fixing a glitch the previous update caused, sorry about that
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Inproved inventory system
+Author : Trina-Rachelle-Tee Commit : Added conditions to prevent the inventory from opening in the main menu or how to play screen
+Author : Trina-Rachelle-Tee Commit : The inventory exit button finally works:D
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed some errors
+Author : Cmokl Commit : updated battle system
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed some issues
+Author : Cmokl Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : update music
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : added game over
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : readded some of my changes
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed some bugs
+Author : Rxyyxxn Commit : changed name
+Author : Trina-Rachelle-Tee Commit : readded some of my changes
+Author : Rxyyxxn Commit : added music
+Author : Cmokl Commit : update
+Author : Cmokl Commit : made changes to skill list
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : fixed battle end
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Revert "Merge branch 'master' of https://github.com/Cmokl/SP1Framework"
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : Revert "Update game.cpp"
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : updated map flee
+Author : Cmokl Commit : fix cleric healing overcap
+Author : Cmokl Commit : can now use friendly single target special abilities
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : can go back to special menu from special attacks now
+Author : Trina-Rachelle-Tee Commit : Fixed some flaws in the inventory code
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : added battle splash screen
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.h
+Author : SShura04 Commit : Test
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : update on scene change
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : making collision for map 2
+Author : Trina-Rachelle-Tee Commit : updated inventory section
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : bug fix
+Author : Trina-Rachelle-Tee Commit : working on the shop function too
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Items in inventories can now be used
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : map update
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : helping seb with map
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : updated battle system
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : my howto dissappeared
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Added a virtual function for the Items class for the item effect
+Author : Trina-Rachelle-Tee Commit : player selection screen in the inventory is updated
+Author : Rxyyxxn Commit : updated howto
+Author : Trina-Rachelle-Tee Commit : Revert "Fixed the player choice output in the inventory system"
+Author : Trina-Rachelle-Tee Commit : Revert "mini howto update"
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Fixed the player choice output in the inventory system
+Author : Rxyyxxn Commit : mini howto update
+Author : Rxyyxxn Commit : added stuff for how to
+Author : Rxyyxxn Commit : howtoplay update
+Author : Trina-Rachelle-Tee Commit : inventory function of selecting players to use the item on
+Author : Rxyyxxn Commit : enabled keyboard for howtoplay
+Author : Rxyyxxn Commit : gonna make a how to play screen
+Author : Rxyyxxn Commit : updated pause
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Made changes to combat system
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : Pause menu usable..? i think
+Author : Trina-Rachelle-Tee Commit : Selected items in inventories would have their information automatically displayed
+Author : Trina-Rachelle-Tee Commit : Items now have descriptions if the player wants item info
+Author : Trina-Rachelle-Tee Commit : Now items in inventories can be selected
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Updated Classes
+Author : Rxyyxxn Commit : trying out pause menu
+Author : Rxyyxxn Commit : enabled keyboard and mouse for game puase
+Author : Trina-Rachelle-Tee Commit : New function, getInventory() which brings the game to inventory mode
+Author : Trina-Rachelle-Tee Commit : rearranged inventory code to be in one section so its easier to edit
+Author : SShura04 Commit : completed collision
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : Trina-Rachelle-Tee Commit : Added functions to bring the inventory screen, hopefully it will be finished soon
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : fixed some errors
+Author : Cmokl Commit : Render was gone so it's back now also resolved some conflicts
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Update Wizard.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : tried fixing errors
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : trying pause UI
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Skills work now
+Author : Trina-Rachelle-Tee Commit : fixed glitches of function definitions being gone
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : added tab options
+Author : Rxyyxxn Commit : gamepause method and gamestate
+Author : Rxyyxxn Commit : gamepause
+Author : Rxyyxxn Commit : revert
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Rxyyxxn Commit : removed pausemenu method
+Author : Rxyyxxn Commit : updating game method for pause
+Author : SShura04 Commit : updated collision
+Author : Rxyyxxn Commit : trying pausemenu
+Author : Cmokl Commit : fixed numerous errors after removal of party class
+Author : Cmokl Commit : Reworking battle system
+Author : SShura04 Commit : wall collision
+Author : Trina-Rachelle-Tee Commit : changed some function names and added new enum modes for the shop and inventory
+Author : Trina-Rachelle-Tee Commit : removed accidental code repeats
+Author : Trina-Rachelle-Tee Commit : working on inventory selecting system
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Working on a selecting system for inventories
+Author : Rxyyxxn Commit : quit and start on menu
+Author : Rxyyxxn Commit : start button works XD
+Author : Rxyyxxn Commit : can move up and down and has border
+Author : Rxyyxxn Commit : updated arrow movement
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : Redo of arrrow
+Author : SShura04 Commit : Update game.cpp
+Author : SShura04 Commit : changed colour
+Author : SShura04 Commit : Changed colour
+Author : Trina-Rachelle-Tee Commit : Finished making the render functions, renderShop and renderInventory
+Author : Trina-Rachelle-Tee Commit : Added an inventory render
+Author : Trina-Rachelle-Tee Commit : got rid of renderShop() dublicate
+Author : Trina-Rachelle-Tee Commit : finished creating the shop display
+Author : Rxyyxxn Commit : revert back to without arrow method
+Author : Cmokl Commit : updated battle system
+Author : Rxyyxxn Commit : Revert "Working on a shop screen"
+Author : Rxyyxxn Commit : created arrow function
+Author : Rxyyxxn Commit : created global for menu pos
+Author : Trina-Rachelle-Tee Commit : Working on a shop screen
+Author : Trina-Rachelle-Tee Commit : tried to add a rendering function for the shop, but I havent tested if it works yet
+Author : Trina-Rachelle-Tee Commit : added new inventory function to get the item variable
+Author : Rxyyxxn Commit : moving arrow? but it no move :((((((
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Player can now attack
+Author : Cmokl Commit : fixed MaxHealth getter
+Author : Rxyyxxn Commit : erm arrow? idk what im doing
+Author : Rxyyxxn Commit : Trying to do choose menu button base on battle options
+Author : Trina-Rachelle-Tee Commit : Created an inventory for the player too
+Author : Trina-Rachelle-Tee Commit : Initialized shop inventory
+Author : SShura04 Commit : Fixed '=' to '==' //line 510
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : included more class libraries
+Author : Cmokl Commit : set names for some classes
+Author : Cmokl Commit : added name to class
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : updated battle system
+Author : Cmokl Commit : added name to class
+Author : Trina-Rachelle-Tee Commit : Decided to reuse inventory for shops so I deleted the shop class
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Updated wall textures
+Author : Cmokl Commit : added Revert defend to classes
+Author : Cmokl Commit : added flee to battle system
+Author : Rxyyxxn Commit : created method for collision
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : trying start
+Author : Trina-Rachelle-Tee Commit : Revert "Revert "Merge branch 'master' of https://github.com/Cmokl/SP1Framework""
+Author : Trina-Rachelle-Tee Commit : Revert "Merge branch 'master' of https://github.com/Cmokl/SP1Framework"
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Revert "edited medusa"
+Author : Trina-Rachelle-Tee Commit : edited medusa
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : SShura04 Commit : Completed whole map!
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : added comment
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update Medusa.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Redid inventory
+Author : Cmokl Commit : Update Dragon.cpp
+Author : Cmokl Commit : Fixed some issues
+Author : Trina-Rachelle-Tee Commit : fixed glitches
+Author : Cmokl Commit : revert changes
+Author : Trina-Rachelle-Tee Commit : the previous readding was done wrongly
+Author : Trina-Rachelle-Tee Commit : readded medusa abilities
+Author : Cmokl Commit : reuploaded map
+Author : Cmokl Commit : reuploaded some files
+Author : Cmokl Commit : removed some unnecessary files
+Author : Cmokl Commit : removed some unecessary files
+Author : Cmokl Commit : Reuploaded files
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added attack enemy 1
+Author : Cmokl Commit : added turn variable
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : updated mouse and keyboard handler on menu
+Author : Cmokl Commit : Update Dragon.cpp
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : trying menu
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : updated map
+Author : Cmokl Commit : updated random encounter logic
+Author : Cmokl Commit : updated game.cpp and game.h and fixed some errors
+Author : Cmokl Commit : Changed some file locations
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Added a battle menu and changed console to be black and white
+Author : Trina-Rachelle-Tee Commit : Fixed enemy glitches
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : added colours
+Author : Trina-Rachelle-Tee Commit : Shop class
+Author : Trina-Rachelle-Tee Commit : Worked on the armour item class
+Author : Rxyyxxn Commit : remove for loop for map
+Author : Trina-Rachelle-Tee Commit : Trying to add armour items too
+Author : Rxyyxxn Commit : Trying out menu but still cant press.
+Author : Trina-Rachelle-Tee Commit : Added the inventory function to use items
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Update game.cpp
+Author : SShura04 Commit : Update game.cpp
+Author : Cmokl Commit : Update game.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Random encounter added
+Author : Trina-Rachelle-Tee Commit : Added a new parent class, items, and its child class, healing items
+Author : Rxyyxxn Commit : gonna change splash screen to menu
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : update map
+Author : Cmokl Commit : Changed the way that movement works
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added the battle function
+Author : Trina-Rachelle-Tee Commit : Replaced the Item class with an inventory class which has currency, item collecting and item discarding functions
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added initialization of classes and player/enemy parties
+Author : Cmokl Commit : static cast added on some values to eliminate warnings
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Added the new class, items
+Author : SShura04 Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : SShura04 Commit : updating map fountain
+Author : Cmokl Commit : fixed class warnings
+Author : Cmokl Commit : Added oni skills
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added silenced status
+Author : Trina-Rachelle-Tee Commit : added medusa abilities and fixed bugs
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : added skeleton abilities
+Author : Cmokl Commit : Fixed cleric error
+Author : Cmokl Commit : Added ghoul skills
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Revert "Added skeleton abilities"
+Author : Trina-Rachelle-Tee Commit : Added skeleton abilities
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Finished making the cleric and dragon abilities
+Author : Cmokl Commit : Update Rogue.cpp
+Author : Cmokl Commit : Added skills to paladin class
+Author : Trina-Rachelle-Tee Commit : Added new conditions for the player
+Author : Trina-Rachelle-Tee Commit : Added dragon abilities
+Author : Cmokl Commit : Update Wizard.cpp
+Author : Cmokl Commit : added a getter for IsStealth in rogue class
+Author : Cmokl Commit : Update Wizard.cpp
+Author : Cmokl Commit : Update Wizard.h
+Author : Cmokl Commit : Added rogue skills
+Author : Cmokl Commit : Updated Class to include bleed status
+Author : Cmokl Commit : Update Class.cpp
+Author : Cmokl Commit : Update Class.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Made the attack and defend functions in Class virtual
+Author : Trina-Rachelle-Tee Commit : My changes just now didnt go through so I redid them
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : initialized max health points
+Author : Cmokl Commit : Updated rogue class
+Author : Cmokl Commit : Added a setter for party class
+Author : Cmokl Commit : Update Class.cpp
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Added ability to get and set max health. Some cleric abilities added
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : WASD
+Author : SShura04 Commit : Added Text to main screen
+Author : Cmokl Commit : Fixed error with fighter class
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Finished wizard class
+Author : Rxyyxxn Commit : deleted map
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : removed movement class
+Author : Cmokl Commit : Updated wizard spells
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Finished up the Fighter class
+Author : Rxyyxxn Commit : updated movement
+Author : Rxyyxxn Commit : movement and position
+Author : Cmokl Commit : Added Skills to fighter class
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Changed Skills
+Author : SShura04 Commit : word change design change
+Author : Rxyyxxn Commit : position update
+Author : Cmokl Commit : Update Class.cpp
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Removed Skill class
+Author : Rxyyxxn Commit : figuring out movement
+Author : Cmokl Commit : Finished up the skill class
+Author : Rxyyxxn Commit : fixing movement error
+Author : Rxyyxxn Commit : position
+Author : Trina-Rachelle-Tee Commit : Made class functions public
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Added the enemy classes : Ghoul, Medusa, Dragon, Oni, Skeleton. You can change the names if you want
+Author : Cmokl Commit : Added the skill class
+Author : Cmokl Commit : Fixed errors
+Author : Cmokl Commit : Fixed errors
+Author : Rxyyxxn Commit : Movement stuff
+Author : Cmokl Commit : Added the smash skill for fighter
+Author : Cmokl Commit : Updated Cleave to cost mana
+Author : Cmokl Commit : Added a skill for fighter
+Author : Cmokl Commit : Made changes to class parent to implement targeting
+Author : Cmokl Commit : Added the party class
+Author : Trina-Rachelle-Tee Commit : Added Rogue and Paladin, the last classes
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : added wizard class
+Author : Rxyyxxn Commit : map update
+Author : Trina-Rachelle-Tee Commit : Amend
+Author : Rxyyxxn Commit : map update
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : movement
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added skills to classes
+Author : Trina-Rachelle-Tee Commit : Update Browse.VC.db
+Author : Trina-Rachelle-Tee Commit : Update SP1Framework.vcxproj
+Author : Trina-Rachelle-Tee Commit : Update SP1Framework.vcxproj.filters
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Update Browse.VC.db
+Author : Rxyyxxn Commit : test
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Added the defend function to class.h
+Author : SShura04 Commit : test
+Author : Rxyyxxn Commit : map stuff
+Author : Trina-Rachelle-Tee Commit : Revert "Altered cleric class and added wizard class"
+Author : Cmokl Commit : Added the attack function in class.h
+Author : Cmokl Commit : Made changes to class.h getter/setters
+Author : Trina-Rachelle-Tee Commit : Altered cleric class and added wizard class
+Author : Rxyyxxn Commit : map stuff
+Author : Rxyyxxn Commit : Update Map.h
+Author : Trina-Rachelle-Tee Commit : Added cleric class
+Author : Trina-Rachelle-Tee Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Trina-Rachelle-Tee Commit : Create Browse.VC.db
+Author : Cmokl Commit : Added the fighter class
+Author : Cmokl Commit : Updated Getter/Setters
+Author : Cmokl Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Cmokl Commit : Updated Getter/Setters
+Author : Rxyyxxn Commit : added map
+Author : Rxyyxxn Commit : Merge branch 'master' of https://github.com/Cmokl/SP1Framework
+Author : Rxyyxxn Commit : added map class
+Author : Cmokl Commit : Revert "Updated class.h so that the data members are private"
+Author : Cmokl Commit : Updated class.h so that the data members are private
+Author : Cmokl Commit : Added the skill class
+Author : Cmokl Commit : Setup getter/setters for class.h stat variables
+Author : Cmokl Commit : Initialization of class stats
+Author : Cmokl Commit : Added the stats to Class.h
+Author : Cmokl Commit : Added the class for classes
+Author : SIM TZE JAN Commit : added winmm.lib to the dependency in Release mode
+Author : SIM TZE JAN Commit : Updated the framework to show how event input handlers work Added a keyboard input handler Added a mouse input handler Sample code on how to interpret input events.
+Author : SIM TZE JAN Commit : Implemented Event based input for keyboard and mouse If a keyboard or mouse event has triggered in the console, it will call the respective keyboard or mouse handler set by the user.
+Author : Sim Tze Jan Commit : Added in a parameter in writeToBuffer to indicate the length of the string to write. Without this parameter, the function will write until the null character.
+Author : SIM TZE JAN Commit : Optimise the writeToBuffer function so that it does not need to check the length of the string. clearBuffer now access the memory location once, instead of twice. writeToConsole does not need to create temporary variables anymore.
+Author : SIM TZE JAN Commit : Updated project file for Visual Studio 2013
+Author : Sim Tze Jan Commit : Updated some tips
+Author : Sim Tze Jan Commit : Update Readme.md
+Author : unknown Commit : Fixed a bug in resizing the console window size. Now the console size scales beautifully.
+Author : Sim Tze Jan Commit : Merge branch 'master' of https://github.com/tzejan/SP1Framework
+Author : Sim Tze Jan Commit : Bug fix in the calculation of the last index in the screen buffer
+Author : tzejan Commit : Update README.md
+Author : Sim Tze Jan Commit : Added a better example of what is expected in the update and render loops Added a debouncing code. To prevent accidental trigger of actions because of high framerates and slow human reflexes.
+Author : Sim Tze Jan Commit : renamed console variable
+Author : Sim Tze Jan Commit : Merge branch 'writeToBuffer'
+Author : unknown Commit : Added in comments by Victor
+Author : tzejan Commit : Update README.md
+Author : tzejan Commit : Update README.md
+Author : Sim Tze Jan Commit : Added in a function to set the console font
+Author : Sim Tze Jan Commit : Added overload functions for write to buffer so that it does not need to take in a COORD type
+Author : Sim Tze Jan Commit : put the codes into their respective functions added more comments to guide users of this framework
+Author : Sim Tze Jan Commit : Write to buffer functions are now in the console object Added more comments and description to help students with the framework
+Author : Sim Tze Jan Commit : Merge branch 'writeToBuffer' of https://github.com/tzejan/SP1Framework into writeToBuffer
+Author : Sim Tze Jan Commit : Pass the C++ string as a reference instead
+Author : Jan Sim Commit : Reuse code for writing to buffer Fixed a bug in writing buffer to console output
+Author : tzejan Commit : Update README.md
+Author : tzejan Commit : Update README.md
+Author : Jan Sim Commit : Added default parameter for attribute Put in sample code
+Author : Sim Tze Jan Commit : A faster console output No more flickers!
+Author : Sim Tze Jan Commit : test writing to a buffer then displaying it on the console
+Author : tzejan Commit : Update README.md
+Author : tzejan Commit : Updated readme
+Author : Sim Tze Jan Commit : Merge branch 'master' of https://github.com/tzejan/SP1Framework into SetConsoleSize
+Author : Sim Tze Jan Commit : Added a function to set the size of the console
+Author : tzejan Commit : Update README.md
+Author : Sim Tze Jan Commit : Added the output for elapsed time Added a delta time variable
+Author : Sim Tze Jan Commit : Merge branch 'master' of https://github.com/tzejan/SP1Framework
+Author : Sim Tze Jan Commit : Comment about potential bug
+Author : Jan Sim Commit : Update gotoXY function to take in COORD Implemented a function to detect keypress Gets the size of the console for limiting character movement purposes Implement a simple character movement with arrow key presses Renders a test coloured text Reduced frame rate to 5FPS Introduced beep sound Changed game loop to loop with a flag instead of returning from function Removed commented out code
+Author : Jan Sim Commit : Sample of getting the state of keys
+Author : Jan Sim Commit : Merge branch 'master' of https://github.com/tzejan/SP1Framework
+Author : Sim Tze Jan Commit : Added delta time to update function Used FPS to calculate frame time Used proper naming convention for global variables Updated timer class to keep track of elapsed time
+Author : Sim Tze Jan Commit : Added timer windows console stuff game loop update loop render loop
+Author : Jan Sim Commit : Updated ignore files
+Author : Jan Sim Commit : Merge branch 'master' of https://github.com/tzejan/SP1Framework
+Author : Jan Sim Commit : First commit for the SP1 Framework
+Author : tzejan Commit : Initial commit
