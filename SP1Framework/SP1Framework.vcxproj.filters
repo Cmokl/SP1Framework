@@ -57,7 +57,13 @@
     <ClCompile Include="Items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Medusa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Oni.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Paladin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rogue.cpp">
@@ -113,7 +119,13 @@
     <ClInclude Include="Items.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Medusa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Oni.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Paladin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rogue.h">
