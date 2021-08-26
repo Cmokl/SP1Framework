@@ -526,9 +526,9 @@ void updateGame()       // gameplay logic
             else if (g_eGameState == S_MAP2)
             {
                 Colision2();
-                
+                CheckBoss();
             }
-            CheckBoss();
+            
             
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
@@ -625,11 +625,11 @@ void moveCharacter()
 //check boss
 void CheckBoss()
 {
-   /* for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
     {
         if ((g_sChar.m_cLocation.Y == 27) &&
             (g_sChar.m_cLocation.X == 142 + i))
-        {*/
+        {
             PartyType = Boss;
             temp = 0;
             RandomDelay = 3;
@@ -640,8 +640,8 @@ void CheckBoss()
             g_dElapsedTime = 0;
             PlaySound(TEXT("BossTheme.wav"), NULL, SND_LOOP | SND_ASYNC);
             g_eGameState = S_BATTLESPLASH;
-  /*      }
-    }*/
+        }
+    }
 }
 
 
@@ -14589,7 +14589,8 @@ void TurnStart()
     if ((PlayerParty[0] != CurrentClass) &&
         (PlayerParty[1] != CurrentClass) &&
         (PlayerParty[2] != CurrentClass) &&
-        (PlayerParty[3] != CurrentClass)
+        (PlayerParty[3] != CurrentClass) &&
+        (CurrentClass->GetTurn() == true)
         )
     {
         Action = EnemyAttack;
@@ -15030,8 +15031,6 @@ void RoundEnd(void)
         }
     }
 
-    CurrentTurn = 1;
-    TurnCount = 1;
 }
 
 void VictoryCondition()
@@ -15068,7 +15067,7 @@ void VictoryCondition()
 
 void VictorySplash()
 {
-    PlaySound(TEXT("Victory.wav"), NULL, SND_LOOP | SND_ASYNC);
+    PlaySound(TEXT("Victory.wav"), NULL, SND_ASYNC);
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
         (PartyType == Boss))
     {
@@ -15185,6 +15184,7 @@ void EnemyAI(int EnemyPartyType)
     if (EnemyPartyType == Regular)
     {
         EffectSelect = rand() % 2;
+        CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
     }
     else if (EnemyPartyType == Boss)
     {
@@ -15215,6 +15215,7 @@ void EnemyAI(int EnemyPartyType)
         {
             EffectSelect = rand() % 2;
         }
+
         if (EffectSelect == 3)
         {
             CurrentClass->SkillList(EffectSelect, TargetIndex, EnemyParty);
