@@ -2,6 +2,7 @@
 
 Ghoul::Ghoul()
 {
+	this->SetName("Ghoul");
 	this->SetHealth(20);
 	this->SetMaxHealth(20);
 	this->SetStrength(12);
@@ -52,4 +53,34 @@ void Ghoul::RevertShapeshift(void)
 {
 	IsShapeshift = false;
 	this->SetDefence(this->GetDefence() - 5);
+}
+
+bool Ghoul::SkillList(int ListIndex, int ClassIndex, Class* TargetClass[])
+{
+	if (ListIndex == 0)
+	{
+		if (TargetClass[ClassIndex] != nullptr)
+		{
+			Devour(TargetClass[ClassIndex]);
+		}
+	}
+	else if (ListIndex == 1)
+	{
+		Shapeshift();
+	}
+	return true;
+}
+
+std::string Ghoul::SkillNameList(int ListIndex)
+{
+	if (ListIndex == 0)
+	{
+		return "Devour";
+	}
+	else if (ListIndex == 1)
+	{
+		return "Shapeshift";
+	}
+
+	return "";
 }

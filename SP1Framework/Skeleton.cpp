@@ -40,13 +40,13 @@ bool Skeleton::Reassemble()
 }
 
 //skill list
-bool Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetParty[])
+bool Skeleton::SkillList(int ListIndex, int ClassIndex, Class* TargetClass[])
 {
 	if (ListIndex == 0)
 	{
-		if (TargetParty[ClassIndex] != nullptr)
+		if (TargetClass[ClassIndex] != nullptr)
 		{
-			Pierce(TargetParty[ClassIndex]);
+			Pierce(TargetClass [ClassIndex] );
 		}
 	}
 	else if (ListIndex == 1)

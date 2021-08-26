@@ -82,8 +82,8 @@ public:
 	virtual void Defend();
 	void RevertDefend();
 
-	//skill list(mostly hardcoding)
-	virtual bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0;
+	//skill list
+	virtual bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]) = 0; //return a bool for enemy ai and so that player does not do redundant moves(did not implement)
 	virtual int SkillTargetType(int ListIndex);
 	virtual std::string SkillNameList(int ListIndex) = 0;
 	virtual int ManaCost(int ListIndex);

@@ -16,5 +16,9 @@ public:
     void Devour(Class* Target);
     void Shapeshift(void);
     void RevertShapeshift(void);
+
+    //skill list
+    bool SkillList(int ListIndex, int ClassIndex, Class* TargetClass[]);
+    std::string SkillNameList(int ListIndex);
 };
 

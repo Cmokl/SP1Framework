@@ -7,6 +7,7 @@
 #include "Rogue.h"
 #include "Cleric.h"
 #include "Skeleton.h"
+#include "Ghoul.h"
 #include "Dragon.h"
 #include "Inventory.h"
 #include "Items.h"
@@ -14379,7 +14380,7 @@ void foundRandomEncounter(void)
         PartyType = Regular;
         temp = 0;
         RandomDelay = 3;
-        initEnemyGroup(rand() % 2);
+        initEnemyGroup(rand() % 4);
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_dElapsedTime = 0;
@@ -14409,6 +14410,24 @@ void initEnemyGroup(int EnemyGroup)
     if (EnemyGroup == 1)
     {
         for (int i = 0; i < 3; i++)
+        {
+            EnemyParty[i] = new Skeleton;
+        }
+    }
+    if (EnemyGroup == 2)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            EnemyParty[i] = new Ghoul;
+        }
+    }
+    if (EnemyGroup == 3)
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            EnemyParty[i] = new Ghoul;
+        }
+        for (int i = 2; i < 4; i++)
         {
             EnemyParty[i] = new Skeleton;
         }
@@ -14870,6 +14889,15 @@ void CheckStatuses(void)
                 BattleCryTime = 0;
                 static_cast<Fighter*>(CurrentClass)->BattleCryRevert();
             }
+        }
+    }
+
+    //check if ghoul
+    if (dynamic_cast<Ghoul*>(CurrentClass) != NULL)
+    {
+        if (static_cast<Ghoul*>(CurrentClass)->GetIsShapeshift() == true)
+        {
+                static_cast<Ghoul*>(CurrentClass)->RevertShapeshift();
         }
     }
 
