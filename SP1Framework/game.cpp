@@ -66,6 +66,7 @@ int CurrentTurn;
 int BattleCryTime;
 int BleedTime[8];
 int SilenceTime[4];
+int ImmuneTime[4];
 
 //Selection for battles
 int EffectSelect;
@@ -143,16 +144,10 @@ void init(void)
     for (int i = 0; i < 4; i++)
     {
         Target[i] = nullptr;
-    }
-    for (int i = 0; i < 4; i++)
-    {
         EnemyParty[i] = nullptr;
-    }
-
-    for (int i = 0; i < 4; i++)
-    {
         PlayerParty[i] = nullptr;
     }
+
     //init player classes
     PlayerParty[0] = new Fighter;
     PlayerParty[1] = new Rogue;
@@ -204,7 +199,7 @@ void init(void)
     EffectSelect = -1;
     TargetIndex = -1;
 
-    //init IsAllowed
+    //init IsExecuted
     IsExecuted = false;
 
     //initialize player action indicator
@@ -14487,7 +14482,6 @@ void TurnStart()
     if (CurrentTurn == TurnCount)
     {
         IsExecuted = false;
-
         //set previous class
         if ((CurrentClass != nullptr) &&
             (CurrentClass->GetTurn() == false))
@@ -14498,6 +14492,14 @@ void TurnStart()
         for (int i = 0; i < 4; i++)
         {
             Target[i] = nullptr;
+        }
+        //detect if playerclass is dead
+        for (int i = 0; i < 4; i++)
+        {
+            if (PlayerParty[i]->GetHealth() <= 0)
+            {
+                PlayerParty[i]->SetTurn(false);
+            }
         }
 
         TurnCount++;
@@ -14529,8 +14531,7 @@ void TurnStart()
             {
                 if (PlayerParty[i]->GetTurn() == true)
                 {
-                    if ((PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed()) &&
-                        (PlayerParty[i]->GetHealth() > 0))
+                    if (PlayerParty[i]->GetSpeed() >= CurrentClass->GetSpeed())
                     {
                         if (i == 0)
                         {
@@ -14855,18 +14856,7 @@ void ResetCursorPosition(void)
 
 void TurnEnd(void)
 {
-    //check if an enemy is dead
-    for (int i = 0; i < 4; i++)
-    {
-        if (EnemyParty[i] != nullptr)
-        {
-            if (EnemyParty[i]->GetHealth() <= 0)
-            {
-                delete EnemyParty[i];
-                EnemyParty[i] = nullptr;
-            }
-        }
-    }
+   
     //check if fighter
     if (dynamic_cast<Fighter*>(CurrentClass) != NULL)
     {
@@ -14881,91 +14871,106 @@ void TurnEnd(void)
         }
     }
 
-    //check if is bleeding
-    for (int i = 0; i < 4; i++)
-    {
-        if (PlayerParty[i] != nullptr)
+        //check if an enemy is dead
+        for (int i = 0; i < 4; i++)
         {
-            if ((PlayerParty[i]->GetIsBleed() == true) &&
-                (CurrentClass == PlayerParty[i]))
+            if (EnemyParty[i] != nullptr)
             {
-                BleedTime[i]++;
-                PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
-                if (BleedTime[i] == 3)
+                if (EnemyParty[i]->GetHealth() <= 0)
                 {
-                    PlayerParty[i]->SetIsBleed(false);
-                    BleedTime[i] = 0;
+                    delete EnemyParty[i];
+                    EnemyParty[i] = nullptr;
                 }
             }
-        }
 
-        if (EnemyParty[i] != nullptr)
-        {
-            if ((EnemyParty[i]->GetIsBleed() == true) &&
-                (CurrentClass == EnemyParty[i]))
+            //check if is bleeding
+            if (PlayerParty[i] != nullptr)
             {
-                BleedTime[i + 4]++;
-                EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
-                if (BleedTime[i + 4] == 3)
+                if ((PlayerParty[i]->GetIsBleed() == true) &&
+                    (CurrentClass == PlayerParty[i]))
                 {
-                    EnemyParty[i]->SetIsBleed(false);
-                    BleedTime[i + 4] = 0;
+                    BleedTime[i]++;
+                    PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                    if (BleedTime[i] == 3)
+                    {
+                        PlayerParty[i]->SetIsBleed(false);
+                        BleedTime[i] = 0;
+                    }
                 }
             }
-        }
-    }
 
-    //check if is burning
-    for (int i = 0; i < 4; i++)
-    {
-        if (PlayerParty[i] != nullptr)
-        {
-            if ((PlayerParty[i]->GetIsBurn() == true) &&
-                (CurrentClass == PlayerParty[i]))
+            if (EnemyParty[i] != nullptr)
             {
-                BleedTime[i]++;
-                PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
-                if (BleedTime[i] == 3)
+                if ((EnemyParty[i]->GetIsBleed() == true) &&
+                    (CurrentClass == EnemyParty[i]))
                 {
-                    PlayerParty[i]->SetIsBurn(false);
-                    BleedTime[i] = 0;
+                    BleedTime[i + 4]++;
+                    EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.02); //bleed does 2% of max hp damage
+                    if (BleedTime[i + 4] == 3)
+                    {
+                        EnemyParty[i]->SetIsBleed(false);
+                        BleedTime[i + 4] = 0;
+                    }
                 }
             }
-        }
 
-        if (EnemyParty[i] != nullptr)
-        {
-            if ((EnemyParty[i]->GetIsBurn() == true) &&
-                (CurrentClass == EnemyParty[i]))
-            {
-                BleedTime[i + 4]++;
-                EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
-                if (BleedTime[i + 4] == 3)
-                {
-                    EnemyParty[i]->SetIsBurn(false);
-                    BleedTime[i + 4] = 0;
-                }
-            }
-        }
-    }
 
-    //check is silenced
-    for (int i = 0; i < 4; i++)
-    {
-        if (PlayerParty[i] != nullptr)
-        {
-            if ((PlayerParty[i]->GetIsSilenced() == true) &&
-                (CurrentClass == PlayerParty[i]))
+            //check if is burning
+            if (PlayerParty[i] != nullptr)
             {
-                SilenceTime[i]++;
-                if (SilenceTime[i] == 1)
+                if ((PlayerParty[i]->GetIsBurn() == true) &&
+                    (CurrentClass == PlayerParty[i]))
                 {
-                    PlayerParty[i]->SetIsSilenced(false);
-                    SilenceTime[i] = 0;
+                    BleedTime[i]++;
+                    PlayerParty[i]->SetHealth(PlayerParty[i]->GetHealth() - PlayerParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+                    if (BleedTime[i] == 3)
+                    {
+                        PlayerParty[i]->SetIsBurn(false);
+                        BleedTime[i] = 0;
+                    }
+                }
+            }
+
+            if (EnemyParty[i] != nullptr)
+            {
+                if ((EnemyParty[i]->GetIsBurn() == true) &&
+                    (CurrentClass == EnemyParty[i]))
+                {
+                    BleedTime[i + 4]++;
+                    EnemyParty[i]->SetHealth(EnemyParty[i]->GetHealth() - EnemyParty[i]->GetMaxHealth() * 0.04); //burn does 4% of max hp damage
+                    if (BleedTime[i + 4] == 3)
+                    {
+                        EnemyParty[i]->SetIsBurn(false);
+                        BleedTime[i + 4] = 0;
+                    }
+                }
+            }
+
+            //check is silenced
+            if (PlayerParty[i] != nullptr)
+            {
+                if ((PlayerParty[i]->GetIsSilenced() == true) &&
+                    (CurrentClass == PlayerParty[i]))
+                {
+                    SilenceTime[i]++;
+                    if (SilenceTime[i] == 1)
+                    {
+                        PlayerParty[i]->SetIsSilenced(false);
+                        SilenceTime[i] = 0;
+                    }
+                }
+            }
+
+            //check if immune
+            if (CurrentClass == PlayerParty[i])
+            {
+                if (CurrentClass->GetIsImmune() == true)
+                {
+                    CurrentClass->SetIsImmune(false);
                 }
             }
         }
-    }
+    
     Action = Main;
     CurrentClass->SetTurn(false);
     CurrentTurn++;
@@ -14989,11 +14994,13 @@ void RoundEnd(void)
             PlayerParty[i]->SetTurn(true);
         }
 
+        //defend is special in that it reverts at the end of a round
         if (PlayerParty[i]->GetIsDefend() == true)
         {
             PlayerParty[i]->RevertDefend();
         }
     }
+
 
     CurrentTurn++;
 }
@@ -15082,7 +15089,7 @@ void EnemyAI(int EnemyPartyType)
     if (!((Target[0] == nullptr) &&
         (Target[1] == nullptr) &&
         (Target[2] == nullptr) &&
-        (Target[3] == nullptr)))
+          (Target[3] == nullptr)))
     {
         for (int i = 0; i < 4; i++)
         {
@@ -15114,20 +15121,20 @@ void EnemyAI(int EnemyPartyType)
     {
         EffectSelect = rand() % 2;
     }
-    if (EnemyPartyType == Boss)
+     if (EnemyPartyType == Boss)
     {
         if (CurrentClass == EnemyParty[0])
         {
-            if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
-                (temp == 0))
-            {
-                EffectSelect = 2;
-                temp++;
-            }
-            else if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.25) &&
+            if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.25) &&
                 (temp == 1))
             {
                 EffectSelect = 3;
+                temp++;
+            }
+            else if ((EnemyParty[0]->GetHealth() <= EnemyParty[0]->GetMaxHealth() * 0.5) &&
+                (temp == 0))
+            {
+                EffectSelect = 2;
                 temp++;
             }
             else if (Target[TargetIndex]->GetIsBurn() == true)
@@ -15221,6 +15228,15 @@ int InventoryPage = 1;
 void inventoryOpened()//inventory is opened if the player presses tab
 {
     if (g_skKeyEvent[K_TAB].keyDown && (g_eGameState != S_MENUSCREEN || g_eGameState != S_HOWTOPLAY))
+    {
+        SavedLocation = g_eGameState;
+        initialX = g_sChar.m_cLocation.X;
+        initialY = g_sChar.m_cLocation.Y;
+        g_sChar.m_cLocation.X = 29;
+        g_sChar.m_cLocation.Y = 9;
+        g_eGameState = S_INVENTORY;
+    }
+    else if (g_eGameState == S_BATTLE)
     {
         SavedLocation = g_eGameState;
         initialX = g_sChar.m_cLocation.X;
@@ -15474,6 +15490,21 @@ void InventorySelection()
             }
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
+            SelectedPlayerNumber != -1 && SavedLocation == S_BATTLE)
+        {
+            //item is used on the player and removed from the inventory
+            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
+            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
+
+            SelectedPlayerNumber = -1;
+            SelectedItemNumber = -1;
+            g_sChar.m_cLocation.X = 29;
+            g_sChar.m_cLocation.Y = 9;
+            InventoryPage = 1;
+            IsExecuted = true;
+            inventoryClosed();
+        }
+        else if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
             SelectedPlayerNumber != -1)
         {
             //item is used on the player and removed from the inventory

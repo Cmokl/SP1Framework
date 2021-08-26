@@ -31,9 +31,12 @@ void Dragon::FlameBurst(Class* target[4])
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (target[i]->GetHealth() > 0)
+		if (target[i] != nullptr)
 		{
-			target[i]->SetHealth(target[i]->GetHealth() - this->GetStrength() * 1.8 + (this->GetStrength() * 1.8) * (0.01 * (target[i]->GetResistance())));
+			if (target[i]->GetHealth() > 0)
+			{
+				target[i]->SetHealth(target[i]->GetHealth() - this->GetStrength() * 1.8 + (this->GetStrength() * 1.8) * (0.01 * (target[i]->GetResistance())));
+			}
 		}
 	}
 }
