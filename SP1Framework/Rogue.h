@@ -12,6 +12,7 @@ public:
 
     //getter
     bool GetIsStealth(void);
+    void SetIsStealth(bool boolean);
 
     //rogue overrides attack because his attacks get stronger if stealthed
     void Attack(Class* Target);

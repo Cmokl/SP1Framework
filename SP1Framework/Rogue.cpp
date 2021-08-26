@@ -26,6 +26,11 @@ bool Rogue::GetIsStealth(void)
 	return IsStealth;
 }
 
+void Rogue::SetIsStealth(bool boolean)
+{
+	IsStealth = boolean;
+}
+
 //attack
 void Rogue::Attack(Class* Target)
 {

@@ -227,7 +227,6 @@ void shutdown(void)
 {
     for (int i = 0; i < 4; i++)
     {
-        delete Target[i];
         delete EnemyParty[i];
         delete PlayerParty[i];
     }
@@ -524,8 +523,9 @@ void updateGame()       // gameplay logic
             else if (g_eGameState == S_MAP2)
             {
                 Colision2();
-                CheckBoss();
+                
             }
+            CheckBoss();
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
         inventoryOpened();
@@ -621,11 +621,11 @@ void moveCharacter()
 //check boss
 void CheckBoss()
 {
-    for (int i = 0; i < 8; i++)
+    /*for (int i = 0; i < 8; i++)
     {
         if ((g_sChar.m_cLocation.Y == 27) &&
             (g_sChar.m_cLocation.X == 142 + i))
-        {
+        {*/
             PartyType = Boss;
             temp = 0;
             RandomDelay = 3;
@@ -634,8 +634,8 @@ void CheckBoss()
             PlayerTempCoordY = g_sChar.m_cLocation.Y;
             g_dElapsedTime = 0;
             g_eGameState = S_BATTLESPLASH;
-        }
-    }
+  /*      }
+    }*/
 }
 
 
@@ -15025,6 +15025,11 @@ void VictoryCondition()
 
 void VictorySplash()
 {
+    if ((g_skKeyEvent[K_SPACE].keyReleased) && 
+        (PartyType = Boss));
+    {
+        g_bQuitGame = true;
+    }
     if (g_skKeyEvent[K_SPACE].keyReleased)
     {
         EndBattle();
@@ -15034,11 +15039,26 @@ void VictorySplash()
 void EndBattle()
 {
     RoundEnd();
+
+    //delete in combat pointers and init them as nullpointers
     for (int i = 0; i < 4; i++)
     {
+        //delete enemy party
         delete EnemyParty[i];
         EnemyParty[i] = nullptr;
+        //delete target
+        delete Target[i];
+        Target[i] = nullptr;
+
+
+        //revert back all player statuses
+        if (dynamic_cast<Rogue*>(PlayerParty[i]) != NULL)
+        {
+            static_cast<Rogue*>(PlayerParty[i])->SetIsStealth(false);
+        }
     }
+
+
     TurnCount = 1;
     CurrentTurn = 1;
     g_sChar.m_cLocation.X = PlayerTempCoordX;
@@ -17805,7 +17825,7 @@ void renderBattleScreen()
             ss.str("Press space to continue");
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
         }
-        else if (Action == Boss)
+        else if (PartyType == Boss)
         {
             ss.str("Congratulations you beat the game!");
             g_Console.writeToBuffer(c, ss.str(), 0x06);
@@ -17820,7 +17840,7 @@ void renderBattleScreen()
             c.Y += 2;
             c.X = g_Console.getConsoleSize().X / 2 - 10;
 
-            ss.str("Press space to continue");
+            ss.str("Press space to exit");
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
         }
     }
