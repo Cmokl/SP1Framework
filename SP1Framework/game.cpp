@@ -525,8 +525,8 @@ void updateGame()       // gameplay logic
             else if (g_eGameState == S_MAP2)
             {
                 Colision2();
+                CheckBoss();
             }
-            CheckBoss();
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
         inventoryOpened();
@@ -622,11 +622,11 @@ void moveCharacter()
 //check boss
 void CheckBoss()
 {
-    //for (int i = 0; i < 8; i++)
-    //{
-    //    if ((g_sChar.m_cLocation.Y == 27) &&
-    //        (g_sChar.m_cLocation.X == 142 + i))
-    //    {
+    for (int i = 0; i < 8; i++)
+    {
+        if ((g_sChar.m_cLocation.Y == 27) &&
+            (g_sChar.m_cLocation.X == 142 + i))
+        {
             PartyType = Boss;
             temp = 0;
             RandomDelay = 3;
@@ -635,8 +635,8 @@ void CheckBoss()
             PlayerTempCoordY = g_sChar.m_cLocation.Y;
             g_dElapsedTime = 0;
             g_eGameState = S_BATTLESPLASH;
-    //    }
-    //}
+        }
+    }
 }
 
 
@@ -14617,7 +14617,7 @@ void BattleSelect()
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
         CurrentClass->Defend();
-        CurrentTurn++;
+        TurnEnd();
     }
 
     //select special

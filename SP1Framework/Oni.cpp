@@ -11,6 +11,7 @@ Oni::Oni()
 	this->SetSpeed(15);
 	this->SetDefence(15);
 	this->SetResistance(14);
+	this->SetTurn(false)
 }
 Oni::~Oni()
 {
