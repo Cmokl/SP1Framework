@@ -522,8 +522,6 @@ void updateGame()       // gameplay logic
             }
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
-        Collision();
-        changelevel();
         inventoryOpened();
         shopOpened();
         
