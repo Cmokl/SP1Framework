@@ -17759,22 +17759,23 @@ void renderBattleScreen()
     std::ostringstream ss;
 
     c.Y = 12;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
+    c.X = g_Console.getConsoleSize().X / 2 - 4;
 
-    ss.str("Victory");
-    g_Console.writeToBuffer(c, ss.str(), 0x09);
+    ss.str("Victory!");
+    g_Console.writeToBuffer(c, ss.str(), 0x06);
 
     c.Y += 2;
+    c.X = g_Console.getConsoleSize().X / 2 - 7;
 
     ss.str("");
     ss << "You got " << GoldGained << " Gold";
-    g_Console.writeToBuffer(c, ss.str() , 0x09);
-
+    g_Console.writeToBuffer(c, ss.str() , 0x06);
 
     c.Y += 2;
+    c.X = g_Console.getConsoleSize().X / 2 - 10;
 
     ss.str("Press space to continue");
-    g_Console.writeToBuffer(c, ss.str(), 0x09); // Main page
+    g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
     }
 }
 
