@@ -11,7 +11,6 @@ public:
     //skills
     void InfernalBlast(Class* Target);
     void SoulLock(Class* Target);
-    void RevertSoulLock(Class* Target);
 
     //skill list
     bool SkillList(int ListIndex, int ClassIndex, Class* TargetParty[4]);

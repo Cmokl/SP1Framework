@@ -9,7 +9,7 @@ Cleric::Cleric()
 	this->SetStrength(8);
 	this->SetIntelligence(13);
 	this->SetFaith(16);
-	this->SetSpeed(10);
+	this->SetSpeed(14);
 	this->SetDefence(10);
 	this->SetResistance(12);
 }

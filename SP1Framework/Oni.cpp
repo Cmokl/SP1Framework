@@ -11,7 +11,6 @@ Oni::Oni()
 	this->SetSpeed(15);
 	this->SetDefence(15);
 	this->SetResistance(14);
-	this->SetTurn(false);
 }
 Oni::~Oni()
 {
@@ -19,27 +18,28 @@ Oni::~Oni()
 
 void Oni::InfernalBlast(Class* Target)
 {
-	int damage = (this->GetIntelligence() * 1.0 + Target->GetResistance() * 0.5);
-	//damage
-	Target->SetHealth(Target->GetHealth() - damage);
-	//heal
-	for (int i = 0; i < damage; i++)
+	if (Target != nullptr)
 	{
-		if (this->GetMaxHealth() != this->GetHealth())
+		int damage = (this->GetIntelligence() * 1.0 + Target->GetResistance() * 0.5);
+		//damage
+		Target->SetHealth(Target->GetHealth() - damage);
+		//heal
+		for (int i = 0; i < damage; i++)
 		{
-			this->SetHealth(this->GetHealth() + 1);
+			if (this->GetMaxHealth() != this->GetHealth())
+			{
+				this->SetHealth(this->GetHealth() + 1);
+			}
 		}
 	}
 }
 
 void Oni::SoulLock(Class* Target)
 {
-	Target->SetIsSilenced(true);
-}
-
-void Oni::RevertSoulLock(Class* Target)
-{
-	Target->SetIsSilenced(false);
+	if (Target != nullptr)
+	{
+		Target->SetIsSilenced(true);
+	}
 }
 
 //skill list

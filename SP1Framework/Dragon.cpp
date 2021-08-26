@@ -17,14 +17,20 @@ Dragon::~Dragon()
 }
 void Dragon::FireBreath(Class* target)
 {
-	target->SetHealth(target->GetHealth() - this->GetIntelligence() * 0.9 + (this->GetIntelligence() * 1.0) * (0.01 * (target->GetResistance())));
-	target->SetIsBurn(true);
+	if (target != nullptr)
+	{
+		target->SetHealth(target->GetHealth() - this->GetIntelligence() * 0.9 + (this->GetIntelligence() * 1.0) * (0.01 * (target->GetResistance())));
+		target->SetIsBurn(true);
+	}
 	//to add the player burning for 3 turns
 }
 
 void Dragon::TalonTear(Class* target)
 {
-	target->SetHealth(target->GetHealth() - this->GetStrength() * 1.1 + (this->GetStrength() * 1.1) * (0.01 * (target->GetResistance())));
+	if (target != nullptr)
+	{
+		target->SetHealth(target->GetHealth() - this->GetStrength() * 1.1 + (this->GetStrength() * 1.1) * (0.01 * (target->GetResistance())));
+	}
 }
 
 void Dragon::FlameBurst(Class* target[4])

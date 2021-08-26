@@ -85,6 +85,7 @@ void SelectSkill();
 void CheckTargetType(int type);
 void ExecuteSkill(int SkillIndex);
 void ResetCursorPosition();
+void CheckStatuses();
 void TurnEnd();
 void RoundEnd();
 void VictoryCondition();
