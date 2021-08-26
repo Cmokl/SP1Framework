@@ -73,7 +73,7 @@ void foundRandomEncounter(); //function that handles if there is na random enoun
 void BattleSplash();
 void renderBattleSplash();
 void initEnemyGroup(int EnemyGroup); //initialize enemy groups
-void processUserInput();    // checks if you should change states or do something else with the game, e.g. pause, exit
+/*void processUserInput(); */   // checks if you should change states or do something else with the game, e.g. pause, exit
 void updateBattle(); //Battle logic
 void TurnStart(); //initializes a turn in battle
 void BattleMove(); //Checks for movement keys in battle
@@ -88,6 +88,7 @@ void ResetCursorPosition();
 void TurnEnd();
 void RoundEnd();
 void VictoryCondition();
+void DelayVictory();
 void EndBattle();
 void EnemyAI(int EnemyPartyType);
 void GameOver();
