@@ -79,6 +79,9 @@ int PlayerTempCoordY;
 //to check if a action is done
 bool IsExecuted;
 
+//amount of gold gained by the player
+int GoldGained;
+
 //player action indicator
 enum BattleActions
 {
@@ -86,10 +89,11 @@ enum BattleActions
     Attack,
     Special,
     Skill,
-    Item,
     Select,
     FSelect,
-    EnemyAttack
+    EnemyAttack,
+    DisplayAction,
+    Victory
 };
 
 //will change the enemy ai based on this
@@ -14991,10 +14995,30 @@ void VictoryCondition()
     if ((EnemyParty[0] == nullptr) &&
         (EnemyParty[1] == nullptr) &&
         (EnemyParty[2] == nullptr) &&
-        (EnemyParty[3] == nullptr))
+        (EnemyParty[3] == nullptr) &&
+        (PartyType == Regular))
     {
+        GoldGained = PlayerInventory.GetGold() + rand() % 10 + 5; //gold gained is here instead of delay victory because gold gained will change based on condition
+        g_dElapsedTime = 0;
+        Action = Victory;
+    }
+    else if ((EnemyParty[0] == nullptr) &&
+        (EnemyParty[1] == nullptr) &&
+        (EnemyParty[2] == nullptr) &&
+        (EnemyParty[3] == nullptr) &&
+        (PartyType == Boss))
+    {
+        GoldGained = PlayerInventory.GetGold() + 100;
+        g_dElapsedTime = 0;
+        Action = Victory;
+    }
+}
 
-        PlayerInventory.SetGold(PlayerInventory.GetGold() + rand() % 5 + 3);
+void DelayVictory()
+{
+    if (g_dElapsedTime > 1)
+    {
+        PlayerInventory.SetGold(GoldGained);
         EndBattle();
     }
 }
