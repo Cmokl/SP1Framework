@@ -14643,16 +14643,7 @@ void BattleSelect()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (Maplevel == 1)
-        {
-            EndBattle();
-            g_eGameState = S_MAP1;
-        }
-        if (Maplevel == 2)
-        {
-            EndBattle();
-            g_eGameState = S_MAP2;
-        }
+        EndBattle();
     }
 }
 
@@ -15026,11 +15017,11 @@ void VictoryCondition()
 void VictorySplash()
 {
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
-        (PartyType == Boss));
+        (PartyType == Boss))
     {
         g_bQuitGame = true;
     }
-    if (g_skKeyEvent[K_SPACE].keyReleased)
+    else if (g_skKeyEvent[K_SPACE].keyReleased)
     {
         EndBattle();
     }
