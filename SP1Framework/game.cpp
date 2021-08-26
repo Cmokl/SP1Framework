@@ -14420,7 +14420,7 @@ void initEnemyGroup(int EnemyGroup)
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 void updateBattle()
 {
-    VictoryCondition(); //checks if player win(needs to be at bottom since main needs to run first for gold to work)
+    VictoryCondition(); //checks if player win
     GameOver(); //checks if player lose
 
     if (Action != EnemyAttack)
