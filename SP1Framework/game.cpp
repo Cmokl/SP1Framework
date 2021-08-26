@@ -50,15 +50,15 @@ int PartyType;
 Inventory PlayerInventory;
 Inventory ShopInventory;
 //hp restoring items created
-Items* ElvenBread = new HealingItems("Elven Bread", 1, 3);
-Items* SunCake = new HealingItems("Sun Cake", 3, 6);
-Items* BeefStew = new HealingItems("Beef Stew", 5, 9);
+Items* ElvenBread = new HealingItems("Elven Bread", 1, 4);
+Items* SunCake = new HealingItems("Sun Cake", 3, 15);
+Items* BeefStew = new HealingItems("Beef Stew", 6, 30);
 //mana restoring items created
-Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
-Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
-Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
+Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 6);
+Items* GoldApple = new ManaItems("Gold Apple", 4, 14);
+Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 25);
 //immunity setting items created
-Items* LuckyCharm = new ImmunityItems("Lucky Charm", 8, 0);
+Items* LuckyCharm = new ImmunityItems("Lucky Charm", 5, 0);
 
 
 //turn count for battles
@@ -161,12 +161,12 @@ void init(void)
     PartyType = Regular;
 
     //creates item descriptions
-    ElvenBread->SetDescription(": Heals 3 hp");
-    SunCake->SetDescription(": Heals 6 hp");
-    BeefStew->SetDescription(": Heals 9 hp");
-    PurpleElixir->SetDescription(": Restores 4 mana");
-    GoldApple->SetDescription(": Restores 8 mana");
-    PixieTeardrops->SetDescription(": Restores 12 mana");
+    ElvenBread->SetDescription(": Heals 4 hp");
+    SunCake->SetDescription(": Heals 15 hp");
+    BeefStew->SetDescription(": Heals 30 hp");
+    PurpleElixir->SetDescription(": Restores 6 mana");
+    GoldApple->SetDescription(": Restores 14 mana");
+    PixieTeardrops->SetDescription(": Restores 25 mana");
     LuckyCharm->SetDescription(": A round of immunity");
 
     //adds items into the shops
@@ -233,7 +233,7 @@ void shutdown(void)
     }
     delete PreviousClass;
     delete CurrentClass;
-    delete ElvenBread, SunCake, BeefStew, PurpleElixir, GoldApple, PixieTeardrops;
+    delete ElvenBread, SunCake, BeefStew, PurpleElixir, GoldApple, PixieTeardrops, LuckyCharm;
 
     
     // Reset to white text on black background
@@ -477,7 +477,6 @@ void splashScreenWait()    // choose options in menu
             }
         }
     }
-
 }
 void howtoplaybutton()
 {
