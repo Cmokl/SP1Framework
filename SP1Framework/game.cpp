@@ -15162,16 +15162,17 @@ void EnemyAI(int EnemyPartyType)
         {
             EffectSelect = rand() % 2;
         }
+        if (EffectSelect == 3)
+        {
+            CurrentClass->SkillList(EffectSelect, TargetIndex, EnemyParty);
+        }
+        else
+        {
+            CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
+        }
     }
 
-     if (EffectSelect == 3)
-     {
-         CurrentClass->SkillList(EffectSelect, TargetIndex, EnemyParty);
-     }
-     else
-     {
-         CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
-     }
+
     TurnEnd();
 }
 
