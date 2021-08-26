@@ -57,7 +57,7 @@ Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
 Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
 Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
 
-
+/
 
 //turn count for battles
 int TurnCount;
@@ -77,8 +77,8 @@ int temp;
 int PlayerTempCoordX;
 int PlayerTempCoordY;
 
-//to check if a skill allows it to be executed
-bool IsAllowed;
+//to check if a action is done
+bool IsExecuted;
 
 //player action indicator
 enum BattleActions
@@ -202,7 +202,7 @@ void init(void)
     TargetIndex = -1;
 
     //init IsAllowed
-    IsAllowed = true;
+    IsExecuted = false;
 
     //initialize player action indicator
     Action = Main;
@@ -14477,6 +14477,8 @@ void TurnStart()
     TargetIndex = -1;
     if (CurrentTurn == TurnCount)
     {
+        IsExecuted = false;
+
         //set previous class
         if ((CurrentClass != nullptr) &&
             (CurrentClass->GetTurn() == false))
@@ -14700,6 +14702,11 @@ void SelectTarget(Class* TargetParty[])
 
 void SelectSpecialAction()
 {
+    if (IsExecuted == true)
+    {
+        TurnEnd();
+    }
+
     if (CurrentClass->GetIsSilenced() == false)
     {
         //select Skill
@@ -14717,7 +14724,7 @@ void SelectSpecialAction()
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
         ResetCursorPosition();
-        Action = Item;
+        inventoryOpened();
     }
 
     //return to previous menu
@@ -15189,6 +15196,15 @@ void inventoryOpened()
         g_sChar.m_cLocation.Y = 9;
         g_eGameState = S_INVENTORY;
     }
+    else if (g_eGameState == S_BATTLE)
+    {
+        SavedLocation = g_eGameState;
+        initialX = g_sChar.m_cLocation.X;
+        initialY = g_sChar.m_cLocation.Y;
+        g_sChar.m_cLocation.X = 29;
+        g_sChar.m_cLocation.Y = 9;
+        g_eGameState = S_INVENTORY;
+    }
 }
 void inventoryClosed()
 {
@@ -15434,6 +15450,21 @@ void InventorySelection()
             {
                 SelectedPlayerNumber = i;
             }
+        }
+        if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
+            SelectedPlayerNumber != -1 &&
+            SavedLocation == S_BATTLE)
+        {
+            //item is used on the player and removed from the inventory
+            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
+            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
+
+            SelectedPlayerNumber = -1;
+            SelectedItemNumber = -1;
+            g_sChar.m_cLocation.X = 29;
+            g_sChar.m_cLocation.Y = 9;
+            IsExecuted = true;
+            inventoryClosed();
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
             SelectedPlayerNumber != -1)
