@@ -14422,6 +14422,8 @@ void initEnemyGroup(int EnemyGroup)
 void updateBattle()
 {
     GameOver(); //checks if player lose
+    VictoryCondition(); //checks if player win
+
     if (Action != EnemyAttack)
     {
         BattleMove();
@@ -14470,8 +14472,10 @@ void updateBattle()
     case EnemyAttack:
         EnemyAI(PartyType);
         break;
+    case Victory:
+        DelayVictory();
+        break;
     }
-    VictoryCondition(); //checks if player win
 }
 
 
