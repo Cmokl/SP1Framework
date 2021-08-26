@@ -140,7 +140,7 @@ void init(void)
     g_Console.setMouseHandler(mouseHandler);
 
     //init random encounter variables
-    RandomRate = 4; //how to get: denominator of rate - 1 (e.g. 1/5 = 20% so rate is 4 since 5-1 = 4)
+    RandomRate = 9; //how to get: denominator of rate - 1 (e.g. 1/5 = 20% so rate is 4 since 5-1 = 4)
     RandomDelay = 1;
 
     //Initialize the Classes
