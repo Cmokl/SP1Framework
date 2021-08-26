@@ -124,8 +124,8 @@ void init(void)
     // sets the initial state for the game
     g_eGameState = S_MENUSCREEN;
 
-    g_sChar.m_cLocation.X = 90;// g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = 2;// g_Console.getConsoleSize().Y / 2;
+    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
+    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -15481,6 +15481,12 @@ void InventorySelection()
             g_sChar.m_cLocation.X = 29;
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
+        }
+        if (g_skKeyEvent[K_ESCAPE].keyDown)
+        {
+            InventoryPage = 1;
+            g_sChar.m_cLocation.X = 29;
+            g_sChar.m_cLocation.Y = 9;
         }
     }
 }
