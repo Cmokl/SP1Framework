@@ -93,6 +93,7 @@ void VictorySplash();
 void EndBattle();
 void EnemyAI(int EnemyPartyType);
 void GameOver();
+void GameOverSplash();
 void clearScreen();         // clears the current screen and draw from scratch 
 void renderSplashScreen();  // renders the splash screen
 void updateInventory();

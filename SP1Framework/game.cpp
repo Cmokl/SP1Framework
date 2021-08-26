@@ -97,7 +97,8 @@ enum BattleActions
     FSelect,
     EnemyAttack,
     DisplayAction,
-    Victory
+    Victory,
+    Lose
 };
 
 //will change the enemy ai based on this
@@ -14474,6 +14475,9 @@ void updateBattle()
     case Victory:
         VictorySplash();
         break;
+    case Lose:
+        GameOverSplash();
+        break;
     }
 }
 
@@ -15177,6 +15181,14 @@ void GameOver()
         (PlayerParty[1]->GetHealth() < 1) &&
         (PlayerParty[2]->GetHealth() < 1) &&
         (PlayerParty[3]->GetHealth() < 1))
+    {
+        Action = Lose;
+    }
+}
+
+void GameOverSplash()
+{
+    if (g_skKeyEvent[K_SPACE].keyReleased)
     {
         g_bQuitGame = true;
     }
@@ -17809,9 +17821,6 @@ void renderBattleScreen()
     }
     else if (Action == Victory)
     {
-        COORD c;
-        std::ostringstream ss;
-
         c.Y = 12;
         c.X = g_Console.getConsoleSize().X / 2 - 4;
         if (PartyType == Regular)
@@ -17850,6 +17859,28 @@ void renderBattleScreen()
             ss.str("Press space to exit");
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
         }
+    }
+    else if (Action == Victory)
+    {
+    c.Y = 12;
+    c.X = g_Console.getConsoleSize().X / 2 - 4;
+    if (PartyType == Regular)
+    {
+        ss.str("Game Over!");
+        g_Console.writeToBuffer(c, ss.str(), 0x06);
+
+        c.Y += 2;
+        c.X = g_Console.getConsoleSize().X / 2 - 17;
+
+        ss.str("");
+        ss << "Total Gold: " << PlayerInventory.GetGold();
+        g_Console.writeToBuffer(c, ss.str(), 0x06);
+
+        c.Y += 2;
+        c.X = g_Console.getConsoleSize().X / 2 - 10;
+
+        ss.str("Press space to exit");
+        g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
     }
 }
         
@@ -17916,7 +17947,7 @@ void renderBattleSplash(void)
     COORD c;
     std::ostringstream ss;
 
-    c.X = g_Console.getConsoleSize().X / 2 - 7;
+    c.X = g_Console.getConsoleSize().X / 2 - 6;
     c.Y = g_Console.getConsoleSize().Y / 2;
 
     if (PartyType == Regular)
