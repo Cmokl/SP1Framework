@@ -14779,7 +14779,7 @@ void SelectSkill()
         if (CurrentClass->SkillNameList(0) != "")
         {
             EffectSelect = 0;
-            if (!((CurrentClass->ManaCost(0) - CurrentClass->GetMana()) < 0))
+            if (!((CurrentClass->GetMana() - CurrentClass->ManaCost(0)) < 0))
             {
                 CheckTargetType(CurrentClass->SkillTargetType(0));
             }
@@ -14795,7 +14795,7 @@ void SelectSkill()
         {
             EffectSelect = 1;
 
-            if (!((CurrentClass->ManaCost(1) - CurrentClass->GetMana()) < 0))
+            if (!((CurrentClass->GetMana() - CurrentClass->ManaCost(1)) < 0))
             {
                 CheckTargetType(CurrentClass->SkillTargetType(1));
             }
@@ -14811,7 +14811,7 @@ void SelectSkill()
         {
             EffectSelect = 2;
 
-            if (!((CurrentClass->ManaCost(2) - CurrentClass->GetMana()) < 0))
+            if (!((CurrentClass->GetMana() - CurrentClass->ManaCost(2)) < 0))
             {
                 CheckTargetType(CurrentClass->SkillTargetType(2));
             }
@@ -14827,7 +14827,7 @@ void SelectSkill()
         {
             EffectSelect = 3;
 
-            if (!((CurrentClass->ManaCost(3) - CurrentClass->GetMana()) < 0))
+            if (!((CurrentClass->GetMana() - CurrentClass->ManaCost(3)) < 0))
             {
                 CheckTargetType(CurrentClass->SkillTargetType(3));
             }
