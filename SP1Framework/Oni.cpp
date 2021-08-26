@@ -2,6 +2,7 @@
 
 Oni::Oni()
 {
+	this->SetName("Oni");
 	this->SetHealth(80);
 	this->SetMaxHealth(80);
 	this->SetMana(45);
@@ -11,6 +12,7 @@ Oni::Oni()
 	this->SetSpeed(15);
 	this->SetDefence(15);
 	this->SetResistance(14);
+	this->SetTurn(false);
 }
 Oni::~Oni()
 {
