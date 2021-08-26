@@ -15026,7 +15026,7 @@ void VictoryCondition()
 void VictorySplash()
 {
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
-        (PartyType = Boss));
+        (PartyType == Boss));
     {
         g_bQuitGame = true;
     }
