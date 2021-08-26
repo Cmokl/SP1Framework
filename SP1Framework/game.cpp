@@ -14984,6 +14984,8 @@ void RoundEnd(void)
             PlayerParty[i]->RevertDefend();
         }
     }
+
+    TurnEnd();
 }
 
 void VictoryCondition()
@@ -17848,18 +17850,21 @@ void renderBattleScreen()
         }
         else if (PartyType == Boss)
         {
+            c.Y = 12;
+            c.X = g_Console.getConsoleSize().X / 2 - 17;
+
             ss.str("Congratulations you beat the game!");
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
             c.Y += 2;
-            c.X = g_Console.getConsoleSize().X / 2 - 17;
+            c.X = g_Console.getConsoleSize().X / 2 - 6;
 
             ss.str("");
             ss << "Total Gold: " << PlayerInventory.GetGold();
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
             c.Y += 2;
-            c.X = g_Console.getConsoleSize().X / 2 - 10;
+            c.X = g_Console.getConsoleSize().X / 2 - 9;
 
             ss.str("Press space to exit");
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
