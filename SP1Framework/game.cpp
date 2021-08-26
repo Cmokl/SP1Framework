@@ -15071,7 +15071,6 @@ void VictoryCondition()
 
 void VictorySplash()
 {
-   /* PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);*/
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
         (PartyType == Boss))
     {
@@ -15129,7 +15128,7 @@ void EndBattle()
     {
         g_eGameState = S_MAP1;
     }
-    if (Maplevel == 2)
+    else if (Maplevel == 2)
     {
         g_eGameState = S_MAP2;
     }
