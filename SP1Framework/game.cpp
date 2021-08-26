@@ -15039,8 +15039,9 @@ void VictoryCondition()
     {
         if (IsExecuted == false)
         {
-            GoldGained = PlayerInventory.GetGold() + rand() % 5 + 10; //gold gained is here instead of delay victory because gold gained will change based on condition
-            PlayerInventory.SetGold(GoldGained);
+            srand(static_cast<unsigned int>(time(0)));
+            GoldGained = 5 + (std::rand() % (10 - 5 + 1)); //gold gained is here instead of delay victory because gold gained will change based on condition
+            PlayerInventory.SetGold(PlayerInventory.GetGold() + GoldGained);
             PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);
             Action = Victory;
             IsExecuted = true;
@@ -15054,8 +15055,8 @@ void VictoryCondition()
     {
         if (IsExecuted == false)
         {
-            GoldGained = PlayerInventory.GetGold() + 100;
-            PlayerInventory.SetGold(GoldGained);
+            GoldGained = 100;
+            PlayerInventory.SetGold(PlayerInventory.GetGold() + GoldGained);
             PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);
             Action = Victory;
             IsExecuted = true;
@@ -15080,6 +15081,8 @@ void VictorySplash()
 
 void EndBattle()
 {
+    CurrentClass = nullptr;
+    PreviousClass = nullptr;
     RoundEnd();
 
     //delete in combat pointers and init them as nullpointers

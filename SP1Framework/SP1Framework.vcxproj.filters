@@ -135,9 +135,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\..\MAP2.xlsx">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
 </Project>
