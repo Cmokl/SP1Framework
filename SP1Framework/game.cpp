@@ -17860,12 +17860,10 @@ void renderBattleScreen()
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
         }
     }
-    else if (Action == Victory)
+    else if (Action == Lose)
     {
-    c.Y = 12;
-    c.X = g_Console.getConsoleSize().X / 2 - 4;
-    if (PartyType == Regular)
-    {
+        c.Y = 12;
+        c.X = g_Console.getConsoleSize().X / 2 - 4;
         ss.str("Game Over!");
         g_Console.writeToBuffer(c, ss.str(), 0x06);
 
@@ -17881,8 +17879,10 @@ void renderBattleScreen()
 
         ss.str("Press space to exit");
         g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
+
     }
 }
+
         
 
 
