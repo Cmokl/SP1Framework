@@ -88,6 +88,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Ghoul.cpp" />
     <ClCompile Include="HealingItems.cpp" />
+    <ClCompile Include="ImmunityItems.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="main.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="Ghoul.h" />
     <ClInclude Include="HealingItems.h" />
+    <ClInclude Include="ImmunityItems.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="ManaItems.h" />

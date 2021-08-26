@@ -81,6 +81,9 @@
     <ClCompile Include="ManaItems.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImmunityItems.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManaItems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImmunityItems.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

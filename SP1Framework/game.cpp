@@ -11,6 +11,7 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "HealingItems.h"
+#include "ImmunityItems.h"
 #include "ManaItems.h"
 #include "EmptyClass.h"
 #include <iostream>
@@ -56,6 +57,8 @@ Items* BeefStew = new HealingItems("Beef Stew", 5, 9);
 Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
 Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
 Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
+//immunity setting items created
+Items* LuckyCharm = new ImmunityItems("Lucky Charm", 8, 0);
 
 
 //turn count for battles
@@ -164,6 +167,7 @@ void init(void)
     PurpleElixir->SetDescription(": Restores 4 mana");
     GoldApple->SetDescription(": Restores 8 mana");
     PixieTeardrops->SetDescription(": Restores 12 mana");
+    LuckyCharm->SetDescription(": A round of immunity");
 
     //adds items into the shops
     ShopInventory.AddItem(ElvenBread);
@@ -172,6 +176,7 @@ void init(void)
     ShopInventory.AddItem(PurpleElixir);
     ShopInventory.AddItem(GoldApple);
     ShopInventory.AddItem(PixieTeardrops);
+    ShopInventory.AddItem(LuckyCharm);
     //adds the player's starting items
     PlayerInventory.AddItem(ElvenBread);
     PlayerInventory.AddItem(PurpleElixir);
