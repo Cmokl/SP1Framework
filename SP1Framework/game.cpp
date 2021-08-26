@@ -15021,6 +15021,7 @@ void VictoryCondition()
 
 void VictorySplash()
 {
+    PlaySound(TEXT("Victory.wav"), NULL, SND_LOOP | SND_ASYNC);
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
         (PartyType == Boss))
     {
