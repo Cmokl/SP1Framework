@@ -14978,8 +14978,6 @@ void RoundEnd(void)
             PlayerParty[i]->RevertDefend();
         }
     }
-
-    CurrentTurn++;
 }
 
 void VictoryCondition()
@@ -15037,9 +15035,6 @@ void EndBattle()
         //delete enemy party
         delete EnemyParty[i];
         EnemyParty[i] = nullptr;
-        //delete target
-        delete Target[i];
-        Target[i] = nullptr;
 
 
         //revert back all player statuses
@@ -15135,7 +15130,7 @@ void EnemyAI(int EnemyPartyType)
     {
         EffectSelect = rand() % 2;
     }
-     if (EnemyPartyType == Boss)
+    else if (EnemyPartyType == Boss)
     {
         if (CurrentClass == EnemyParty[0])
         {
@@ -17606,7 +17601,10 @@ void renderBattle()
 {
     renderBattleScreen();
     renderStatuses();
-    renderSelection();
+    if (Action != Victory)
+    {
+        renderSelection();
+    }
 }
 
 void renderSelection()
