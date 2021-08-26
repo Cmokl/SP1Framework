@@ -4,16 +4,27 @@ Ghoul::Ghoul()
 {
 	this->SetHealth(20);
 	this->SetMaxHealth(20);
-	this->SetMana(20);
-	this->SetStrength(10);
+	this->SetStrength(12);
 	this->SetIntelligence(10);
 	this->SetFaith(10);
 	this->SetSpeed(10);
 	this->SetDefence(10);
 	this->SetResistance(10);
+
+	IsShapeshift = false;
 }
 Ghoul::~Ghoul()
 {
+}
+
+bool Ghoul::GetIsShapeshift(void)
+{
+	return IsShapeshift;
+}
+
+void Ghoul::SetIsShapeshift(bool boolean)
+{
+	IsShapeshift = boolean;
 }
 
 void Ghoul::Devour(Class* Target)
@@ -33,10 +44,12 @@ void Ghoul::Devour(Class* Target)
 
 void Ghoul::Shapeshift(void)
 {
-	this->SetDefence(this->GetHealth() + 2);
+	IsShapeshift = true;
+	this->SetDefence(this->GetDefence() + 5);
 }
 
 void Ghoul::RevertShapeshift(void)
 {
-	this->SetDefence(this->GetHealth() - 2);
+	IsShapeshift = false;
+	this->SetDefence(this->GetDefence() - 5);
 }
