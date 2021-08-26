@@ -17512,10 +17512,6 @@ void renderCharacter()
 {
     // Draw the location of the character
     WORD charColor = 0x0C;
-    if (g_sChar.m_bActive)
-    {
-        charColor = 0x0A;
-    }
     g_Console.writeToBuffer(g_sChar.m_cLocation, (char)1, charColor);
 }
 

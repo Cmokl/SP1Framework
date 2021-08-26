@@ -3,8 +3,8 @@
 Dragon::Dragon()
 {
 	this->SetName("Dragon");
-	this->SetHealth(80);
-	this->SetMaxHealth(80);
+	this->SetHealth(200);
+	this->SetMaxHealth(200);
 	this->SetStrength(16);
 	this->SetIntelligence(16);
 	this->SetFaith(8);

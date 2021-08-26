@@ -2,8 +2,8 @@
 
 Oni::Oni()
 {
-	this->SetHealth(48);
-	this->SetMaxHealth(48);
+	this->SetHealth(80);
+	this->SetMaxHealth(80);
 	this->SetMana(45);
 	this->SetStrength(12);
 	this->SetIntelligence(14);
