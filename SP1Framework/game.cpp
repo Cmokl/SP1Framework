@@ -15031,6 +15031,8 @@ void RoundEnd(void)
         }
     }
 
+    CurrentTurn = 1;
+    TurnCount = 1;
 }
 
 void VictoryCondition()
@@ -15045,6 +15047,7 @@ void VictoryCondition()
         {
             GoldGained = PlayerInventory.GetGold() + rand() % 5 + 10; //gold gained is here instead of delay victory because gold gained will change based on condition
             PlayerInventory.SetGold(GoldGained);
+            PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);
             Action = Victory;
             IsExecuted = true;
         }
@@ -15059,6 +15062,7 @@ void VictoryCondition()
         {
             GoldGained = PlayerInventory.GetGold() + 100;
             PlayerInventory.SetGold(GoldGained);
+            PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);
             Action = Victory;
             IsExecuted = true;
         }
@@ -15067,7 +15071,7 @@ void VictoryCondition()
 
 void VictorySplash()
 {
-    PlaySound(TEXT("Victory.wav"), NULL, SND_ASYNC);
+   /* PlaySound(TEXT("Victory.wav"), NULL, SND_FILENAME | SND_ASYNC);*/
     if ((g_skKeyEvent[K_SPACE].keyReleased) && 
         (PartyType == Boss))
     {
