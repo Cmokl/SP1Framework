@@ -14859,7 +14859,7 @@ void CheckTargetType(int type)
     }
     else if (type == Class::Self)
     {
-        Target[0] = PlayerParty[0];
+        Target[0] = CurrentClass;
         ExecuteSkill(EffectSelect);
     }
     else if (type == Class::FSingle)
