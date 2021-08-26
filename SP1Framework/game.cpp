@@ -15056,6 +15056,23 @@ void EndBattle()
         {
             static_cast<Rogue*>(PlayerParty[i])->SetIsStealth(false);
         }
+
+        if (dynamic_cast<Fighter*>(PlayerParty[i]) != NULL)
+        { 
+            if (static_cast<Fighter*>(PlayerParty[i])->GetIsBattleCry() == true)
+            {
+                static_cast<Fighter*>(PlayerParty[i])->BattleCryRevert();
+            }
+        }
+
+        if (PlayerParty[i]->GetIsDefend() == true)
+        {
+            PlayerParty[i]->RevertDefend();
+        }
+
+        PlayerParty[i]->SetIsImmune(false);
+        PlayerParty[i]->SetIsBurn(false);
+        PlayerParty[i]->SetIsSilenced(false);
     }
 
 
