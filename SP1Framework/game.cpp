@@ -124,8 +124,8 @@ void init(void)
     // sets the initial state for the game
     g_eGameState = S_MENUSCREEN;
 
-    g_sChar.m_cLocation.X = g_Console.getConsoleSize().X / 2;
-    g_sChar.m_cLocation.Y = g_Console.getConsoleSize().Y / 2;
+    g_sChar.m_cLocation.X = 90;// g_Console.getConsoleSize().X / 2;
+    g_sChar.m_cLocation.Y = 2;// g_Console.getConsoleSize().Y / 2;
     g_sChar.m_bActive = true;
     // sets the width, height and the font name to use in the console
     g_Console.setConsoleFont(0, 16, L"Consolas");
@@ -233,6 +233,9 @@ void shutdown(void)
     }
     delete PreviousClass;
     delete CurrentClass;
+    delete ElvenBread, SunCake, BeefStew, PurpleElixir, GoldApple, PixieTeardrops;
+
+    
     // Reset to white text on black background
     colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 
@@ -15202,19 +15205,9 @@ int initialX = 0;
 int initialY = 0;
 int InventoryPage = 1;
 
-void inventoryOpened()
+void inventoryOpened()//inventory is opened if the player presses tab
 {
-    if ((g_skKeyEvent[K_TAB].keyDown) &&
-        ((g_eGameState == S_MAP1) || (g_eGameState == S_MAP2)))
-    {
-        SavedLocation = g_eGameState;
-        initialX = g_sChar.m_cLocation.X;
-        initialY = g_sChar.m_cLocation.Y;
-        g_sChar.m_cLocation.X = 29;
-        g_sChar.m_cLocation.Y = 9;
-        g_eGameState = S_INVENTORY;
-    }
-    else if (g_eGameState == S_BATTLE)
+    if (g_skKeyEvent[K_TAB].keyDown && (g_eGameState != S_MENUSCREEN || g_eGameState != S_HOWTOPLAY))
     {
         SavedLocation = g_eGameState;
         initialX = g_sChar.m_cLocation.X;
@@ -15228,13 +15221,12 @@ void inventoryClosed()
 {
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
-    InventoryPage = 1;
     SelectedItemNumber = -1;
     SelectedItemNumber = -1;
     g_eGameState = SavedLocation;
 }
 
-//Moving system for inventories and shops
+//Moving system for inventories and shops is shared due to similar layouts
 void InventoryMove()
 {
     if (InventoryPage == 1)
@@ -15304,20 +15296,20 @@ void InventoryMove()
         }
     }
 }
-void updateInventory()
+void updateInventory()//inventory's appearance is updated with this, based on what the player does
 {
     InventoryMove();
     InventorySelection();
 }
 
-void renderInventory()
+void renderInventory()//inventory is shown on screen with this function
 {
     renderInventoryScreen();
     renderSelection();
 }
 
 
-void renderInventoryScreen()
+void renderInventoryScreen()//inventory appearance
 {
     COORD c;
     std::ostringstream ss;
@@ -15331,7 +15323,7 @@ void renderInventoryScreen()
         c.X = 25;
         c.Y = 4;
         ss.str(" ");
-        ss << "GOLD : " << PlayerInventory.GetGold();
+        ss << "GOLD : " << PlayerInventory.GetGold();//amount of gold shown
         g_Console.writeToBuffer(c, ss.str(), 0x07);
 
         /*Player's items all displayed below*/
@@ -15345,12 +15337,11 @@ void renderInventoryScreen()
             }
             else
             {
-                ss.str(PlayerInventory.GetItem(i)->GetName());
+                ss.str(PlayerInventory.GetItem(i)->GetName() + PlayerInventory.GetItem(i)->GetDescription());
             }
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
             if (SelectedItemNumber == i)
             {
-                g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
+                g_Console.writeToBuffer(c, ss.str(), 0x5E);
 
             }
             else
@@ -15368,12 +15359,11 @@ void renderInventoryScreen()
             }
             else
             {
-                ss.str(PlayerInventory.GetItem(i)->GetName());
+                ss.str(PlayerInventory.GetItem(i)->GetName() + PlayerInventory.GetItem(i)->GetDescription());
             }
-            g_Console.writeToBuffer(c, ss.str(), 0x07);
             if (SelectedItemNumber == i)
             {
-                g_Console.writeToBuffer(c, ss.str() + PlayerInventory.GetItem(i)->GetDescription(), 0x5E);
+                g_Console.writeToBuffer(c, ss.str(), 0x5E);
             }
             else
             {
@@ -15471,21 +15461,6 @@ void InventorySelection()
             }
         }
         if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
-            SelectedPlayerNumber != -1 &&
-            SavedLocation == S_BATTLE)
-        {
-            //item is used on the player and removed from the inventory
-            PlayerInventory.GetItem(SelectedItemNumber)->ItemEffect(PlayerParty[SelectedPlayerNumber]);
-            PlayerInventory.DiscardItem(PlayerInventory.GetItem(SelectedItemNumber));
-
-            SelectedPlayerNumber = -1;
-            SelectedItemNumber = -1;
-            g_sChar.m_cLocation.X = 29;
-            g_sChar.m_cLocation.Y = 9;
-            IsExecuted = true;
-            inventoryClosed();
-        }
-        if (g_sChar.m_cLocation.X == 62 && g_sChar.m_cLocation.Y == 20 && g_skKeyEvent[K_SPACE].keyReleased &&
             SelectedPlayerNumber != -1)
         {
             //item is used on the player and removed from the inventory
@@ -15502,17 +15477,17 @@ void InventorySelection()
 }
 //SHOP IS PROGRAMMED HERE------------------------------------
 bool itemBought = false;
-void renderShop()
+void renderShop()//shop is displayed on screen with this function
 {
     renderShopScreen();
     renderSelection();
 }
-void updateShop()
+void updateShop()//this function updates the shop's appearance based on what the player does
 {
     InventoryMove();
     ShopSelect();
 }
-void shopOpened()
+void shopOpened()//shop is opened with this function
 {
     if (g_eGameState == S_MAP1)
     {
@@ -15529,7 +15504,7 @@ void shopOpened()
         }
     }
 }
-void renderShopScreen()
+void renderShopScreen()//renders how the shop would look like
 {
     COORD c;
     std::ostringstream ss;
@@ -15543,7 +15518,7 @@ void renderShopScreen()
     ss << "GOLD : " << PlayerInventory.GetGold();
     g_Console.writeToBuffer(c, ss.str(), 0x07);
     ss.str("");
-    if (PlayerInventory.CheckIsFull() == true)
+    if (PlayerInventory.CheckIsFull() == true)//checks if the player has no more inventory room
     {
         c.Y = 25;
         c.X = 44;
@@ -15551,7 +15526,7 @@ void renderShopScreen()
         g_Console.writeToBuffer(c, ss.str(), 0x07);
     }
     ss.str("");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)//first 5 shop items shown
     {
         c.Y = 9 + (3 * i);
         c.X = 30;
@@ -15562,11 +15537,10 @@ void renderShopScreen()
         else
         {
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
-                << " Gold)";
+                << " Gold)" << ShopInventory.GetItem(i)->GetDescription();
         }
         if (SelectedItemNumber == i)
         {
-            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
 
         }
@@ -15576,7 +15550,7 @@ void renderShopScreen()
         }
         ss.str("");
     }
-    for (int i = 5; i < 10; i++)
+    for (int i = 5; i < 10; i++)//last 5 shop items shown
     {
         c.Y = (3 * i) - 6;
         c.X = 105;
@@ -15587,11 +15561,10 @@ void renderShopScreen()
         else
         {
             ss << ShopInventory.GetItem(i)->GetName() << "(" << ShopInventory.GetItem(i)->GetCost()
-                << " Gold)";
+                << " Gold)" << ShopInventory.GetItem(i)->GetDescription();
         }
         if (SelectedItemNumber == i)
         {
-            ss.str() += PlayerInventory.GetItem(i)->GetDescription();
             g_Console.writeToBuffer(c, ss.str(), 0x5E);
         }
         else
@@ -15604,17 +15577,17 @@ void renderShopScreen()
         {
             c.Y = 29;
             c.X = 97;
-            ss.str("Item bought!");
+            ss.str("Item bought!");//player is told their purchase is successful if they just bought an item
             g_Console.writeToBuffer(c, ss.str(), 0x07);
         }
     }
     c.Y = 27;
     c.X = 33;
-    ss.str("Exit");
+    ss.str("Exit");//exit button
     g_Console.writeToBuffer(c, ss.str(), 0x07);
     c.Y = 27;
     c.X = 100;
-    ss.str(" Buy");
+    ss.str(" Buy");//buy button
     g_Console.writeToBuffer(c, ss.str(), 0x07);
 }
 //selecting system for shops
@@ -15644,24 +15617,24 @@ void ShopSelect()
         }
     }
     //select exit
-    if (g_skKeyEvent[K_SPACE].keyReleased &&
+    if (g_skKeyEvent[K_SPACE].keyReleased &&//exit is selected and the shop is left
         (g_sChar.m_cLocation.Y == 27) &&
         g_sChar.m_cLocation.X == 32)
     {
         inventoryClosed();
         itemBought = false;
     }
-    //select buy
-    else if (g_skKeyEvent[K_SPACE].keyReleased &&
+    else if (g_skKeyEvent[K_SPACE].keyReleased &&//buy is selected
         g_sChar.m_cLocation.Y == 27 &&
         g_sChar.m_cLocation.X == 100 &&
         SelectedItemNumber != -1)
     {
-        if (PlayerInventory.CheckIsFull() == false)
+        if (PlayerInventory.CheckIsFull() == false && //checks if the player has enough money and inventory room
+            PlayerInventory.GetGold() >= ShopInventory.GetItem(SelectedItemNumber)->GetCost())
         {
-            PlayerInventory.AddItem(ShopInventory.GetItem(SelectedItemNumber));
+            PlayerInventory.AddItem(ShopInventory.GetItem(SelectedItemNumber));//item is added
             PlayerInventory.SetGold(PlayerInventory.GetGold() -
-                PlayerInventory.GetItem(SelectedItemNumber)->GetCost());
+                ShopInventory.GetItem(SelectedItemNumber)->GetCost());
             itemBought = true;
         }
         g_sChar.m_cLocation.Y = 9;
@@ -15671,8 +15644,6 @@ void ShopSelect()
 }
 
 //----------------------------------------------------------------------------
-
-
 void renderSplashScreen()  // renders the splash screen
 {
     COORD ca = g_Console.getConsoleSize();
