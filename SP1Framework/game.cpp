@@ -15431,12 +15431,14 @@ void renderInventoryScreen()//inventory appearance
             c.Y = 8 + (i * 3);
             if (SelectedPlayerNumber == i)
             {
-                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth()
+                    << ", Mana : " << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
                 g_Console.writeToBuffer(c, ss.str(), 0x5E);
             }
             else
             {
-                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth();
+                ss << PlayerParty[i]->GetName() << " - HP :  " << PlayerParty[i]->GetHealth() << "/" << PlayerParty[i]->GetMaxHealth()
+                    << ", Mana : " << PlayerParty[i]->GetMana() << "/" << PlayerParty[i]->GetMaxMana();
                 g_Console.writeToBuffer(c, ss.str(), 0x07);
             }
             ss.str(" ");
