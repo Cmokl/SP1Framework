@@ -15473,6 +15473,12 @@ void InventorySelection()
             g_sChar.m_cLocation.Y = 9;
             InventoryPage = 1;
         }
+        if (g_skKeyEvent[K_ESCAPE].keyDown)
+        {
+            InventoryPage = 1;
+            g_sChar.m_cLocation.X = 29;
+            g_sChar.m_cLocation.Y = 9;
+        }
     }
 }
 //SHOP IS PROGRAMMED HERE------------------------------------
