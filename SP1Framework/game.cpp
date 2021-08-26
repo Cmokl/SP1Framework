@@ -17755,29 +17755,50 @@ void renderBattleScreen()
     }
     else if (Action == Victory)
     {
-    COORD c;
-    std::ostringstream ss;
+        COORD c;
+        std::ostringstream ss;
 
-    c.Y = 12;
-    c.X = g_Console.getConsoleSize().X / 2 - 4;
+        c.Y = 12;
+        c.X = g_Console.getConsoleSize().X / 2 - 4;
+        if (PartyType == Regular)
+        {
+            ss.str("Victory!");
+            g_Console.writeToBuffer(c, ss.str(), 0x06);
 
-    ss.str("Victory!");
-    g_Console.writeToBuffer(c, ss.str(), 0x06);
+            c.Y += 2;
+            c.X = g_Console.getConsoleSize().X / 2 - 7;
 
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 7;
+            ss.str("");
+            ss << "You got " << GoldGained << " Gold";
+            g_Console.writeToBuffer(c, ss.str(), 0x06);
 
-    ss.str("");
-    ss << "You got " << GoldGained << " Gold";
-    g_Console.writeToBuffer(c, ss.str() , 0x06);
+            c.Y += 2;
+            c.X = g_Console.getConsoleSize().X / 2 - 10;
 
-    c.Y += 2;
-    c.X = g_Console.getConsoleSize().X / 2 - 10;
+            ss.str("Press space to continue");
+            g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
+        }
+        else if (Action == Boss)
+        {
+            ss.str("Congratulations you beat the game!");
+            g_Console.writeToBuffer(c, ss.str(), 0x06);
 
-    ss.str("Press space to continue");
-    g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
+            c.Y += 2;
+            c.X = g_Console.getConsoleSize().X / 2 - 17;
+
+            ss.str("");
+            ss << "Total Gold: " << PlayerInventory.GetGold();
+            g_Console.writeToBuffer(c, ss.str(), 0x06);
+
+            c.Y += 2;
+            c.X = g_Console.getConsoleSize().X / 2 - 10;
+
+            ss.str("Press space to continue");
+            g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
+        }
     }
 }
+        
 
 
 void renderStatuses()
