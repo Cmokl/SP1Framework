@@ -15204,6 +15204,7 @@ void inventoryClosed()
 {
     g_sChar.m_cLocation.X = initialX;
     g_sChar.m_cLocation.Y = initialY;
+    InventoryPage = 1;
     SelectedItemNumber = -1;
     SelectedItemNumber = -1;
     g_eGameState = SavedLocation;
