@@ -17856,10 +17856,10 @@ void renderBattleScreen()
     }
     else if (Action == Victory)
     {
-        c.Y = 12;
-        c.X = g_Console.getConsoleSize().X / 2 - 4;
         if (PartyType == Regular)
         {
+            c.Y = 12;
+            c.X = g_Console.getConsoleSize().X / 2 - 4;
             ss.str("Victory!");
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
@@ -17878,11 +17878,14 @@ void renderBattleScreen()
         }
         else if (PartyType == Boss)
         {
+            c.Y = 12;
+            c.X = g_Console.getConsoleSize().X / 2 - 17;
+
             ss.str("Congratulations you beat the game!");
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
             c.Y += 2;
-            c.X = g_Console.getConsoleSize().X / 2 - 17;
+            c.X = g_Console.getConsoleSize().X / 2 - 7;
 
             ss.str("");
             ss << "Total Gold: " << PlayerInventory.GetGold();
