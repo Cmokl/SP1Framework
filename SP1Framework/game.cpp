@@ -631,9 +631,11 @@ void CheckBoss()
             temp = 0;
             RandomDelay = 3;
             EnemyParty[0] = new Dragon;
+
             PlayerTempCoordX = g_sChar.m_cLocation.X;
             PlayerTempCoordY = g_sChar.m_cLocation.Y;
             g_dElapsedTime = 0;
+            PlaySound(TEXT("BossTheme.wav"), NULL, SND_LOOP | SND_ASYNC);
             g_eGameState = S_BATTLESPLASH;
         }
     }
@@ -14380,6 +14382,7 @@ void foundRandomEncounter(void)
         PlayerTempCoordX = g_sChar.m_cLocation.X;
         PlayerTempCoordY = g_sChar.m_cLocation.Y;
         g_dElapsedTime = 0;
+        PlaySound(TEXT("EnemyTheme.wav"), NULL, SND_LOOP | SND_ASYNC);
         g_eGameState = S_BATTLESPLASH;
     }
 }
@@ -15078,6 +15081,7 @@ void EndBattle()
     {
         g_eGameState = S_MAP2;
     }
+    PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 }
 
 void EnemyAI(int EnemyPartyType)
