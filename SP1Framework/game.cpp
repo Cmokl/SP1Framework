@@ -14779,7 +14779,10 @@ void SelectSkill()
         if (CurrentClass->SkillNameList(0) != "")
         {
             EffectSelect = 0;
-            CheckTargetType(CurrentClass->SkillTargetType(0));
+            if (!((CurrentClass->ManaCost(0) - CurrentClass->GetMana()) < 0))
+            {
+                CheckTargetType(CurrentClass->SkillTargetType(0));
+            }
         }
     }
 
@@ -14791,7 +14794,11 @@ void SelectSkill()
         if (CurrentClass->SkillNameList(1) != "")
         {
             EffectSelect = 1;
-            CheckTargetType(CurrentClass->SkillTargetType(1));
+
+            if (!((CurrentClass->ManaCost(1) - CurrentClass->GetMana()) < 0))
+            {
+                CheckTargetType(CurrentClass->SkillTargetType(1));
+            }
         }
     }
 
@@ -14803,7 +14810,11 @@ void SelectSkill()
         if (CurrentClass->SkillNameList(2) != "")
         {
             EffectSelect = 2;
-            CheckTargetType(CurrentClass->SkillTargetType(2));
+
+            if (!((CurrentClass->ManaCost(2) - CurrentClass->GetMana()) < 0))
+            {
+                CheckTargetType(CurrentClass->SkillTargetType(2));
+            }
         }
     }
 
@@ -14812,10 +14823,14 @@ void SelectSkill()
         (g_sChar.m_cLocation.Y == g_Console.getConsoleSize().Y - (g_Console.getConsoleSize().Y / 8)) &&
         g_sChar.m_cLocation.X == (g_Console.getConsoleSize().X / 8) + (g_Console.getConsoleSize().X / 2))
     {
-        if (CurrentClass->SkillNameList(4) != "")
+        if (CurrentClass->SkillNameList(3) != "")
         {
             EffectSelect = 3;
-            CheckTargetType(CurrentClass->SkillTargetType(4));
+
+            if (!((CurrentClass->ManaCost(3) - CurrentClass->GetMana()) < 0))
+            {
+                CheckTargetType(CurrentClass->SkillTargetType(3));
+            }
         }
     }
     if (g_skKeyEvent[K_ESCAPE].keyReleased)
