@@ -14438,6 +14438,7 @@ void updateBattle()
         }
         break;
     case Special:
+        PreviousAction = Main;
         SelectSpecialAction();
         break;
     case Skill:
@@ -14643,7 +14644,6 @@ void BattleAttack()
     {
         CurrentClass->Attack(Target[0]);
         TurnEnd();
-        Action = Main;
     }
 }
 
@@ -14730,7 +14730,7 @@ void SelectSpecialAction()
         ResetCursorPosition();
 
         //go back to previous menu
-        Action = Main;
+        Action = PreviousAction;
     }
 }
 
@@ -14832,7 +14832,6 @@ void ExecuteSkill(int SkillIndex)
 {
     CurrentClass->SkillList(SkillIndex, TargetIndex, Target);
     TurnEnd();
-    Action = Main;
 }
 
 void ResetCursorPosition(void)
@@ -14955,6 +14954,7 @@ void TurnEnd(void)
             }
         }
     }
+    Action = Main;
     CurrentClass->SetTurn(false);
     CurrentTurn++;
 }
@@ -15108,7 +15108,6 @@ void EnemyAI(int EnemyPartyType)
 
     CurrentClass->SkillList(EffectSelect, TargetIndex, Target);
     TurnEnd();
-    Action = Main;
 }
 
 void GameOver()
