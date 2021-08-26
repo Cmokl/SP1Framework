@@ -17664,9 +17664,9 @@ void renderFramerate()
 void renderBattle()
 {
     renderBattleScreen();
-    renderStatuses();
-    if (Action != Victory || Action != Lose) 
+    if (!(Action == Victory || Action == Lose))
     {
+        renderStatuses();
         renderSelection();
     }
 }
