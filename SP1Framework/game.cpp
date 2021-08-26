@@ -57,7 +57,7 @@ Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
 Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
 Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
 
-
+/
 
 //turn count for battles
 int TurnCount;
