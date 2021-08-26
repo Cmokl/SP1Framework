@@ -53,12 +53,13 @@ Inventory ShopInventory;
 Items* ElvenBread = new HealingItems("Elven Bread", 1, 3);
 Items* SunCake = new HealingItems("Sun Cake", 3, 6);
 Items* BeefStew = new HealingItems("Beef Stew", 5, 9);
+
 //mana restoring items created
 Items* PurpleElixir = new ManaItems("Purple Elixir", 2, 4);
 Items* GoldApple = new ManaItems("Gold Apple", 4, 8);
 Items* PixieTeardrops = new ManaItems("Pixie Teardrops", 7, 12);
 //immunity setting items created
-Items* LuckyCharm = new ImmunityItems("Lucky Charm", 8, 0);
+Items* LuckyCharm = new ImmunityItems("Lucky Charm", 6, 0);
 
 
 //turn count for battles
@@ -14984,8 +14985,6 @@ void RoundEnd(void)
             PlayerParty[i]->RevertDefend();
         }
     }
-
-    TurnEnd();
 }
 
 void VictoryCondition()
@@ -17850,21 +17849,18 @@ void renderBattleScreen()
         }
         else if (PartyType == Boss)
         {
-            c.Y = 12;
-            c.X = g_Console.getConsoleSize().X / 2 - 17;
-
             ss.str("Congratulations you beat the game!");
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
             c.Y += 2;
-            c.X = g_Console.getConsoleSize().X / 2 - 6;
+            c.X = g_Console.getConsoleSize().X / 2 - 17;
 
             ss.str("");
             ss << "Total Gold: " << PlayerInventory.GetGold();
             g_Console.writeToBuffer(c, ss.str(), 0x06);
 
             c.Y += 2;
-            c.X = g_Console.getConsoleSize().X / 2 - 9;
+            c.X = g_Console.getConsoleSize().X / 2 - 10;
 
             ss.str("Press space to exit");
             g_Console.writeToBuffer(c, ss.str(), 0x06); // Main page
