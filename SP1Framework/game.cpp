@@ -15128,7 +15128,6 @@ void EndBattle()
     {
         g_eGameState = S_MAP2;
     }
-    PlaySound(TEXT("BackgroundMusic.wav"), NULL, SND_LOOP | SND_ASYNC);
 }
 
 void EnemyAI(int EnemyPartyType)
