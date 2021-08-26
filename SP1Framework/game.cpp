@@ -514,6 +514,7 @@ void updateGame()       // gameplay logic
             else if (g_eGameState == S_MAP2)
             {
                 Colision2();
+                CheckBoss();
             }
         moveCharacter();    // moves the character, collision detection, physics, etc
         changelevel();
@@ -17766,7 +17767,7 @@ void renderBattleSplash(void)
     c.X = g_Console.getConsoleSize().X / 2 - 7;
     c.Y = g_Console.getConsoleSize().Y / 2;
 
-    if (PartyType = Regular)
+    if (PartyType == Regular)
     {
         ss.str("BATTLE!");
     }
