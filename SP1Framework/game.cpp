@@ -14531,11 +14531,6 @@ void TurnStart()
                 {
                     if (EnemyParty[i]->GetSpeed() > CurrentClass->GetSpeed())
                     {
-                        if (i == 0)
-                        {
-                            delete CurrentClass;
-                            CurrentClass = nullptr;
-                        }
                         CurrentClass = EnemyParty[i];
                     }
                 }
